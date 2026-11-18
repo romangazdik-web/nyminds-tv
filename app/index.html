@@ -4,12 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Nymind’s TV</title>
-  <!-- Monochrome Edition 1.0: Samsung Tizen 3.0 / Chromium 47, ES5 -->
+  <!-- Monochrome Edition 1.0.1 RENDER TEST: Samsung Tizen 3.0 / Chromium 47, ES5 -->
   <!-- Font is optional; offline devices fall back to a system sans-serif. -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
   <link rel="stylesheet" href="style.css?v=4.0">
+  <!-- Temporary visual diagnostic: override stage scaling only, do not change TizenBrew launch script -->
+  <style>
+    #stage { left: 0 !important; top: 0 !important; -webkit-transform: none !important; transform: none !important; opacity:1 !important; visibility:visible !important; }
+  </style>
 </head>
 <body>
+  <!-- Diagnostic lives outside #stage so it stays visible even if the stage is scaled away. -->
+  <div id="nym-render-test" style="position:fixed;left:15px;top:15px;z-index:999999;background:#f7e447;color:#000;font:700 23px Arial,Helvetica,sans-serif;padding:12px 17px;border:3px solid #000;">TEST ZOBRAZENI 1.0.1</div>
+  <script>
+    (function(){
+      function showDims(){
+        var e=document.getElementById('nym-render-test');
+        if(e){e.innerHTML='TEST ZOBRAZENI 1.0.1 | '+window.innerWidth+' x '+window.innerHeight;}
+      }
+      showDims();
+      setTimeout(showDims,1000);
+    })();
+  </script>
   <div id="stage">
     <div id="wallpaper" class="wallpaper"></div>
     <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
