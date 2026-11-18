@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Nymind’s TV</title>
+  <!-- Monochrome Edition 1.0: Samsung Tizen 3.0 / Chromium 47, ES5 -->
+  <!-- Font is optional; offline devices fall back to a system sans-serif. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+  <link rel="stylesheet" href="style.css?v=4.0">
+</head>
+<body>
+  <div id="stage">
+    <div id="wallpaper" class="wallpaper"></div>
+    <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
+    <div class="scrim"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-symbol" aria-label="Nymind’s TV logo">
+          <svg class="brand-emblem" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="nym-silver" x1="8" y1="12" x2="72" y2="70" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".34" stop-color="#adb4bc"/><stop offset=".63" stop-color="#f4f6f7"/><stop offset="1" stop-color="#818c99"/></linearGradient></defs>
+            <path d="M14 43.5C22 24.5 43 10 57 18C69 25 63 43 50 55C40 64 27 69 20 61C10 49 23 36 36 32" fill="none" stroke="url(#nym-silver)" stroke-width="6.4" stroke-linecap="round"/>
+            <path d="M65 36C56 54 38 71 25 64C13 58 17 41 29 28C39 17 52 12 60 21" fill="none" stroke="#f3f4f4" stroke-opacity=".86" stroke-width="3.6" stroke-linecap="round"/>
+            <circle cx="62" cy="18" r="3.1" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="brand-name">nymind<span>’s</span><sup>TV</sup></div>
+      </div>
+      <div class="now">
+        <!-- Hidden until a real weather response arrives; no guessed temperatures. -->
+        <div id="weather" class="weather" style="display:none">
+          <span id="weather-symbol" class="weather-symbol">○</span>
+          <span id="weather-text">Uherský Brod</span>
+        </div>
+        <div class="datetime">
+          <strong id="clock">--:--</strong>
+          <div id="date">—</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro-area">
+        <div class="eyebrow"><span class="eyebrow-line"></span><span id="part">VEČERNÍ KLID</span></div>
+        <h1 id="greeting">Dobrý večer.</h1>
+        <p class="subtitle" id="subtext">Teď začíná tvůj čas.</p>
+      </div>
+
+      <div class="dock-area">
+        <div class="dock-label">TVŮJ VÝBĚR</div>
+        <section class="tiles" id="tiles" aria-label="Aplikace">
+          <!-- Keep .tile / data-kind / data-match unchanged: app.js uses them. -->
+          <div class="tile active" data-kind="module" data-match="gh/romangazdik-web/StremioK" tabindex="0" role="button" aria-label="Spustit StremioK">
+            <div class="tile-face">
+              <svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M22 17L49 9L68 26L61 55L36 70L15 51Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" opacity=".55"/>
+                <path d="M32 25L56 41L32 57Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M25 41h-9M62 41h7M41 19V9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".76"/>
+              </svg>
+            </div>
+            <div class="tile-copy"><strong>StremioK</strong><small>Filmy a seriály</small></div>
+          </div>
+          <div class="tile" data-kind="module" data-match="gh/romangazdik-web/TizenTube-MojeTV" tabindex="0" role="button" aria-label="Spustit TizenTube">
+            <div class="tile-face">
+              <svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="12" y="22" width="58" height="39" rx="12" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M35 32L51 41L35 50Z" fill="currentColor"/>
+                <path d="M22 15h38" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".6"/>
+              </svg>
+            </div>
+            <div class="tile-copy"><strong>TizenTube</strong><small>Videa bez reklam</small></div>
+          </div>
+        </section>
+      </div>
+      <span id="status" class="screenreader-only" aria-live="polite">Načítám nainstalované moduly…</span>
+    </main>
+
+    <div class="background-label"><strong>N Y M I N D ’ S &nbsp;/&nbsp; 0 1</strong><span id="wallpapername">Světla po setmění</span></div>
+  </div>
+
+  <!-- Keep these selectors intact for the original app.js service menu. -->
+  <div id="overlay" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div>
+      <div id="module-list" class="module-list"></div>
+      <p class="modal-note">Servisní nabídka TizenBrew. V běžném režimu není vidět.</p>
+    </div>
+  </div>
+
+  <!-- Original functional navigation / launching script: do not replace. -->
+  <script src="app.js"></script>
+  <!-- New visual-only behavior, isolated from TizenBrew module launching. -->
+  <script src="visual.js?v=4.0"></script>
+</body>
+</html>
