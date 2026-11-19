@@ -1,112 +1,110 @@
 <!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Nymind’s TV</title>
-  <!-- Monochrome Edition 1.0.1 RENDER TEST: Samsung Tizen 3.0 / Chromium 47, ES5 -->
-  <!-- Font is optional; offline devices fall back to a system sans-serif. -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
-  <link rel="stylesheet" href="style.css?v=4.0">
-  <!-- Temporary visual diagnostic: override stage scaling only, do not change TizenBrew launch script -->
-  <style>
-    #stage { left: 0 !important; top: 0 !important; -webkit-transform: none !important; transform: none !important; opacity:1 !important; visibility:visible !important; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Nymind’s TV – Monochrome Edition</title>
+<!-- NYMIND VISUAL FIX 1.1: self-contained UI, no external CSS or visual JS, Tizen 3 / Chromium 47 / ES5 -->
+<style type="text/css">
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#101820;color:#fff;font-family:'Segoe UI',Arial,Helvetica,sans-serif}
+/* Always render an actual visible screen, even when Tizen reports unreliable dimensions. */
+#stage{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important;display:block!important;visibility:visible!important;opacity:1!important;-webkit-transform:none!important;transform:none!important;background:#17212d!important;overflow:hidden;z-index:1}
+.wallpaper{position:absolute;left:0;top:0;width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat;background-image:url('wallpapers/wallpaper-20.jpg')}
+.scrim{position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(90deg,rgba(8,14,23,.90) 0%,rgba(9,15,23,.71) 43%,rgba(11,15,24,.24) 100%),linear-gradient(0deg,rgba(5,9,17,.82),transparent 58%);pointer-events:none}
+.topbar{position:absolute;left:6%;top:7%;right:6%;height:80px;z-index:4}
+.brand{position:absolute;left:0;top:0;height:78px;white-space:nowrap}
+.brand-symbol{display:inline-block;width:73px;height:73px;vertical-align:middle;margin-right:20px}
+.brand-emblem{display:block;width:73px;height:73px}
+.brand-name{display:inline-block;vertical-align:middle;font-size:35px;line-height:73px;font-weight:bold;letter-spacing:-1.3px;color:#f7f8f8}
+.brand-name span{color:#d4d6d9}.brand-name sup{color:#d7dadc;font-size:14px;font-weight:normal;letter-spacing:3px;margin-left:12px;vertical-align:super}
+.now{position:absolute;right:0;top:0;text-align:right}
+.datetime strong{display:block;font-weight:normal;font-size:49px;line-height:1.1;color:#fff;letter-spacing:-2px}
+.datetime #date{font-size:17px;color:#d0d7dd;margin-top:5px}
+.weather{font-size:14px;color:#d0d7dd;margin-bottom:7px}
+main{position:absolute;left:6%;top:32%;right:6%;bottom:7%;z-index:3}
+.intro-area{margin:0 0 8vh 0}
+.eyebrow{color:#c5ccd5;font-size:14px;letter-spacing:4px;font-weight:bold;margin-bottom:25px}
+.eyebrow-line{display:inline-block;width:45px;height:1px;background:#e0e2e5;vertical-align:middle;margin-right:15px}
+h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;color:#fff;text-shadow:0 6px 25px #111}
+.subtitle{font-size:25px;color:#d8dce1;line-height:1.3;margin:15px 0 0}
+.dock-area{position:relative}
+.dock-label{font-size:13px;letter-spacing:3px;color:#cdd2d7;font-weight:bold;margin-bottom:18px}
+.tiles{display:block;white-space:nowrap}
+.tile{display:inline-block;position:relative;vertical-align:top;width:170px;margin-right:32px;text-align:center;outline:0;cursor:pointer;color:#fff}
+.tile-face{display:block;position:relative;width:166px;height:163px;border-radius:28px;border:2px solid rgba(255,255,255,.38);background:rgba(30,37,45,.77);box-shadow:0 15px 28px rgba(0,0,0,.25)}
+.tile.active .tile-face,.tile:focus .tile-face{border:3px solid #fff;background:rgba(92,97,103,.79);box-shadow:0 0 0 5px rgba(255,255,255,.14),0 16px 38px #060b11}
+.app-icon{position:absolute;left:41px;top:40px;width:80px;height:80px;color:#fff;fill:none}
+.tile-copy{display:block}.tile-copy strong{display:block;font-size:20px;font-weight:bold;margin-top:14px}.tile-copy small{display:block;font-size:13px;margin-top:5px;color:#bec5ce}
+.background-label{position:absolute;right:6%;bottom:6%;text-align:right;color:#e1e5ea;z-index:3;font-size:13px}
+.background-label strong{display:block;letter-spacing:3px;font-size:12px}.background-label span{display:block;color:#c9d0d7;margin-top:7px}
+.screenreader-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important}
+.overlay{position:fixed;left:0;top:0;width:100%;height:100%;z-index:50;display:block;background:#0a111a;color:#fff}
+.hidden{display:none!important}
+.modal{position:absolute;left:15%;top:10%;width:70%;height:80%;background:#1c2530;border:1px solid #627080;border-radius:20px;padding:45px;overflow:hidden}
+.modal-top{height:100px}.modal h2{font-size:40px;margin:8px 0 0}.modal-overline{letter-spacing:2px;color:#b6c0cd}.close{position:absolute;right:40px;top:45px;color:#c6cbd2}
+.module-list{height:65%;overflow:auto}.module{padding:18px 20px;margin-bottom:10px;border:2px solid transparent;background:#2b3441;font-size:25px}.module.active{border-color:white}.module small{display:block;font-size:15px;margin-top:5px;color:#abb5c2}.modal-note{font-size:16px;color:#c5cdd4}
+/* Smaller viewports retain readable content without relying on JS scaling. */
+@media(max-height:800px){h1{font-size:60px}.intro-area{margin-bottom:5vh}.tile-face{height:130px;width:134px}.tile{width:138px}.app-icon{width:68px;height:68px;left:32px;top:30px}.topbar{top:5%}}
+</style>
 </head>
 <body>
-  <!-- Diagnostic lives outside #stage so it stays visible even if the stage is scaled away. -->
-  <div id="nym-render-test" style="position:fixed;left:15px;top:15px;z-index:999999;background:#f7e447;color:#000;font:700 23px Arial,Helvetica,sans-serif;padding:12px 17px;border:3px solid #000;">TEST ZOBRAZENI 1.0.1</div>
-  <script>
-    (function(){
-      function showDims(){
-        var e=document.getElementById('nym-render-test');
-        if(e){e.innerHTML='TEST ZOBRAZENI 1.0.1 | '+window.innerWidth+' x '+window.innerHeight;}
-      }
-      showDims();
-      setTimeout(showDims,1000);
-    })();
-  </script>
-  <div id="stage">
-    <div id="wallpaper" class="wallpaper"></div>
-    <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
-    <div class="scrim"></div>
-
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-symbol" aria-label="Nymind’s TV logo">
-          <svg class="brand-emblem" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs><linearGradient id="nym-silver" x1="8" y1="12" x2="72" y2="70" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".34" stop-color="#adb4bc"/><stop offset=".63" stop-color="#f4f6f7"/><stop offset="1" stop-color="#818c99"/></linearGradient></defs>
-            <path d="M14 43.5C22 24.5 43 10 57 18C69 25 63 43 50 55C40 64 27 69 20 61C10 49 23 36 36 32" fill="none" stroke="url(#nym-silver)" stroke-width="6.4" stroke-linecap="round"/>
-            <path d="M65 36C56 54 38 71 25 64C13 58 17 41 29 28C39 17 52 12 60 21" fill="none" stroke="#f3f4f4" stroke-opacity=".86" stroke-width="3.6" stroke-linecap="round"/>
-            <circle cx="62" cy="18" r="3.1" fill="#fff"/>
-          </svg>
-        </div>
-        <div class="brand-name">nymind<span>’s</span><sup>TV</sup></div>
-      </div>
-      <div class="now">
-        <!-- Hidden until a real weather response arrives; no guessed temperatures. -->
-        <div id="weather" class="weather" style="display:none">
-          <span id="weather-symbol" class="weather-symbol">○</span>
-          <span id="weather-text">Uherský Brod</span>
-        </div>
-        <div class="datetime">
-          <strong id="clock">--:--</strong>
-          <div id="date">—</div>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <div class="intro-area">
-        <div class="eyebrow"><span class="eyebrow-line"></span><span id="part">VEČERNÍ KLID</span></div>
-        <h1 id="greeting">Dobrý večer.</h1>
-        <p class="subtitle" id="subtext">Teď začíná tvůj čas.</p>
-      </div>
-
-      <div class="dock-area">
-        <div class="dock-label">TVŮJ VÝBĚR</div>
-        <section class="tiles" id="tiles" aria-label="Aplikace">
-          <!-- Keep .tile / data-kind / data-match unchanged: app.js uses them. -->
-          <div class="tile active" data-kind="module" data-match="gh/romangazdik-web/StremioK" tabindex="0" role="button" aria-label="Spustit StremioK">
-            <div class="tile-face">
-              <svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M22 17L49 9L68 26L61 55L36 70L15 51Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" opacity=".55"/>
-                <path d="M32 25L56 41L32 57Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                <path d="M25 41h-9M62 41h7M41 19V9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".76"/>
-              </svg>
-            </div>
-            <div class="tile-copy"><strong>StremioK</strong><small>Filmy a seriály</small></div>
-          </div>
-          <div class="tile" data-kind="module" data-match="gh/romangazdik-web/TizenTube-MojeTV" tabindex="0" role="button" aria-label="Spustit TizenTube">
-            <div class="tile-face">
-              <svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="12" y="22" width="58" height="39" rx="12" fill="none" stroke="currentColor" stroke-width="2.5"/>
-                <path d="M35 32L51 41L35 50Z" fill="currentColor"/>
-                <path d="M22 15h38" fill="none" stroke="currentColor" stroke-width="1.7" opacity=".6"/>
-              </svg>
-            </div>
-            <div class="tile-copy"><strong>TizenTube</strong><small>Videa bez reklam</small></div>
-          </div>
-        </section>
-      </div>
-      <span id="status" class="screenreader-only" aria-live="polite">Načítám nainstalované moduly…</span>
-    </main>
-
-    <div class="background-label"><strong>N Y M I N D ’ S &nbsp;/&nbsp; 0 1</strong><span id="wallpapername">Světla po setmění</span></div>
-  </div>
-
-  <!-- Keep these selectors intact for the original app.js service menu. -->
-  <div id="overlay" class="overlay hidden">
-    <div class="modal">
-      <div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div>
-      <div id="module-list" class="module-list"></div>
-      <p class="modal-note">Servisní nabídka TizenBrew. V běžném režimu není vidět.</p>
+<div id="stage">
+  <div id="wallpaper" class="wallpaper"></div>
+  <div class="scrim"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-symbol">
+        <svg class="brand-emblem" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs><linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#a8b0b8"/><stop offset="1" stop-color="#fff"/></linearGradient></defs>
+          <path d="M14 43.5C22 24.5 43 10 57 18C69 25 63 43 50 55C40 64 27 69 20 61C10 49 23 36 36 32" fill="none" stroke="#eef0f2" stroke-width="6.4" stroke-linecap="round"/>
+          <path d="M65 36C56 54 38 71 25 64C13 58 17 41 29 28C39 17 52 12 60 21" fill="none" stroke="#bfc8d1" stroke-width="3.6" stroke-linecap="round"/><circle cx="62" cy="18" r="3.1" fill="#fff"/>
+        </svg>
+      </span><span class="brand-name">nymind<span>’s</span><sup>TV</sup></span>
     </div>
-  </div>
-
-  <!-- Original functional navigation / launching script: do not replace. -->
-  <script src="app.js"></script>
-  <!-- New visual-only behavior, isolated from TizenBrew module launching. -->
-  <script src="visual.js?v=4.0"></script>
+    <div class="now"><div class="datetime"><strong id="clock">--:--</strong><div id="date">—</div></div></div>
+  </header>
+  <main>
+    <div class="intro-area"><div class="eyebrow"><span class="eyebrow-line"></span><span id="part">NOVÝ DEN</span></div><h1 id="greeting">Vítej doma.</h1><p class="subtitle" id="subtext">To, na co máš právě náladu.</p></div>
+    <div class="dock-area"><div class="dock-label">TVŮJ VÝBĚR</div><section class="tiles" id="tiles" aria-label="Aplikace">
+      <div class="tile active" data-kind="module" data-match="gh/romangazdik-web/StremioK" tabindex="0">
+        <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg"><path d="M22 17L49 9L68 26L61 55L36 70L15 51Z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".7"/><path d="M32 25L56 41L32 57Z" fill="currentColor"/></svg></span>
+        <span class="tile-copy"><strong>StremioK</strong><small>Filmy a seriály</small></span>
+      </div>
+      <div class="tile" data-kind="module" data-match="gh/romangazdik-web/TizenTube-MojeTV" tabindex="0">
+        <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="22" width="58" height="39" rx="12" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M35 32L51 41L35 50Z" fill="currentColor"/></svg></span>
+        <span class="tile-copy"><strong>TizenTube</strong><small>Videa bez reklam</small></span>
+      </div>
+    </section></div>
+    <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
+  </main>
+  <div class="background-label"><strong>N Y M I N D ’ S &nbsp; / &nbsp; 0 1</strong><span id="wallpapername">Monochrome Edition</span><span style="font-size:10px;opacity:.65">VISUAL FIX 1.1</span></div>
+</div>
+<div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
+<script src="app.js"></script>
+<script>
+/* Visual-only logic. Do not intercept keys or modify TizenBrew. ES5. */
+(function(){
+ var b=[
+ [6,8,'06','Dobré ráno.','Nový den, nové příběhy.','NOVÝ DEN'],
+ [8,10,'08','Příjemné ráno.','Dopřej si chvíli jen pro sebe.','RANNÍ POHODA'],
+ [10,12,'10','Krásné dopoledne.','Najdi něco, co tě vtáhne.','DOPOLEDNÍ SVĚTLO'],
+ [12,14,'12','Pěkné poledne.','Na chvíli vypni svět okolo.','POLEDNÍ KLID'],
+ [14,16,'14','Hezké odpoledne.','Dobrý příběh nikdy nepočká.','ODPOLEDNÍ RYTMUS'],
+ [16,18,'16','Příjemný podvečer.','Teď už nikam nespěchej.','ZLATÁ HODINA'],
+ [18,20,'18','Dobrý večer.','Pohodlně se usaď.','VEČERNÍ POHODA'],
+ [20,22,'20','Dobrý večer.','Teď začíná tvůj čas.','VEČERNÍ KLID'],
+ [22,6,'22','Klidnou noc.','Ještě jeden dobrý příběh?','NOČNÍ REŽIM']
+ ];
+ var last=-1;
+ function refresh(){
+  var hr=(new Date()).getHours(),i,x;
+  for(i=0;i<b.length;i++){x=b[i];if((x[0]<x[1]&&hr>=x[0]&&hr<x[1])||(x[0]>x[1]&&(hr>=x[0]||hr<x[1])))break;}
+  if(i>=b.length)i=7;
+  if(i!==last){last=i;x=b[i];document.getElementById('greeting').textContent=x[3];document.getElementById('subtext').textContent=x[4];document.getElementById('part').textContent=x[5];document.getElementById('wallpaper').style.backgroundImage='url("wallpapers/wallpaper-'+x[2]+'.jpg")';}
+ }
+ refresh();setInterval(refresh,30000);
+})();
+</script>
 </body>
 </html>
