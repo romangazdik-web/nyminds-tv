@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Monochrome Edition 1.3.3</title>
-<!-- NYMIND TV MONOCHROME 1.3.3: first-wallpaper ready before reveal; self-contained, ES5/Tizen3 -->
+<title>Nymind TV – Monochrome Edition 1.3.4</title>
+<!-- NYMIND TV MONOCHROME 1.3.4: blank boot shield + subtle motion; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
-/* VISUAL EDITION 1.3.3: early wallpaper selection and splash until current photo is ready (Tizen 3 / ES5). */
+/* VISUAL EDITION 1.3.4: early wallpaper selection; blank cover until correct photo is ready (Tizen 3 / ES5). */
 (function () {
   var hour=(new Date()).getHours();
   var key;
@@ -43,13 +43,13 @@ html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#
 #stage{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important;display:block!important;visibility:visible!important;opacity:1!important;-webkit-transform:none!important;transform:none!important;background:#17212d!important;overflow:hidden;z-index:1}
 .wallpaper{position:absolute;left:0;top:0;width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat;background-color:#283755}
 .wallpaper-next{opacity:0;-webkit-transition:opacity 1.35s ease;transition:opacity 1.35s ease;pointer-events:none}
-/* One neutral boot cover hides interim cached/incorrect wallpaper frames on old Tizen WebKit.
-   Removed only when the selected time-of-day wallpaper is ready (or fallback times out). */
-.boot-cover{position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:#182632;
- background:linear-gradient(135deg,#17242e 0%,#253747 58%,#384651 100%);color:#fff;text-align:center;}
-.boot-logo{position:absolute;top:46%;left:0;right:0;font-size:37px;font-weight:600;letter-spacing:-1px;}
-.boot-logo small{font-size:23px;font-weight:400;letter-spacing:1px;color:#d9dfe5;}
-.boot-note{position:absolute;left:0;right:0;top:54%;font-size:14px;letter-spacing:2.7px;color:#aebdca;}
+/* Blank boot shield hides stale/cached wallpaper frames, removed when the correct image is ready.
+   A fallback timeout ensures the launcher never gets stuck on a loading cover. */
+.boot-cover{position:fixed;left:0;top:0;width:100%;height:100%;z-index:9999;background:#17242e;
+ background:linear-gradient(135deg,#17242e 0%,#253747 58%,#384651 100%);
+ opacity:1;visibility:visible;pointer-events:none;
+ -webkit-transition:opacity .36s ease,visibility .36s ease;transition:opacity .36s ease,visibility .36s ease;}
+.boot-cover.boot-disappear{opacity:0;visibility:hidden;}
 /* Weather tint is very light and has no effect on controls or text. */
 .weather-tint{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#7295b1;opacity:0;pointer-events:none;-webkit-transition:opacity 2s ease,background-color 2s ease;transition:opacity 2s ease,background-color 2s ease}
 .scrim{position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(90deg,rgba(8,14,23,.90) 0%,rgba(9,15,23,.71) 43%,rgba(11,15,24,.24) 100%),linear-gradient(0deg,rgba(5,9,17,.82),transparent 58%);pointer-events:none}
@@ -94,12 +94,36 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 .modal{position:absolute;left:15%;top:10%;width:70%;height:80%;background:#1c2530;border:1px solid #627080;border-radius:20px;padding:45px;overflow:hidden}
 .modal-top{height:100px}.modal h2{font-size:40px;margin:8px 0 0}.modal-overline{letter-spacing:2px;color:#b6c0cd}.close{position:absolute;right:40px;top:45px;color:#c6cbd2}
 .module-list{height:65%;overflow:auto}.module{padding:18px 20px;margin-bottom:10px;border:2px solid transparent;background:#2b3441;font-size:25px}.module.active{border-color:white}.module small{display:block;font-size:15px;margin-top:5px;color:#abb5c2}.modal-note{font-size:16px;color:#c5cdd4}
+
+/* Monochrome Motion: an elegant, ONE-TIME entrance without slowing navigation.
+   Keyframes + -webkit- variants target old Samsung TV Tizen 3.0 engines. */
+@-webkit-keyframes nymind-rise{from{opacity:0;-webkit-transform:translateY(14px)}to{opacity:1;-webkit-transform:translateY(0)}}
+@keyframes nymind-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@-webkit-keyframes nymind-soft{from{opacity:0}to{opacity:1}}
+@keyframes nymind-soft{from{opacity:0}to{opacity:1}}
+#stage.nymind-ready .brand{ -webkit-animation:nymind-soft .48s ease-out both;animation:nymind-soft .48s ease-out both;}
+#stage.nymind-ready .now{ -webkit-animation:nymind-soft .52s ease-out .06s both;animation:nymind-soft .52s ease-out .06s both;}
+#stage.nymind-ready .eyebrow{ -webkit-animation:nymind-rise .47s ease-out .02s both;animation:nymind-rise .47s ease-out .02s both;}
+#stage.nymind-ready h1{ -webkit-animation:nymind-rise .55s ease-out .09s both;animation:nymind-rise .55s ease-out .09s both;}
+#stage.nymind-ready .subtitle{ -webkit-animation:nymind-rise .52s ease-out .16s both;animation:nymind-rise .52s ease-out .16s both;}
+#stage.nymind-ready .dock-label{ -webkit-animation:nymind-rise .52s ease-out .12s both;animation:nymind-rise .52s ease-out .12s both;}
+#stage.nymind-ready .tile{ -webkit-animation:nymind-rise .54s ease-out .17s both;animation:nymind-rise .54s ease-out .17s both;}
+#stage.nymind-ready .tile + .tile{ -webkit-animation-delay:.24s;animation-delay:.24s;}
+#stage.nymind-ready .background-label{ -webkit-animation:nymind-soft .55s ease-out .18s both;animation:nymind-soft .55s ease-out .18s both;}
+/* Remote focus reacts quickly. Only the tile face is transformed, not the clickable tile. */
+.tile-face{-webkit-transition:-webkit-transform .20s ease,background-color .20s ease,border-color .20s ease,box-shadow .20s ease;transition:transform .20s ease,background-color .20s ease,border-color .20s ease,box-shadow .20s ease;}
+.tile.active .tile-face,.tile:focus .tile-face{-webkit-transform:translateY(-4px) scale(1.025);transform:translateY(-4px) scale(1.025);}
+.weather[style*="block"]{-webkit-animation:nymind-soft .38s ease-out both;animation:nymind-soft .38s ease-out both;}
+@media (prefers-reduced-motion:reduce){
+ .boot-cover,.wallpaper-next,.tile-face,.weather-tint{-webkit-transition:none!important;transition:none!important;}
+ #stage.nymind-ready .brand,#stage.nymind-ready .now,#stage.nymind-ready .eyebrow,#stage.nymind-ready h1,#stage.nymind-ready .subtitle,#stage.nymind-ready .dock-label,#stage.nymind-ready .tile,#stage.nymind-ready .background-label,.weather[style*="block"]{-webkit-animation:none!important;animation:none!important;}
+}
 /* Smaller viewports retain readable content without relying on JS scaling. */
 @media(max-height:800px){h1{font-size:60px}.intro-area{margin-bottom:5vh}.tile-face{height:130px;width:134px}.tile{width:138px}.app-icon{width:68px;height:68px;left:32px;top:30px}.topbar{top:5%}}
 </style>
 </head>
 <body>
-<div id="boot-cover" class="boot-cover" aria-hidden="true"><div class="boot-logo">Nymind <small>TV</small></div><div class="boot-note">MONOCHROME EDITION</div></div>
+<div id="boot-cover" class="boot-cover" aria-hidden="true"></div>
 <div id="stage">
   <div id="wallpaper" class="wallpaper"></div>
   <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
@@ -140,12 +164,12 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
     </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition · 1.3.3</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition · 1.3.4</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script src="app.js"></script>
 <script>
-/* VISUAL EDITION 1.3.2. ES5 only: no key handlers, no module navigation changes. */
+/* VISUAL EDITION 1.3.4. ES5 only: no key handlers, no module navigation changes. */
 (function () {
   'use strict';
   var blocks = [
@@ -299,7 +323,16 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
       if (done) return;
       done=true;
       if (timeoutId) clearTimeout(timeoutId);
-      if (cover) cover.style.display='none';
+      /* The right image is ready: begin light UI entrance; fade away the BLANK cover. */
+      var stage=document.getElementById('stage');
+      if (stage) stage.className += ' nymind-ready';
+      if (cover) {
+        /* A frame gives the wallpaper time to paint on slower Tizen hardware. */
+        setTimeout(function () {
+          cover.className += ' boot-disappear';
+          setTimeout(function () { cover.style.display='none'; },420);
+        },45);
+      }
     }
     /* Ensure the initial image has been selected in the background layer. */
     var startUrl=window.NYMIND_FIRST_WALLPAPER;
