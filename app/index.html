@@ -3,14 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Monochrome Edition 1.3.1</title>
-<!-- NYMIND TV MONOCHROME 1.3.1: larger clock/date/weather; cleaner footer; self-contained, ES5/Tizen3 -->
+<title>Nymind TV – Monochrome Edition 1.3.2</title>
+<!-- NYMIND TV MONOCHROME 1.3.2: no wrong wallpaper flash at startup; self-contained, ES5/Tizen3 -->
+<script type="text/javascript">
+/* VISUAL EDITION 1.3.2: early wallpaper selection before the first paint (Tizen 3 / ES5). */
+(function () {
+  var hour=(new Date()).getHours();
+  var key;
+  if (hour<6 || hour>=22) key='22';
+  else if (hour<8) key='06';
+  else if (hour<10) key='08';
+  else if (hour<12) key='10';
+  else if (hour<14) key='12';
+  else if (hour<16) key='14';
+  else if (hour<18) key='16';
+  else if (hour<20) key='18';
+  else key='20';
+  var url='wallpapers/wallpaper-'+key+'.jpg';
+  /* A matching gradient remains visible while the JPG is loading. */
+  var shade=(hour>=6 && hour<10) ? 'linear-gradient(115deg,#1b2845,#695b83 58%,#bc8a81)' :
+            (hour>=10 && hour<17) ? 'linear-gradient(115deg,#1b3661,#4556a0 55%,#9f6786)' :
+            (hour>=17 && hour<21) ? 'linear-gradient(115deg,#111e3c,#354879 55%,#965377)' :
+                                       'linear-gradient(115deg,#0d172d,#283456 60%,#4a3854)';
+  var css=document.createElement('style');
+  css.type='text/css';
+  css.appendChild(document.createTextNode('#wallpaper{background-image:url("'+url+'"),'+shade+';}'));
+  document.getElementsByTagName('head')[0].appendChild(css);
+  window.NYMIND_FIRST_WALLPAPER=url;
+  /* Start downloading the correct image before the browser parses the body. */
+  var preload=new Image();
+  preload.src=url;
+  window.NYMIND_FIRST_PRELOAD=preload;
+}());
+</script>
 <style type="text/css">
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#101820;color:#fff;font-family:'Segoe UI',Arial,Helvetica,sans-serif}
 /* Always render an actual visible screen, even when Tizen reports unreliable dimensions. */
 #stage{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important;display:block!important;visibility:visible!important;opacity:1!important;-webkit-transform:none!important;transform:none!important;background:#17212d!important;overflow:hidden;z-index:1}
-.wallpaper{position:absolute;left:0;top:0;width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat;background-image:url('wallpapers/wallpaper-20.jpg')}
+.wallpaper{position:absolute;left:0;top:0;width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat;background-color:#283755}
 .wallpaper-next{opacity:0;-webkit-transition:opacity 1.35s ease;transition:opacity 1.35s ease;pointer-events:none}
 /* Weather tint is very light and has no effect on controls or text. */
 .weather-tint{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#7295b1;opacity:0;pointer-events:none;-webkit-transition:opacity 2s ease,background-color 2s ease;transition:opacity 2s ease,background-color 2s ease}
@@ -106,7 +137,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script src="app.js"></script>
 <script>
-/* VISUAL EDITION 1.3.1. ES5 only: no key handlers, no module navigation changes. */
+/* VISUAL EDITION 1.3.2. ES5 only: no key handlers, no module navigation changes. */
 (function () {
   'use strict';
   var blocks = [
@@ -147,8 +178,17 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 
     /* Preload before fading, so a missing image never leaves a black screen. */
     var url='wallpapers/wallpaper-'+item[2]+'.jpg';
+    var firstPaint=(activeLoad===0);
     var seq=++activeLoad;
     clearTimeout(fadeTimer);
+    if (firstPaint) {
+      /* No fading from a hardcoded evening picture during module startup. */
+      if (window.NYMIND_FIRST_WALLPAPER!==url) {
+        wallpaper.style.backgroundImage='url("'+url+'")';
+      }
+      next.style.opacity='0';
+      return;
+    }
     var img = new Image();
     img.onload=function () {
       if (seq!==activeLoad) return;
