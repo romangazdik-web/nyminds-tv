@@ -3,25 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind’s TV – Monochrome Edition</title>
-<!-- NYMIND VISUAL FIX 1.1: self-contained UI, no external CSS or visual JS, Tizen 3 / Chromium 47 / ES5 -->
+<title>Nymind TV – Monochrome Edition</title>
+<!-- NYMIND TV MONOCHROME 1.3: weather-aware cinematic wallpapers; self-contained, ES5/Tizen3 -->
 <style type="text/css">
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#101820;color:#fff;font-family:'Segoe UI',Arial,Helvetica,sans-serif}
 /* Always render an actual visible screen, even when Tizen reports unreliable dimensions. */
 #stage{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important;display:block!important;visibility:visible!important;opacity:1!important;-webkit-transform:none!important;transform:none!important;background:#17212d!important;overflow:hidden;z-index:1}
 .wallpaper{position:absolute;left:0;top:0;width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat;background-image:url('wallpapers/wallpaper-20.jpg')}
+.wallpaper-next{opacity:0;-webkit-transition:opacity 1.35s ease;transition:opacity 1.35s ease;pointer-events:none}
+/* Weather tint is very light and has no effect on controls or text. */
+.weather-tint{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#7295b1;opacity:0;pointer-events:none;-webkit-transition:opacity 2s ease,background-color 2s ease;transition:opacity 2s ease,background-color 2s ease}
 .scrim{position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(90deg,rgba(8,14,23,.90) 0%,rgba(9,15,23,.71) 43%,rgba(11,15,24,.24) 100%),linear-gradient(0deg,rgba(5,9,17,.82),transparent 58%);pointer-events:none}
 .topbar{position:absolute;left:6%;top:7%;right:6%;height:80px;z-index:4}
 .brand{position:absolute;left:0;top:0;height:78px;white-space:nowrap}
 .brand-symbol{display:inline-block;width:73px;height:73px;vertical-align:middle;margin-right:20px}
 .brand-emblem{display:block;width:73px;height:73px}
 .brand-name{display:inline-block;vertical-align:middle;font-size:35px;line-height:73px;font-weight:bold;letter-spacing:-1.3px;color:#f7f8f8}
-.brand-name span{color:#d4d6d9}.brand-name sup{color:#d7dadc;font-size:14px;font-weight:normal;letter-spacing:3px;margin-left:12px;vertical-align:super}
-.now{position:absolute;right:0;top:0;text-align:right}
-.datetime strong{display:block;font-weight:normal;font-size:49px;line-height:1.1;color:#fff;letter-spacing:-2px}
-.datetime #date{font-size:17px;color:#d0d7dd;margin-top:5px}
-.weather{font-size:14px;color:#d0d7dd;margin-bottom:7px}
+.brand-name .brand-tv{color:#d4d9de;font-size:24px;font-weight:normal;letter-spacing:1.5px;vertical-align:baseline}
+.now{position:absolute;right:0;top:0;text-align:right;white-space:nowrap}
+/* 1.3: time and date slightly larger, weather clearly subordinate. */
+.datetime strong{display:block;font-weight:normal;font-size:58px;line-height:1.08;color:#fff;letter-spacing:-2px}
+.datetime #date{font-size:20px;color:#e0e5e8;margin-top:7px;line-height:1.2}
+/* Weather stays hidden until a successful API response. */
+.weather{display:none;white-space:nowrap;margin-top:14px;color:#d9e0e6;line-height:1.25}
+.weather-icon{display:inline-block;vertical-align:middle;font-size:19px;margin-right:7px;line-height:1}
+.weather-current{display:inline-block;vertical-align:middle;font-size:15px;letter-spacing:.1px}
+.weather-current strong{font-size:16px;font-weight:600;color:#eef2f4}
+.weather-place{font-size:12px;letter-spacing:.2px;color:#c7cfd7;margin-top:4px}
+.weather-source{font-size:9px;margin-top:2px;color:#aab4bf;opacity:.78}
+.weather-source a{color:#aab4bf;text-decoration:none}
+
 main{position:absolute;left:6%;top:32%;right:6%;bottom:7%;z-index:3}
 .intro-area{margin:0 0 8vh 0}
 .eyebrow{color:#c5ccd5;font-size:14px;letter-spacing:4px;font-weight:bold;margin-bottom:25px}
@@ -51,6 +63,8 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 <body>
 <div id="stage">
   <div id="wallpaper" class="wallpaper"></div>
+  <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
+  <div id="weather-tint" class="weather-tint"></div>
   <div class="scrim"></div>
   <header class="topbar">
     <div class="brand">
@@ -60,9 +74,18 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
           <path d="M14 43.5C22 24.5 43 10 57 18C69 25 63 43 50 55C40 64 27 69 20 61C10 49 23 36 36 32" fill="none" stroke="#eef0f2" stroke-width="6.4" stroke-linecap="round"/>
           <path d="M65 36C56 54 38 71 25 64C13 58 17 41 29 28C39 17 52 12 60 21" fill="none" stroke="#bfc8d1" stroke-width="3.6" stroke-linecap="round"/><circle cx="62" cy="18" r="3.1" fill="#fff"/>
         </svg>
-      </span><span class="brand-name">nymind<span>’s</span><sup>TV</sup></span>
+      </span><span class="brand-name">Nymind <span class="brand-tv">TV</span></span>
     </div>
-    <div class="now"><div class="datetime"><strong id="clock">--:--</strong><div id="date">—</div></div></div>
+    <div class="now">
+      <div class="datetime"><strong id="clock">--:--</strong><div id="date">—</div></div>
+      <div class="weather" id="weather">
+        <span class="weather-icon" id="weather-icon" aria-hidden="true"></span>
+        <span class="weather-current"><strong id="weather-value"></strong><span id="weather-kind"></span>
+          <div class="weather-place">Uherský Brod</div>
+          <div class="weather-source"><a href="https://open-meteo.com/" tabindex="-1">Data: Open-Meteo</a></div>
+        </span>
+      </div>
+    </div>
   </header>
   <main>
     <div class="intro-area"><div class="eyebrow"><span class="eyebrow-line"></span><span id="part">NOVÝ DEN</span></div><h1 id="greeting">Vítej doma.</h1><p class="subtitle" id="subtext">To, na co máš právě náladu.</p></div>
@@ -78,32 +101,150 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
     </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>N Y M I N D ’ S &nbsp; / &nbsp; 0 1</strong><span id="wallpapername">Monochrome Edition</span><span style="font-size:10px;opacity:.65">VISUAL FIX 1.1</span></div>
+  <div class="background-label"><strong>N Y M I N D &nbsp; / &nbsp; 0 1</strong><span id="wallpapername">Monochrome Edition</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script src="app.js"></script>
 <script>
-/* Visual-only logic. Do not intercept keys or modify TizenBrew. ES5. */
-(function(){
- var b=[
- [6,8,'06','Dobré ráno.','Nový den, nové příběhy.','NOVÝ DEN'],
- [8,10,'08','Příjemné ráno.','Dopřej si chvíli jen pro sebe.','RANNÍ POHODA'],
- [10,12,'10','Krásné dopoledne.','Najdi něco, co tě vtáhne.','DOPOLEDNÍ SVĚTLO'],
- [12,14,'12','Pěkné poledne.','Na chvíli vypni svět okolo.','POLEDNÍ KLID'],
- [14,16,'14','Hezké odpoledne.','Dobrý příběh nikdy nepočká.','ODPOLEDNÍ RYTMUS'],
- [16,18,'16','Příjemný podvečer.','Teď už nikam nespěchej.','ZLATÁ HODINA'],
- [18,20,'18','Dobrý večer.','Pohodlně se usaď.','VEČERNÍ POHODA'],
- [20,22,'20','Dobrý večer.','Teď začíná tvůj čas.','VEČERNÍ KLID'],
- [22,6,'22','Klidnou noc.','Ještě jeden dobrý příběh?','NOČNÍ REŽIM']
- ];
- var last=-1;
- function refresh(){
-  var hr=(new Date()).getHours(),i,x;
-  for(i=0;i<b.length;i++){x=b[i];if((x[0]<x[1]&&hr>=x[0]&&hr<x[1])||(x[0]>x[1]&&(hr>=x[0]||hr<x[1])))break;}
-  if(i>=b.length)i=7;
-  if(i!==last){last=i;x=b[i];document.getElementById('greeting').textContent=x[3];document.getElementById('subtext').textContent=x[4];document.getElementById('part').textContent=x[5];document.getElementById('wallpaper').style.backgroundImage='url("wallpapers/wallpaper-'+x[2]+'.jpg")';}
- }
- refresh();setInterval(refresh,30000);
+/* VISUAL EDITION 1.3. ES5 only: no key handlers, no module navigation changes. */
+(function () {
+  'use strict';
+  var blocks = [
+    [6,8,'06','Dobré ráno.','Nový den, nové příběhy.','NOVÝ DEN'],
+    [8,10,'08','Příjemné ráno.','Dopřej si chvíli jen pro sebe.','RANNÍ POHODA'],
+    [10,12,'10','Krásné dopoledne.','Najdi něco, co tě vtáhne.','DOPOLEDNÍ SVĚTLO'],
+    [12,14,'12','Pěkné poledne.','Na chvíli vypni svět okolo.','POLEDNÍ KLID'],
+    [14,16,'14','Hezké odpoledne.','Dobrý příběh nikdy nepočká.','ODPOLEDNÍ RYTMUS'],
+    [16,18,'16','Příjemný podvečer.','Teď už nikam nespěchej.','ZLATÁ HODINA'],
+    [18,20,'18','Dobrý večer.','Pohodlně se usaď.','VEČERNÍ POHODA'],
+    [20,22,'20','Dobrý večer.','Teď začíná tvůj čas.','VEČERNÍ KLID'],
+    [22,6,'22','Klidnou noc.','Ještě jeden dobrý příběh?','NOČNÍ REŽIM']
+  ];
+  var currentBlock = -1;
+  var fadeTimer = 0;
+  var activeLoad = 0;
+  var wallpaper = document.getElementById('wallpaper');
+  var next = document.getElementById('wallpaper-next');
+
+  function selectedBlock(hour) {
+    var i, b;
+    for (i=0; i<blocks.length; i++) {
+      b=blocks[i];
+      if (b[0]<b[1] && hour>=b[0] && hour<b[1]) return i;
+      if (b[0]>b[1] && (hour>=b[0] || hour<b[1])) return i;
+    }
+    return 7;
+  }
+
+  function switchWallpaper(hour) {
+    var idx=selectedBlock(hour);
+    if (idx===currentBlock) return;
+    currentBlock=idx;
+    var item=blocks[idx];
+    document.getElementById('greeting').textContent=item[3];
+    document.getElementById('subtext').textContent=item[4];
+    document.getElementById('part').textContent=item[5];
+
+    /* Preload before fading, so a missing image never leaves a black screen. */
+    var url='wallpapers/wallpaper-'+item[2]+'.jpg';
+    var seq=++activeLoad;
+    clearTimeout(fadeTimer);
+    var img = new Image();
+    img.onload=function () {
+      if (seq!==activeLoad) return;
+      next.style.backgroundImage='url("'+url+'")';
+      next.style.opacity='0';
+      /* Force previous opacity to be painted before changing to 1. */
+      next.offsetWidth;
+      next.style.opacity='1';
+      fadeTimer=setTimeout(function () {
+        if (seq!==activeLoad) return;
+        wallpaper.style.backgroundImage='url("'+url+'")';
+        next.style.opacity='0';
+      },1450);
+    };
+    img.onerror=function () { /* Keep the already visible wallpaper. */ };
+    img.src=url;
+  }
+
+  function weatherLabel(code,day) {
+    if (code===0) return [day?'☼':'☾','Jasno'];
+    if (code===1 || code===2) return ['◑', 'Polojasno'];
+    if (code===3) return ['☁','Oblačno'];
+    if (code===45 || code===48) return ['≋','Mlha'];
+    if ((code>=51 && code<=67) || (code>=80 && code<=82)) return ['☂','Déšť'];
+    if ((code>=71 && code<=77) || (code>=85 && code<=86)) return ['❄','Sněžení'];
+    if (code>=95) return ['ϟ','Bouřka'];
+    return ['○','Aktuálně'];
+  }
+
+  /* Color selection follows current WMO weather conditions, never a guessed forecast. */
+  function applyWeatherTint(code, isDay) {
+    var tint=document.getElementById('weather-tint');
+    var color='#7897b7', opacity='0.10';
+    if (code===0) { /* clear */
+      color=isDay?'#f1b671':'#466d9b'; opacity=isDay?'0.11':'0.17';
+    } else if (code===1 || code===2) { /* partly cloudy */
+      color=isDay?'#d6c2a0':'#607b9d'; opacity='0.10';
+    } else if (code===3) { /* overcast */
+      color='#73879a'; opacity='0.14';
+    } else if (code===45 || code===48) { /* fog */
+      color='#b7b6b2'; opacity='0.13';
+    } else if ((code>=51 && code<=67) || (code>=80 && code<=82)) { /* drizzle/rain */
+      color='#3788aa'; opacity='0.17';
+    } else if ((code>=71 && code<=77) || (code>=85 && code<=86)) { /* snow */
+      color='#c5deeb'; opacity='0.17';
+    } else if (code>=95 && code<=99) { /* thunder */
+      color='#42567a'; opacity='0.22';
+    }
+    tint.style.backgroundColor=color;
+    tint.style.opacity=opacity;
+  }
+
+  function hideWeather() {
+    document.getElementById('weather').style.display='none';
+    document.getElementById('weather-tint').style.opacity='0';
+  }
+
+  function fetchWeather() {
+    var box=document.getElementById('weather');
+    /* The forecast service supports CORS and does not need an API key for personal use. */
+    var url='https://api.open-meteo.com/v1/forecast?latitude=49.0251&longitude=17.6472&current=temperature_2m,weather_code,is_day&timezone=Europe%2FPrague&forecast_days=1';
+    var req;
+    try {
+      req=new XMLHttpRequest();
+      req.open('GET', url, true);
+      req.timeout=9000;
+      req.onreadystatechange=function () {
+        if (req.readyState!==4) return;
+        if (req.status!==200) { hideWeather(); return; }
+        try {
+          var data=JSON.parse(req.responseText);
+          var cur=data.current;
+          if (!cur || typeof cur.temperature_2m!=='number' || typeof cur.weather_code!=='number') throw new Error('missing data');
+          var state=weatherLabel(cur.weather_code,cur.is_day!==0);
+          var temp=Math.round(cur.temperature_2m);
+          applyWeatherTint(cur.weather_code,cur.is_day!==0);
+          document.getElementById('weather-icon').textContent=state[0];
+          document.getElementById('weather-value').textContent=temp+' °C';
+          document.getElementById('weather-kind').textContent='  ·  '+state[1];
+          box.style.display='block';
+        } catch (ignored) { hideWeather(); }
+      };
+      req.onerror=function () { hideWeather(); };
+      req.ontimeout=function () { hideWeather(); };
+      req.send(null);
+    } catch (ignored2) { hideWeather(); }
+  }
+
+  function updateDay() { switchWallpaper((new Date()).getHours()); }
+  updateDay();
+  fetchWeather();
+  setInterval(updateDay, 30000);
+  setInterval(fetchWeather, 30*60*1000);
+  document.addEventListener('visibilitychange',function () {
+    if (!document.hidden) { updateDay(); fetchWeather(); }
+  }, false);
 })();
 </script>
 </body>
