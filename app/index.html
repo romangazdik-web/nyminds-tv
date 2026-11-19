@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Monochrome Edition</title>
-<!-- NYMIND TV MONOCHROME 1.3: weather-aware cinematic wallpapers; self-contained, ES5/Tizen3 -->
+<title>Nymind TV – Monochrome Edition 1.3.1</title>
+<!-- NYMIND TV MONOCHROME 1.3.1: larger clock/date/weather; cleaner footer; self-contained, ES5/Tizen3 -->
 <style type="text/css">
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#101820;color:#fff;font-family:'Segoe UI',Arial,Helvetica,sans-serif}
@@ -19,19 +19,19 @@ html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#
 .brand{position:absolute;left:0;top:0;height:78px;white-space:nowrap}
 .brand-symbol{display:inline-block;width:73px;height:73px;vertical-align:middle;margin-right:20px}
 .brand-emblem{display:block;width:73px;height:73px}
-.brand-name{display:inline-block;vertical-align:middle;font-size:35px;line-height:73px;font-weight:bold;letter-spacing:-1.3px;color:#f7f8f8}
-.brand-name .brand-tv{color:#d4d9de;font-size:24px;font-weight:normal;letter-spacing:1.5px;vertical-align:baseline}
+.brand-name{display:inline-block;vertical-align:middle;font-size:36px;line-height:73px;font-weight:700;letter-spacing:-1.2px;color:#f7f8f8}
+.brand-name .brand-tv{color:#d9dde1;font-size:30px;font-weight:500;letter-spacing:.4px;vertical-align:baseline}
 .now{position:absolute;right:0;top:0;text-align:right;white-space:nowrap}
 /* 1.3: time and date slightly larger, weather clearly subordinate. */
-.datetime strong{display:block;font-weight:normal;font-size:58px;line-height:1.08;color:#fff;letter-spacing:-2px}
-.datetime #date{font-size:20px;color:#e0e5e8;margin-top:7px;line-height:1.2}
+.datetime strong{display:block;font-weight:400;font-size:72px;line-height:1.02;color:#fff;letter-spacing:-2.6px}
+.datetime #date{font-size:27px;color:#e6eaee;margin-top:8px;line-height:1.15}
 /* Weather stays hidden until a successful API response. */
-.weather{display:none;white-space:nowrap;margin-top:14px;color:#d9e0e6;line-height:1.25}
-.weather-icon{display:inline-block;vertical-align:middle;font-size:19px;margin-right:7px;line-height:1}
-.weather-current{display:inline-block;vertical-align:middle;font-size:15px;letter-spacing:.1px}
-.weather-current strong{font-size:16px;font-weight:600;color:#eef2f4}
-.weather-place{font-size:12px;letter-spacing:.2px;color:#c7cfd7;margin-top:4px}
-.weather-source{font-size:9px;margin-top:2px;color:#aab4bf;opacity:.78}
+.weather{display:none;white-space:nowrap;margin-top:14px;color:#dfe5ea;line-height:1.22}
+.weather-icon{display:inline-block;vertical-align:middle;font-size:26px;margin-right:9px;line-height:1}
+.weather-current{display:inline-block;vertical-align:middle;font-size:20px;letter-spacing:.1px}
+.weather-current strong{font-size:22px;font-weight:600;color:#f3f5f7}
+.weather-place{font-size:15px;letter-spacing:.18px;color:#d1d8df;margin-top:5px}
+.weather-source{font-size:10px;margin-top:3px;color:#b3bcc7;opacity:.84}
 .weather-source a{color:#aab4bf;text-decoration:none}
 
 main{position:absolute;left:6%;top:32%;right:6%;bottom:7%;z-index:3}
@@ -48,8 +48,8 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 .tile.active .tile-face,.tile:focus .tile-face{border:3px solid #fff;background:rgba(92,97,103,.79);box-shadow:0 0 0 5px rgba(255,255,255,.14),0 16px 38px #060b11}
 .app-icon{position:absolute;left:41px;top:40px;width:80px;height:80px;color:#fff;fill:none}
 .tile-copy{display:block}.tile-copy strong{display:block;font-size:20px;font-weight:bold;margin-top:14px}.tile-copy small{display:block;font-size:13px;margin-top:5px;color:#bec5ce}
-.background-label{position:absolute;right:6%;bottom:6%;text-align:right;color:#e1e5ea;z-index:3;font-size:13px}
-.background-label strong{display:block;letter-spacing:3px;font-size:12px}.background-label span{display:block;color:#c9d0d7;margin-top:7px}
+.background-label{position:absolute;right:6%;bottom:6%;text-align:right;color:#e4e8ec;z-index:3;font-size:13px;opacity:.92}
+.background-label strong{display:block;letter-spacing:2.1px;font-size:11px}.background-label span{display:block;color:#cfd5dc;margin-top:7px;font-size:12px}
 .screenreader-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important}
 .overlay{position:fixed;left:0;top:0;width:100%;height:100%;z-index:50;display:block;background:#0a111a;color:#fff}
 .hidden{display:none!important}
@@ -101,12 +101,12 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
     </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>N Y M I N D &nbsp; / &nbsp; 0 1</strong><span id="wallpapername">Monochrome Edition</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script src="app.js"></script>
 <script>
-/* VISUAL EDITION 1.3. ES5 only: no key handlers, no module navigation changes. */
+/* VISUAL EDITION 1.3.1. ES5 only: no key handlers, no module navigation changes. */
 (function () {
   'use strict';
   var blocks = [
