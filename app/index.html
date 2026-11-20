@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Monochrome Edition 1.3.5</title>
-<!-- NYMIND TV MONOCHROME 1.3.5: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
+<title>Nymind TV – Monochrome Edition 1.3.6</title>
+<!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
-/* VISUAL EDITION 1.3.5: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
+/* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
 (function () {
   var hour=(new Date()).getHours();
   var key;
@@ -135,13 +135,26 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
         <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="22" width="58" height="39" rx="12" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M35 32L51 41L35 50Z" fill="currentColor"/></svg></span>
         <span class="tile-copy"><strong>TizenTube</strong><small>Videa bez reklam</small></span>
       </div>
+      <div class="tile" id="iptvTile" data-kind="module" data-match="gh/romangazdik-web/tvpin" tabindex="0">
+        <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" aria-hidden="true"><rect x="10" y="18" width="62" height="43" rx="8" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 32h12m5 0h23M20 43h22m5 0h13M30 68h22" fill="none" stroke="currentColor" stroke-width="3"/></svg></span>
+        <span class="tile-copy"><strong>Živá TV</strong><small>Kanály a program</small></span>
+      </div>
     </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition · 1.3.5</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition · 1.3.6</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
-<script src="app.js"></script>
+<script>(function(){
+ var tile=document.getElementById('iptvTile');
+ function launch(e){e.preventDefault();e.stopImmediatePropagation();window.location.href=new URL('live-g10.html',document.baseURI).href;}
+ tile.addEventListener('click',launch,true);
+ window.addEventListener('keydown',function(e){
+  if((e.keyCode===13||e.key==='Enter')&&document.getElementById('overlay').classList.contains('hidden')&&
+     (document.activeElement===tile||tile.classList.contains('active')))launch(e);
+ },true);
+})();
+</script><script src="app.js"></script>
 <script>
 /* VISUAL EDITION 1.3.2. ES5 only: no key handlers, no module navigation changes. */
 (function () {
