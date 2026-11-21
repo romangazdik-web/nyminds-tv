@@ -1,0 +1,19 @@
+/* Nymind TV 2.0.9 — Continue Watching. ES5 / Samsung Tizen 3.0. */
+#nymind-continue{display:block;width:1170px;margin-top:24px;position:relative;z-index:7;color:#fff}
+#nymind-continue .cw-top{height:23px;line-height:23px;margin-bottom:13px;white-space:nowrap}
+#nymind-continue .cw-heading{font-size:14px;font-weight:bold;color:#eef3f4;letter-spacing:2.5px}
+#nymind-continue .cw-hint{margin-left:19px;font-size:13px;letter-spacing:.1px;color:#c4cbd3}
+#nymind-continue .cw-card{position:relative;display:inline-block;vertical-align:top;box-sizing:border-box;width:345px;height:97px;margin-right:20px;border:2px solid rgba(245,247,249,.27);border-radius:17px;background:linear-gradient(135deg,rgba(42,49,58,.83),rgba(16,22,30,.86));box-shadow:0 9px 28px rgba(0,0,0,.25);cursor:pointer;outline:none;overflow:hidden;text-align:left;color:#f5f6f7}
+#nymind-continue .cw-card.cw-active,#nymind-continue .cw-card:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.14),0 13px 30px rgba(0,0,0,.37);background:linear-gradient(135deg,rgba(73,81,90,.92),rgba(31,39,49,.95))}
+#nymind-continue .cw-art{position:absolute;top:7px;left:8px;width:56px;height:78px;border-radius:9px;overflow:hidden;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.1)}
+#nymind-continue .cw-art img{display:block;width:100%;height:100%;object-fit:cover}
+#nymind-continue .cw-art .cw-art-fallback{display:block;color:#fff;font-size:23px;text-align:center;line-height:76px}
+#nymind-continue .cw-content{position:absolute;top:17px;left:78px;right:13px;bottom:9px;overflow:hidden}
+#nymind-continue .cw-name{display:block;font-size:20px;line-height:1.23;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nymind-continue .cw-detail{display:block;font-size:13px;margin-top:6px;line-height:1.3;color:#cbd2d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nymind-continue .cw-progress{position:absolute;bottom:10px;left:78px;right:13px;height:4px;border-radius:4px;background:rgba(240,240,240,.22);overflow:hidden}
+#nymind-continue .cw-progress-fill{display:block;height:100%;width:0;background:#f2f3f3;border-radius:4px}
+#nymind-continue .cw-empty .cw-art{display:none}
+#nymind-continue .cw-empty .cw-content{left:18px}
+#nymind-continue .cw-empty .cw-progress{display:none}
+@media(max-height:790px){#nymind-continue{margin-top:13px}#nymind-continue .cw-card{height:76px}#nymind-continue .cw-art{height:61px;width:45px}#nymind-continue .cw-content{left:63px;top:11px}#nymind-continue .cw-name{font-size:18px}#nymind-continue .cw-progress{left:63px;bottom:8px}}
