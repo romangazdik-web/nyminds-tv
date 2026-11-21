@@ -31,7 +31,7 @@ function readItems(){
  try{keys=Object.keys(store);}catch(e){return [];}
  for(var i=0;i<keys.length&&i<500;i++){
    var x=store[keys[i]];
-   if(!x||typeof x!=='object'||typeof x.name!=='string'||!x.name)return out;
+   if(!x||typeof x!=='object'||typeof x.name!=='string'||!x.name)continue;
    var progress=Number(x.position||0),duration=Number(x.duration||0),updated=Number(x.updated||0);
    if(!isFinite(progress)||!isFinite(duration)||progress<0||duration<0)continue;
    if(progress===0&&!x.added)continue;
@@ -111,6 +111,7 @@ function modalOpen(){
 function onKey(e){
  if(modalOpen())return;
  var k=e.keyCode||e.which,active=document.activeElement,tiles=getTileList(),list=CWNodes(),i=-1;
+ if(selectedCW>=0){var live=false;for(var n=0;n<list.length;n++)if(list[n]===active)live=true;if(!live){selectedCW=-1;return;}}
  if(selectedCW<0){
    if(k!==40||!list.length)return;
    for(var t=0;t<tiles.length;t++)if(tiles[t]===active){i=t;break;}
