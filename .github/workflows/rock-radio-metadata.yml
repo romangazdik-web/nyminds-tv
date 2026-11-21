@@ -23,7 +23,7 @@ jobs:
         with:
           ref: radio-data
           fetch-depth: 1
-      - name: Get current song from public Icecast
+      - name: Get current song from public radio sources
         run: python3 scripts/update_rock_meta.py
       - name: Commit current song on radio-data branch
         run: |
