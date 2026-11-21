@@ -78,7 +78,74 @@ button:focus,input:focus,summary:focus,textarea:focus{outline:4px solid #90e4d8;
 #tvPeek{position:absolute;z-index:25;left:0;top:0;bottom:0;width:34%;min-width:300px;background:rgba(14,28,37,.97);padding:3vh 18px;overflow:auto}
 #tvPeek h2{margin:0 0 12px}#tvPeek button{width:100%;display:block;text-align:left;margin:4px 0;background:#20313c;color:#fff;font-size:19px;padding:8px 12px}
 #tvPeek small{display:block;color:#c8d8df;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-</style></head>
+</style><style>
+/* NYMIND TV — CINEMA v2 / Tizen 3 compatible (Chromium 47) */
+#tvPeek{position:absolute!important;inset:0!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:100%!important;min-width:0!important;z-index:45!important;overflow:hidden!important;padding:0!important;background:linear-gradient(117deg,rgba(7,13,23,.97),rgba(12,17,31,.93) 64%,rgba(24,31,47,.94))!important;color:#f6f8fb!important;font-family:Arial,Helvetica,sans-serif!important}
+#tvPeek *{box-sizing:border-box}
+#tvPeek .np-wrap{height:100%;padding:3.5vh 4.4vw 2vh;display:flex;flex-direction:column}
+#tvPeek .np-head{display:flex;align-items:center;justify-content:space-between;flex:0 0 auto}
+#tvPeek .np-brand{font-weight:800;letter-spacing:-.04em;font-size:28px}
+#tvPeek .np-brand span{font-size:12px;color:#9cb8b8;letter-spacing:.17em;font-weight:700;margin-left:16px;vertical-align:middle}
+#tvPeek .np-clock{color:#d2dce7;font-size:25px;letter-spacing:.02em}
+#tvPeek .np-title{font-size:38px;letter-spacing:-.04em;font-weight:700;margin:2vh 0 .6vh}
+#tvPeek .np-sub{font-size:14px;color:#92a3b5;margin-bottom:2vh}
+#tvPeek .np-tabs{display:flex;gap:9px;overflow:hidden;white-space:nowrap;flex:0 0 auto;padding:5px 3px 12px}
+#tvPeek .np-tab{flex-shrink:0;white-space:nowrap!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:30px!important;background:rgba(255,255,255,.07)!important;color:#ccd6e1!important;padding:10px 18px!important;font-size:16px!important;line-height:1.2!important;box-shadow:none!important}
+#tvPeek .np-tab.current{border-color:rgba(166,231,214,.6)!important;background:rgba(140,217,202,.16)!important;color:#e7fffa!important}
+#tvPeek .np-tab.focused{outline:2px solid #c6f9ed!important;outline-offset:2px!important;background:rgba(174,246,224,.24)!important;color:white!important}
+#tvPeek .np-content{display:flex;gap:2.7vw;flex:1 1 auto;min-height:0;margin-top:1vh}
+#tvPeek .np-feature{width:37%;flex:0 0 37%;min-width:0;background:linear-gradient(155deg,rgba(47,74,88,.74),rgba(19,28,42,.64) 65%,rgba(61,50,78,.39));border:1px solid rgba(194,233,229,.14);border-radius:23px;padding:3.2vh 2.4vw;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+#tvPeek .np-glow{position:absolute;right:-50px;top:-65px;width:250px;height:250px;border-radius:50%;background:rgba(115,216,209,.10);pointer-events:none}
+#tvPeek .np-live{display:inline-block;align-self:flex-start;color:#d4fff2;font-weight:bold;font-size:12px;letter-spacing:.15em;margin-bottom:auto}
+#tvPeek .np-live i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7ae4c9;margin-right:9px}
+#tvPeek .np-fav{color:#e3cf8f;font-size:12px;margin:4px 0}
+#tvPeek .np-channel-title{font-size:35px;letter-spacing:-.035em;line-height:1.1;font-weight:750;margin:12px 0 22px;overflow:hidden;word-break:break-word}
+#tvPeek .np-info-label{font-size:12px;color:#9ab2bf;letter-spacing:.14em;font-weight:700;margin-bottom:7px}
+#tvPeek .np-now{font-size:20px;color:white;line-height:1.3;font-weight:bold;min-height:50px;max-height:70px;overflow:hidden}
+#tvPeek .np-time{font-size:14px;color:#bacbd6;margin:10px 0}
+#tvPeek .np-progress{height:4px;width:100%;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden;margin:2px 0 26px}
+#tvPeek .np-progress span{display:block;height:100%;width:0;background:#8ce3ce;border-radius:4px}
+#tvPeek .np-next{font-size:15px;color:#c1d1db;line-height:1.4;max-height:48px;overflow:hidden}
+#tvPeek .np-cue{font-size:13px;color:#b4c4cd;margin-top:28px}
+#tvPeek .np-list-pane{flex:1;min-width:0;display:flex;flex-direction:column}
+#tvPeek .np-grid-head{display:flex;align-items:center;justify-content:space-between;color:#9eacb8;font-size:14px;margin:1px 1px 14px}
+#tvPeek .np-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-content:space-between;flex:1;min-height:0}
+#tvPeek .np-card{flex:0 0 32.3%;width:32.3%!important;height:31.5%;min-height:0;position:relative!important;display:flex!important;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left!important;width:100%;padding:14px 15px!important;background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:15px!important;color:#f3f6fa!important;box-shadow:none!important;overflow:hidden}
+#tvPeek .np-card.selected,#tvPeek .np-card:focus{outline:0!important;box-shadow:inset 0 0 0 2px #b9f4df,0 0 0 1px #5da592!important;background:rgba(115,187,169,.20)!important;border-color:#93d6c3!important}
+#tvPeek .np-card .np-num{font-size:12px;color:#9baaba;display:block;margin-bottom:10px;font-weight:600}
+#tvPeek .np-card .np-station{font-size:18px;font-weight:bold;letter-spacing:-.03em;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+#tvPeek .np-card .np-program{display:block;font-size:13px;color:#a6b7c5;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+#tvPeek .np-card .np-mini-progress{position:absolute;bottom:0;left:0;width:100%;height:3px;background:rgba(255,255,255,.07)}
+#tvPeek .np-card .np-mini-progress i{display:block;height:100%;background:#7bdcc3}
+#tvPeek .np-card.active:before{content:'●';position:absolute;right:12px;top:9px;color:#8be1c9;font-size:12px}
+#tvPeek .np-empty{width:100%;align-self:center;text-align:center;font-size:18px;color:#a7bcc9}
+#tvPeek .np-footer{display:flex;justify-content:space-between;align-items:center;flex:0 0 auto;padding-top:18px;font-size:13px;color:#9daebb}
+#tvPeek .np-footer b{color:#e4ecef;font-weight:bold}
+#guide{background:#0b121d!important;background-image:radial-gradient(ellipse at 70% -25%,rgba(43,100,111,.23),transparent 58%)!important;padding:2.6vh 3vw!important}
+#guide h1{font-size:38px!important;letter-spacing:-.05em!important}
+#guide header small{color:#9de4ce!important}
+#guideNav{gap:9px;margin:1.6vh 0 2.6vh!important}
+#guideNav button,#gFilters button{border-radius:12px!important;background:#1a2c3c!important;padding:11px 16px!important;border:1px solid #334657!important}
+#guide .gRow{height:9vh!important;min-height:48px!important;border-bottom:1px solid #283648!important}
+#guide .gName{font-size:18px!important;letter-spacing:-.03em;padding:12px!important}
+#guide .gTrack{height:83%!important;border-radius:8px;background:#162535!important}
+#guide .gShow{border-radius:7px!important;background:#243b4a!important;border-right:2px solid #101722!important;font-size:16px!important;padding:12px!important}
+#guide .gLive{background:#28565b!important}
+#guide .chosen{background:#a9edda!important;color:#102a2f!important;font-weight:bold!important}
+#gFilters{border-radius:15px!important;box-shadow:0 15px 65px rgba(0,0,0,.6)!important}
+#mainView{background:#0b1420!important}
+#mainView .top{background:rgba(11,21,31,.85)!important}
+#mainView .brand{letter-spacing:-.05em!important}
+#mainView .groups,#mainView .channels{background:rgba(14,25,38,.84)!important}
+#mainView .group-btn,#mainView .channel{border-radius:11px!important}
+#mainView .group-btn.active{background:rgba(120,201,184,.22)!important}
+#mainView button:focus,#mainView .channel:focus{outline:2px solid #a8f0dc!important;background:rgba(128,210,193,.19)!important}
+#playerInfo{background:linear-gradient(0deg,rgba(4,10,15,.96),rgba(4,10,15,.62),transparent)!important}
+#tvOn{font-weight:bold!important}
+@media(max-width:1050px){#tvPeek .np-wrap{padding:2vh 3vw 2vh}#tvPeek .np-feature{width:34%;flex-basis:34%;padding:2vh 2vw}#tvPeek .np-channel-title{font-size:26px}#tvPeek .np-grid{gap:8px}#tvPeek .np-card{padding:10px!important}#tvPeek .np-card .np-station{font-size:15px}#tvPeek .np-card .np-program{font-size:11px}}
+
+</style>
+</head>
 <body>
 <section id="mainView" class="view">
  <header class="top"><div class="brand">Nymind’s <em>IPTV</em><span class="pill">ŽIVÁ TV</span></div><div class="top-right"><span class="status" id="clock"></span><button id="guideOpen">TV program</button><button id="playlistButton">⚙ M3U playlist</button><button id="goHomeButton">⌂ Domů</button></div></header>
@@ -88,13 +155,24 @@ button:focus,input:focus,summary:focus,textarea:focus{outline:4px solid #90e4d8;
   <section class="detail"><div class="intro"><div class="eyebrow">● NYMIND’S LIVE</div><div class="hero-glyph">▶</div><h1 id="mainHeading">Televize podle tebe.</h1><p id="mainDescription">Kanály rozdělené do kategorií, oblíbené stanice a všechno přehledně na jednom místě.</p><div class="statrow"><div class="stat"><strong id="statAll">0</strong><span>kanálů</span></div><div class="stat"><strong id="statFav">0</strong><span>oblíbených</span></div></div><div class="quick-title">RYCHLÝ VÝBĚR</div><div id="quickCategories" class="quick-cats"></div><div class="recent-card" id="recentCard"><span>NAPOSLEDY SLEDOVANÉ</span><strong id="lastChannel">Zatím žádný kanál</strong><button id="playLast" type="button" disabled>▶ Pokračovat</button></div><div id="mainError" role="alert"></div><button class="primary-action" id="mainAction">+ Spravovat M3U</button><div class="tip">Šipky = výběr · OK = přehrát · Modrá = oblíbené · Zpět = Nymind’s TV</div></div></section>
  </main><div class="footerline">Nymind’s Nymind TV · Živé vysílání</div>
 </section>
-<section id="guide" class="hidden"><header><div><small>NYMIND TV</small><h1>Televizní program</h1></div><strong id="guideClock"></strong></header>
-<nav id="guideNav"><button id="gHome">⌂ Plocha</button><button id="gFilter">Všechny kanály ▾</button><button id="gNow">Teď</button><button id="gPrev">← 2 h</button><button id="gNext">2 h →</button><button id="gRefresh">Obnovit EPG</button><button id="gList">Seznam stanic</button></nav>
+<aside class="hidden" id="bindBox" style="position:absolute;z-index:80;left:8%;top:5%;right:8%;bottom:5%;padding:24px;background:#14242c;overflow:auto"><h2 id="bindTitle"></h2><p id="bindHint"></p><div id="bindItems"></div></aside><style>#bindItems button{display:block;width:100%;margin:5px 0;text-align:left;padding:8px 14px}</style><section id="guide" class="hidden"><header><div><small>NYMIND TV</small><h1>Televizní program</h1></div><strong id="guideClock"></strong></header>
+<nav id="guideNav"><button id="gHome">⌂ Plocha</button><button id="gFilter">Všechny kanály ▾</button><button id="gNow">Teď</button><button id="gPrev">← 2 h</button><button id="gNext">2 h →</button><button id="bindBtn">Přiřadit EPG</button><button id="gRefresh">Obnovit EPG</button><button id="gList">Seznam stanic</button></nav>
 <div id="gFilters" class="hidden"></div><div id="gAxis"></div><div id="gRows"></div>
 <footer><div id="gTitle"></div><div id="gInfo"></div><div id="gHelp">↑ ↓ Stanice　 ← → Pořady　 OK Živě　 Zelená Skupiny　 Modrá ★ Oblíbené</div><div id="gStatus" role="status"></div></footer></section>
 <section id="playerView" class="view player hidden" aria-label="Přehrávač IPTV">
  <video id="video" autoplay playsinline></video>
- <aside id="tvPeek" class="hidden"><h2>Stanice</h2><div id="peekList"></div></aside><div id="playerInfo" class="player-info"><div id="playingTitle" class="player-title">Živá TV</div><div id="tvOn"></div><div id="tvAfter"></div><div class="player-help">↑ ↓ Kanály　 OK Seznam　 → Informace　 ← Program</div></div>
+ <div id="tvPeek" class="hidden" role="dialog" aria-label="Výběr televizních stanic">
+ <div class="np-wrap">
+ <div class="np-head"><div class="np-brand">nymind<span>LIVE TELEVISION</span></div><div class="np-clock" id="npClock">--:--</div></div>
+ <div class="np-title">Televize podle tebe.</div><div class="np-sub">Tvoje stanice, přehledně na jednom místě.</div>
+ <div class="np-tabs" id="npTabs"></div>
+ <div class="np-content">
+  <div class="np-feature"><div class="np-glow"></div><div class="np-live"><i></i>PRÁVĚ VE VYSÍLÁNÍ</div><div class="np-fav" id="npFav"></div><div class="np-channel-title" id="npFeaturedTitle">Vyber stanici</div><div class="np-info-label">PRÁVĚ BĚŽÍ</div><div class="np-now" id="npNow">—</div><div class="np-time" id="npNowTime"></div><div class="np-progress"><span id="npProgress"></span></div><div class="np-info-label">DÁLE V PROGRAMU</div><div class="np-next" id="npNext"></div><div class="np-cue">OK — přepnout na vybranou stanici</div></div>
+  <div class="np-list-pane"><div class="np-grid-head"><span id="npSection">Všechny</span><span id="npCount">0 stanic</span></div><div class="np-grid" id="npGrid"></div></div>
+ </div>
+ <div class="np-footer"><span><b>Šipky</b> výběr &nbsp;·&nbsp; <b>OK</b> přepnout &nbsp;·&nbsp; <b>Zpět</b> zavřít &nbsp;·&nbsp; <b>CH+/−</b> další stránka &nbsp;·&nbsp; <b>Modrá</b> oblíbené</span><span id="npPage">1 / 1</span></div>
+ </div>
+</div><div id="playerInfo" class="player-info"><div id="playingTitle" class="player-title">Živá TV</div><div id="tvOn"></div><div id="tvAfter"></div><div class="player-help">↑ ↓ Kanály　 OK Seznam　 → Informace　 ← Program</div></div>
  <div id="playerState" class="player-state hidden"></div>
  <div id="playerDiag" class="player-diag hidden" role="region" aria-label="Diagnostika přehrávání">
    <h3>Diagnostika přehrávání</h3><div id="playerDiagText" class="diagnosis"></div>
@@ -400,20 +478,20 @@ function unlockForSession(key,firstUnlock){
   }
   if(!firstUnlock){display();return;}
   return api.exportKey('raw',key).then(function(raw){
-   try{sessionStorage.setItem(sessionKeyName(),btoa(String.fromCharCode.apply(null,new Uint8Array(raw))));}catch(e){}
+   try{localStorage.setItem(sessionKeyName(),btoa(String.fromCharCode.apply(null,new Uint8Array(raw))));}catch(e){}
   },function(){}).then(display);
  });
 }
 function sessionKeyName(){return 'nymind.guide.unlock.1.'+sealed.s+'.'+sealed.i;}
 function resumePlaylist(){
  var saved;
- try{saved=sessionStorage.getItem(sessionKeyName());}catch(e){return;}
+ try{saved=localStorage.getItem(sessionKeyName());}catch(e){return;}
  if(!saved||!window.crypto||!window.crypto.subtle)return;
  busy=true;safeText('pinStatus','Otevírám program…');
  Promise.resolve().then(function(){return window.crypto.subtle.importKey('raw',bytes(saved),'AES-GCM',false,['decrypt']);})
  .then(function(key){return unlockForSession(key,false);})
  .catch(function(){
-  try{sessionStorage.removeItem(sessionKeyName());}catch(e){}
+  try{localStorage.removeItem(sessionKeyName());}catch(e){}
   safeText('pinStatus','Zadej kód pro TV.');
  }).then(function(){busy=false;});
 }
@@ -461,6 +539,7 @@ var tvSnapshots=[{"4StoryTV.cz":[["CZ - 4 Story TV"],[[1795215600000,17952189000
 /* doplneni CZ SK EPG */
 tvSnapshots=[{"Prima.SK.HD.sk":[["Prima SK HD"],[[1795166700000,1795171200000,"1. MISE"],[1795171200000,1795175100000,"Inkognito"],[1795175100000,1795179900000,"Kamarádi"],[1795179900000,1795184700000,"1. MISE"],[1795184700000,1795190400000,"Máme rádi Česko"],[1795190400000,1795194000000,"Prostřeno!"],[1795194000000,1795197300000,"Prostřeno!"],[1795197300000,1795202100000,"Polabí"],[1795202100000,1795208100000,"Máme rádi Česko"],[1795208100000,1795212900000,"Farma Vojty Kotka"],[1795212900000,1795216200000,"Receptář prima nápadů"],[1795216200000,1795218000000,"Vychytávky Ládi Hrušky"],[1795218000000,1795221000000,"Show Jana Krause"],[1795221000000,1795225500000,"Máme rádi Česko"],[1795225500000,1795229400000,"Kamarádi"],[1795229400000,1795232700000,"1. MISE"],[1795232700000,1795235700000,"Nikdo není dokonalý"],[1795235700000,1795236300000,"Klid pod hladinou - Klid pod hladinou"],[1795236300000,1795237200000,"Vysielacia prestávka"],[1795237200000,1795239000000,"Klid pod hladinou - Klid pod hladinou"],[1795239000000,1795242300000,"Receptář prima nápadů"],[1795242300000,1795244400000,"Vychytávky Ládi Hrušky"],[1795244400000,1795248300000,"Show Jana Krause"],[1795248300000,1795250400000,"Prima ČESKO"],[1795250400000,1795252200000,"Prima SVĚT"],[1795252200000,1795257000000,"1. MISE"],[1795257000000,1795260000000,"Receptář prima nápadů"],[1795260000000,1795262100000,"Libovky Pepy Libického"],[1795262100000,1795263900000,"Zahradnice po ruce"],[1795263900000,1795266300000,"Vychytávky Ládi Hrušky"],[1795266300000,1795270800000,"1. MISE"],[1795270800000,1795276800000,"Máme rádi Česko"],[1795276800000,1795279800000,"Zdeňkova akademie"],[1795279800000,1795285800000,"Zrádci"],[1795285800000,1795288500000,"Zrádci: Ze záhrobí"],[1795288500000,1795292700000,"Polda VI"],[1795292700000,1795296900000,"Polda VI"],[1795296900000,1795300200000,"Receptář prima nápadů"],[1795300200000,1795302000000,"Libovky Pepy Libického"]]],"Markíza.HD.sk":[["Markíza HD"],[[1795165200000,1795168800000,"Sľub IV."],[1795168800000,1795173600000,"Dunaj, k vašim službám XVI."],[1795173600000,1795177500000,"Kobra 11 XXV."],[1795177500000,1795181400000,"Kobra 11 XXV."],[1795181400000,1795186800000,"Farma XVIII."],[1795186800000,1795190400000,"Rodinné prípady"],[1795190400000,1795191900000,"PRVÉ TELEVÍZNE NOVINY"],[1795191900000,1795192200000,"PRVÉ ŠPORTOVÉ NOVINY"],[1795192200000,1795193700000,"Reflex"],[1795193700000,1795197600000,"Sľub IV."],[1795197600000,1795201200000,"TELEVÍZNE NOVINY"],[1795201200000,1795201800000,"POČASIE"],[1795201800000,1795202100000,"LOTO, LOTO 5 z 35, Joker, Všetko alebo nič, KENO 10, Keno Joker"],[1795202100000,1795203000000,"ŠPORTOVÉ NOVINY"],[1795203000000,1795210500000,"Farma XVIII."],[1795210500000,1795224900000,"Liga spravodlivosti"],[1795224900000,1795227000000,"Liga spravodlivosti"],[1795227000000,1795231500000,"Studňa"],[1795231500000,1795234200000,"Susedské prípady"],[1795234200000,1795237200000,"Rodinné prípady"],[1795237200000,1795240500000,"TELEVÍZNE NOVINY"],[1795240500000,1795242000000,"Scooby-Doo, kde si?!"],[1795242000000,1795243200000,"Tom a Jerry"],[1795243200000,1795250100000,"Rumburak"],[1795250100000,1795254300000,"Pán profesor IV."],[1795254300000,1795258200000,"Pán profesor IV."],[1795258200000,1795267800000,"SuperStar"],[1795267800000,1795274100000,"Možné je všetko! III."],[1795274100000,1795281600000,"Ženích na odstrel"],[1795281600000,1795284000000,"Smotánka"],[1795284000000,1795287600000,"TELEVÍZNE NOVINY"],[1795287600000,1795287900000,"POČASIE"],[1795287900000,1795288200000,"Euromilióny, Euromilióny Joker, Všetko alebo nič, KENO 10, Keno Joker"],[1795288200000,1795288500000,"GÓL MESIACA"],[1795288500000,1795289400000,"ŠPORTOVÉ NOVINY"],[1795289400000,1795296300000,"Možné je všetko! III."],[1795296300000,1795304400000,"Súboj nájomných zabijakov"]]],"Filmbox.Premium.HD.sk":[["Filmbox Premium HD"],[[1795162200000,1795168500000,"Kurs sebeovládání"],[1795168500000,1795173900000,"Vzpomínky na Itálii"],[1795173900000,1795180200000,"Návrat blbýho a blbějšího"],[1795180200000,1795185600000,"Iracionální muž"],[1795185600000,1795190700000,"Reality Show"],[1795190700000,1795196100000,"Láska z nebes"],[1795196100000,1795201800000,"Z jako Zachariáš"],[1795201800000,1795208700000,"Lovec hlav"],[1795208700000,1795215000000,"Heretik"],[1795215000000,1795221600000,"Černé moře"],[1795221600000,1795228500000,"Slova války"],[1795228500000,1795233900000,"Nemilosrdný kolotoč"],[1795233900000,1795237500000,"Noční tabule -"],[1795237500000,1795240200000,"Lovci pokladů"],[1795240200000,1795245600000,"Upírky"],[1795245600000,1795251000000,"Proti větru"],[1795251000000,1795256700000,"Molly Moonová"],[1795256700000,1795262700000,"Jak na věc"],[1795262700000,1795269000000,"Vlastně tě mám ráda, tati"],[1795269000000,1795276800000,"Barva vítězství"],[1795276800000,1795281900000,"Krokodýl Dundee rytířem"],[1795281900000,1795288200000,"Bez dechu"],[1795288200000,1795293900000,"Parazit z chlaďáku"],[1795293900000,1795299600000,"Ateliér smrti"],[1795299600000,1795306800000,"Kód 355"]]]},{"Prima.cz":[["Prima"],[[1795165800000,1795170600000,"Polabí"],[1795170600000,1795178400000,"Komisař Rex"],[1795178400000,1795185300000,"Máme rádi Česko"],[1795185300000,1795189500000,"Inkognito"],[1795189500000,1795193700000,"Ano, šéfe"],[1795193700000,1795197120000,"Prostřeno"],[1795197120000,1795197300000,"Počasí"],[1795197300000,1795200300000,"HLAVNÍ ZPRÁVY"],[1795200300000,1795200900000,"Sportovní zprávy"],[1795200900000,1795202100000,"SHOWTIME"],[1795202100000,1795207800000,"Farma Vojty Kotka"],[1795207800000,1795214700000,"Máme rádi Česko"],[1795214700000,1795220700000,"Zrádci"],[1795220700000,1795224300000,"Policie v akci"],[1795224300000,1795232100000,"Komisař Rex"],[1795232100000,1795237200000,"Inkognito"],[1795237200000,1795237500000,"Příhody Bolka a Lolka"],[1795237500000,1795239000000,"M*A*S*H"],[1795239000000,1795240500000,"M*A*S*H"],[1795240500000,1795242000000,"M*A*S*H"],[1795242000000,1795243800000,"M*A*S*H"],[1795243800000,1795246200000,"Fotr na tripu XII"],[1795246200000,1795250100000,"Autosalon.tv"],[1795250100000,1795257000000,"Máme rádi Česko"],[1795257000000,1795264200000,"Máme rádi Česko"],[1795264200000,1795272300000,"Obecná škola"],[1795272300000,1795276500000,"Dobrodružství kriminalistiky"],[1795276500000,1795283700000,"Příručka vánoční lásky"],[1795283700000,1795286700000,"HLAVNÍ ZPRÁVY"],[1795286700000,1795287300000,"Sportovní zprávy"],[1795287300000,1795288500000,"SHOWTIME"],[1795288500000,1795293000000,"Lovci lebek"],[1795293000000,1795297800000,"Černé vdovy"],[1795297800000,1795306500000,"Rocky II"],[1795306500000,1795314300000,"Pole mrtvých"],[1795314300000,1795321200000,"Dobrodružství v džungli smrti"],[1795321200000,1795323600000,"Libovky Pepy Libického"],[1795323600000,1795323900000,"Lodí přes Kornati"],[1795323900000,1795326000000,"Příhody Bolka a Lolka"],[1795326000000,1795327500000,"M*A*S*H"],[1795327500000,1795329000000,"M*A*S*H"],[1795329000000,1795330800000,"M*A*S*H"],[1795330800000,1795332300000,"M*A*S*H"],[1795332300000,1795334100000,"M*A*S*H"],[1795334100000,1795335900000,"Prima ČESKO"],[1795335900000,1795338000000,"Prima SVĚT"],[1795338000000,1795341600000,"Norské domy snů"],[1795341600000,1795345200000,"Partie Terezie Tománkové"],[1795345200000,1795349400000,"Receptář prima nápadů"],[1795349400000,1795352100000,"Libovky Pepy Libického"],[1795352100000,1795354800000,"Vychytávky Ládi Hrušky"],[1795354800000,1795361700000,"Farma Vojty Kotka"],[1795361700000,1795370100000,"Promlčeno"],[1795370100000,1795372320000,"HLAVNÍ ZPRÁVY"],[1795372320000,1795373100000,"Losování loterie Megamaxa"],[1795373100000,1795373700000,"Sportovní zprávy"],[1795373700000,1795374900000,"SHOWTIME"],[1795374900000,1795381200000,"Zrádci"],[1795381200000,1795384200000,"Zrádci: Ze záhrobí"],[1795384200000,1795392600000,"Vysoká hra patriotů"],[1795392600000,1795402500000,"Ben Hur"],[1795402500000,1795406400000,"Norské domy snů"],[1795406400000,1795409700000,"Rozpal to, šéfe"],[1795409700000,1795410000000,"Nový den"],[1795410000000,1795412700000,"Nový den"],[1795412700000,1795414200000,"M*A*S*H"],[1795414200000,1795415700000,"M*A*S*H"],[1795415700000,1795417500000,"M*A*S*H"],[1795417500000,1795419000000,"M*A*S*H"],[1795419000000,1795420800000,"M*A*S*H"],[1795420800000,1795424400000,"Modrý kód"],[1795424400000,1795429200000,"Lovci lebek"],[1795429200000,1795433100000,"Komisař Rex"],[1795433100000,1795437000000,"Komisař Rex"],[1795437000000,1795444200000,"Máme rádi Česko"],[1795444200000,1795448400000,"Inkognito"],[1795448400000,1795452900000,"Ano, šéfe"],[1795452900000,1795456500000,"Prostřeno"],[1795456500000,1795459500000,"HLAVNÍ ZPRÁVY"],[1795459500000,1795460100000,"Sportovní zprávy"],[1795460100000,1795461300000,"SHOWTIME"],[1795461300000,1795466100000,"Malý pitaval z velkého města"],[1795466100000,1795470300000,"Dobrodružství kriminalistiky"],[1795470300000,1795474200000,"Dvojka na zabití"],[1795474200000,1795478400000,"Ano, šéfe"]]],"Prima.SK.cz":[["Prima SK"],[[1795164000000,1795168500000,"Kamarádi"],[1795168500000,1795172700000,"1. MISE"],[1795172700000,1795176600000,"Inkognito"],[1795176600000,1795181100000,"Kamarádi"],[1795181100000,1795185300000,"1. MISE"],[1795185300000,1795191000000,"Máme rádi Česko"],[1795191000000,1795194300000,"Prostřeno"],[1795194300000,1795197300000,"Prostřeno"],[1795197300000,1795202100000,"Polabí"],[1795202100000,1795208100000,"Máme rádi Česko"],[1795208100000,1795212900000,"Farma Vojty Kotka"],[1795212900000,1795215600000,"Receptář prima nápadů"],[1795215600000,1795217400000,"Vychytávky Ládi Hrušky"],[1795217400000,1795220400000,"Show Jana Krause"],[1795220400000,1795224900000,"Máme rádi Česko"],[1795224900000,1795228800000,"Kamarádi"],[1795228800000,1795232700000,"1. MISE"],[1795232700000,1795234800000,"Nikdo není dokonalý"],[1795237200000,1795239000000,"Klid pod hladinou"],[1795239000000,1795242300000,"Receptář prima nápadů"],[1795242300000,1795244400000,"Vychytávky Ládi Hrušky"],[1795244400000,1795248300000,"Show Jana Krause"],[1795248300000,1795250400000,"Prima ČESKO"],[1795250400000,1795252200000,"Prima SVĚT"],[1795252200000,1795257000000,"1. MISE"],[1795257000000,1795260000000,"Receptář prima nápadů"],[1795260000000,1795262100000,"Libovky Pepy Libického"],[1795262100000,1795263900000,"Zahradnice po ruce"],[1795263900000,1795266300000,"Vychytávky Ládi Hrušky"],[1795266300000,1795270800000,"1. MISE"],[1795270800000,1795276800000,"Máme rádi Česko"],[1795276800000,1795279800000,"Zdeňkova akademie"],[1795279800000,1795285800000,"Zrádci"],[1795285800000,1795288500000,"Zrádci: Ze záhrobí"],[1795288500000,1795292700000,"Polda"],[1795292700000,1795296900000,"Polda"],[1795296900000,1795300200000,"Receptář prima nápadů"],[1795300200000,1795302000000,"Libovky Pepy Libického"],[1795302000000,1795303500000,"Zahradnice po ruce"],[1795303500000,1795305300000,"Vychytávky Ládi Hrušky"],[1795305300000,1795309800000,"Máme rádi Česko"],[1795309800000,1795311300000,"Prima ČESKO"],[1795311300000,1795312800000,"Prima SVĚT"],[1795312800000,1795316400000,"1. MISE"],[1795316400000,1795319400000,"Nikdo není dokonalý"],[1795323600000,1795326000000,"Zdeňkova akademie"],[1795326000000,1795329300000,"Receptář prima nápadů"],[1795329300000,1795331100000,"Libovky Pepy Libického"],[1795331100000,1795335000000,"Show Jana Krause"],[1795335000000,1795336800000,"Prima ČESKO"],[1795336800000,1795338900000,"Prima SVĚT"],[1795338900000,1795343700000,"1. MISE"],[1795343700000,1795347300000,"Receptář prima nápadů"],[1795347300000,1795349100000,"Libovky Pepy Libického"],[1795349100000,1795351200000,"Zahradnice po ruce"],[1795351200000,1795353000000,"Vychytávky Ládi Hrušky"],[1795353000000,1795357800000,"1. MISE"],[1795357800000,1795363200000,"Farma Vojty Kotka"],[1795363200000,1795366200000,"Zdeňkova akademie"],[1795366200000,1795370400000,"Poslední oběť"],[1795370400000,1795374900000,"Polda"],[1795374900000,1795380300000,"Zrádci"],[1795380300000,1795383300000,"Zrádci: Ze záhrobí"],[1795383300000,1795386900000,"Receptář prima nápadů"],[1795386900000,1795389000000,"Libovky Pepy Libického"],[1795389000000,1795390500000,"Zahradnice po ruce"],[1795390500000,1795391700000,"Vychytávky Ládi Hrušky"],[1795391700000,1795396200000,"Máme rádi Česko"],[1795396200000,1795397700000,"Prima ČESKO"],[1795397700000,1795399200000,"Prima SVĚT"],[1795399200000,1795402800000,"1. MISE"],[1795402800000,1795405800000,"Nikdo není dokonalý"],[1795410000000,1795410300000,"Lodí přes Kornati"],[1795410300000,1795413600000,"Receptář prima nápadů"],[1795413600000,1795415700000,"Vychytávky Ládi Hrušky"],[1795415700000,1795419000000,"Prostřeno"],[1795419000000,1795423800000,"Kamarádi"],[1795423800000,1795428900000,"1. MISE"],[1795428900000,1795434900000,"Máme rádi Česko"],[1795434900000,1795439400000,"Kamarádi"],[1795439400000,1795443600000,"1. MISE"],[1795443600000,1795449600000,"Máme rádi Česko"],[1795449600000,1795453200000,"Prostřeno"],[1795453200000,1795456500000,"Prostřeno"],[1795456500000,1795461300000,"Polda"],[1795461300000,1795465500000,"Poslední oběť"],[1795465500000,1795469700000,"Einstein - Případy nesnesitelného génia"],[1795469700000,1795472700000,"Receptář prima nápadů"],[1795472700000,1795475100000,"Vychytávky Ládi Hrušky"]]],"AMC.cz":[["AMC"],[[1795163100000,1795171500000,"Pravá a levá ruka ďábla"],[1795171500000,1795179000000,"Škola hada"],[1795179000000,1795185600000,"Uprchlíci"],[1795185600000,1795193400000,"Zatím spolu, zatím živi"],[1795193400000,1795202400000,"Bohové Egypta"],[1795202400000,1795208400000,"Černá hodina"],[1795208400000,1795215300000,"Krvavá aréna"],[1795215300000,1795222500000,"Hellboy: Královna krve"],[1795222500000,1795228200000,"Univerzální voják"],[1795228200000,1795233900000,"Resident Evil: Poslední kapitola"],[1795233900000,1795235400000,"Close Up I"],[1795235400000,1795237200000,"Close Up I"],[1795237200000,1795237800000,"Zoom In"],[1795237800000,1795238700000,"Zoom In"],[1795238700000,1795240500000,"Close Up I"],[1795240500000,1795241400000,"Zoom In"],[1795241400000,1795243200000,"Close Up I"],[1795243200000,1795250100000,"Dva machři mezi nebem a peklem"],[1795250100000,1795256400000,"Zítra to roztočíme, drahoušku.."],[1795256400000,1795264500000,"Ip Man 3"],[1795264500000,1795272000000,"Bláznivý šaman - Zpátky z minulosti"],[1795272000000,1795278000000,"Černá hodina"],[1795278000000,1795287600000,"K-19: Stroj na smrt"],[1795287600000,1795294800000,"Poslední lovec čarodějnic"],[1795294800000,1795301700000,"Krev a kosti"],[1795301700000,1795308300000,"Horal"],[1795308300000,1795314900000,"Zběsilý útěk"],[1795314900000,1795321800000,"Informátorka"],[1795321800000,1795323600000,"Close Up I"],[1795323600000,1795323900000,"Zoom In"],[1795323900000,1795324800000,"Zoom In"],[1795324800000,1795326600000,"Close Up I"],[1795326600000,1795332600000,"(J)elita ze střídačky"],[1795332600000,1795340700000,"Hádej kdo"],[1795340700000,1795346700000,"Zítra vstanu a opařím se čajem"],[1795346700000,1795353900000,"Neprůstřelný mnich"],[1795353900000,1795359600000,"Zvíře"],[1795359600000,1795366500000,"Smlouva s ďáblem"],[1795366500000,1795374000000,"Daredevil"],[1795374000000,1795381200000,"Návštěvníci: Cesta do Ameriky"],[1795381200000,1795387800000,"Tiché místo: Část II"],[1795387800000,1795393500000,"Resident Evil: Poslední kapitola"],[1795393500000,1795399200000,"Chvění 7: Ostrov vřešťáků"],[1795399200000,1795404900000,"Krev a kosti"],[1795404900000,1795406400000,"Close Up I"],[1795406400000,1795408200000,"Close Up I"],[1795408200000,1795410000000,"Close Up I"],[1795410000000,1795417500000,"Škola hada"],[1795417500000,1795425300000,"Spider-Man: Paralelní světy"],[1795425300000,1795435200000,"Rytíři nebes"],[1795435200000,1795442100000,"Dva machři mezi nebem a peklem"],[1795442100000,1795452000000,"K-19: Stroj na smrt"],[1795452000000,1795458300000,"Finty Dicka a Jane"],[1795458300000,1795467600000,"Sahara"],[1795467600000,1795473600000,"Temný úplněk"],[1795473600000,1795478400000,"Jezdci Apokalypsy"]]]}].concat(tvSnapshots);
 tvSources.push("https://free-epg.de/api/epg/sk.xml.gz","https://epgshare01.online/epgshare01/epg_ripper_SK1.xml.gz");
+tvSnapshots=[].concat(tvSnapshots);
 function stationName(s){
  var t=(s||'').toLowerCase();
  if(t.normalize)t=t.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -482,6 +561,7 @@ function parseGuide(doc){
  return data;
 }
 function associate(data){
+ indexGuide(data);
  var alias=Object.create(null),out=Object.create(null),now=Date.now();
  function add(name,id){var n=stationName(name);if(!n)return;if(alias[n]===undefined)alias[n]=id;else if(alias[n]!==id)alias[n]=null;}
  Object.keys(data).forEach(function(id){add(id,id);data[id][0].forEach(function(n){add(n,id);});});
@@ -490,10 +570,11 @@ function associate(data){
   if(/prima[ ._-]+sk(?:[ ._-]|$)/i.test(c.name))label='primask';
   var verified={"prima": ["Prima.cz"], "primask": ["Prima.SK.HD.sk", "Prima.SK.cz", "PrimaSK.sk"], "markiza": ["Markíza.HD.sk", "Markiza.sk"], "amc": ["AMC.cz"], "filmboxpremium": ["Filmbox.Premium.HD.sk"], "canalplussport3": ["Canal+.Sport.3.cz", "Canal.plus.Sport.3.cz"]}, candidates=verified[label]||[], preferred=null;
   for(var n=0;n<candidates.length;n++){var key=candidates[n];if(data[key]&&data[key][1].some(function(p){return p[1]>now;})){preferred=key;break;}}
-  if(label==='primask'&&!preferred&&!tvAliases[c.name])return;
+  if(label==='primask'&&!preferred&&!tvAliases[c.name]&&!bindSaved[c.key])return;
   var manual=tvAliases[c.name],id=(manual&&data[manual]?manual:null)||preferred||(label==='primask'&&!preferred?null:(data[c.id]?c.id:null))||alias[stationName(c.tvgName)]||alias[stationName(c.name)]||alias[stationName(c.id)];
 
-  if(id&&data[id][1].some(function(p){return p[1]>now;}))out[c.key]=data[id][1].map(function(p){return {a:p[0],b:p[1],t:p[2]};});
+  if(bindSaved[c.key])id=bindSaved[c.key];
+  if(id&&data[id]&&data[id][1].some(function(p){return p[1]>now;}))out[c.key]=data[id][1].map(function(p){return {a:p[0],b:p[1],t:p[2]};});
  });return out;
 }
 // Keep the first source during overlaps. Fill uncovered slots from later sources.
@@ -509,11 +590,12 @@ function updateStatus(s){guideStatus=s;safeText('gStatus',s);}
 function loadGuide(force){
  if(loadingGuide||(!force&&Date.now()-lastFetch<60000))return;
  loadingGuide=true;lastFetch=Date.now();
- var sources=([feedFromPlaylist].concat(tvSources)).filter(function(u,i,a){return u&&a.indexOf(u)===i;});
+ var sources=([feedFromPlaylist].concat(["https://www.open-epg.com/app/download.php?file=czech1.xml", "https://www.open-epg.com/app/download.php?file=czech3.xml", "https://www.open-epg.com/app/download.php?file=czech4.xml", "http://o.sledovanitv.cz/epg/wg++/guide.xml", "https://epg.m3u8.cz/xmltv.php?format=xml"],tvSources)).filter(function(u,i,a){return u&&a.indexOf(u)===i;});
  var fresh=Object.create(null),local=Object.create(null),prior=listings,reports=[];
  tvSnapshots.forEach(function(d){mergeGuide(local,associate(d));});
  function paint(msg){
   listings=mergeGuide(mergeGuide(mergeGuide(Object.create(null),fresh),local),prior);
+  channels.forEach(function(c){var id=bindSaved[c.key];if(id&&bindData[id])listings[c.key]=bindData[id][1].map(function(p){return {a:p[0],b:p[1],t:p[2]};});});
   updateStatus('EPG '+Object.keys(listings).length+' / '+channels.length+' stanic · '+msg);
   if(guideVisible())paintGuide(gridHasFocus());
  }
@@ -582,6 +664,7 @@ function guideKey(e,code,back){
  var pop=!$('gFilters').classList.contains('hidden'),nav=$('guideNav').contains(document.activeElement);
  if(pop){if(back){show('gFilters',false);$('gFilter').focus();}else if(code===13)document.activeElement.click();else if(code>=37&&code<=40){var el=document.activeElement,adj=code===37||code===38?el.previousElementSibling:el.nextElementSibling;if(adj)adj.focus();}else return false;}
  else if(back)goLauncher();
+ else if(code===405||e.key==='y'){openBind();}
  else if(code===404||e.key==='g')openFilters();
  else if(nav){if(code===40)paintGuide(true);else if(code===13)document.activeElement.click();else if(code===37||code===39){var n=code===37?document.activeElement.previousElementSibling:document.activeElement.nextElementSibling;if(n)n.focus();}else return false;}
  else if(code===13)playRow();
@@ -610,30 +693,171 @@ function tvInfo(c){
  show('playerInfo',true);show('playerBottom',false);
  osdTimer=setTimeout(function(){show('playerInfo',false);},4500);
 }
-function drawPeek(){
- var list=$('peekList');list.textContent='';var top=Math.floor(peekIndex/7)*7;
- peekItems.slice(top,top+7).forEach(function(c,i){var p=channelShows(c)[0],b=element('button','peekItem',c.name);
-  b.appendChild(element('small','',p?p.t:''));b.onclick=function(){peekIndex=top+i;choosePeek();};list.appendChild(b);
-  if(top+i===peekIndex)b.focus();
- });
+/* NYMIND CINEMA TV — remote-first, ES5 */
+var npCategory='__all',npCatIndex=0,npIndex=0,npPage=0,npFocus='cards',npItems=[],npTabs=[],npPageSize=9;
+function npGroups(){
+ var list=[['__all','Všechny'],['__fav','★ Oblíbené'],['__recent','Nedávné']];
+ for(var i=0;i<groups.length;i++)list.push([groups[i],groups[i]]);
+ return list;
 }
-function choosePeek(){show('tvPeek',false);playChannel(peekItems[peekIndex]);}
+function npGetItems(group){
+ var r=[];
+ for(var i=0;i<channels.length;i++){
+  var c=channels[i];
+  if(group==='__fav'&&!favorites[c.key])continue;
+  if(group==='__recent'&&recent.indexOf(c.key)===-1)continue;
+  if(group!=='__all'&&group!=='__fav'&&group!=='__recent'&&categoryOf(c)!==group)continue;
+  r.push(c);
+ }
+ if(group==='__recent')r.sort(function(a,b){return recent.indexOf(a.key)-recent.indexOf(b.key);});
+ return r;
+}
+function npProgress(p){if(!p||!p.a||!p.b)return 0;return Math.max(0,Math.min(100,Math.round((Date.now()-p.a)*100/(p.b-p.a))));}
+function npText(id,value){var a=$(id);if(a)a.textContent=value==null?'':String(value);}
+function npFocusItem(){
+ var node=npFocus==='tabs'?$('npTabs').children[npCatIndex]:$('npGrid').children[npIndex%npPageSize];
+ if(node&&node.focus)node.focus();
+}
+function npDrawTabs(){
+ var root=$('npTabs');root.textContent='';
+ for(var i=0;i<npTabs.length;i++)(function(index){
+  var tab=element('button','np-tab'+(npCategory===npTabs[index][0]?' current':'')+(npFocus==='tabs'&&npCatIndex===index?' focused':''),npTabs[index][1]);
+  tab.onclick=function(){npCatIndex=index;npSelectCategory(npTabs[index][0]);npFocus='cards';npDraw();};
+  root.appendChild(tab);
+ })(i);
+ var selected=root.children[npCatIndex];
+ if(selected&&root.scrollLeft!==undefined){
+  var edge=selected.offsetLeft+selected.offsetWidth;
+  if(edge>root.scrollLeft+root.clientWidth)root.scrollLeft=edge-root.clientWidth+16;
+  else if(selected.offsetLeft<root.scrollLeft)root.scrollLeft=selected.offsetLeft;
+ }
+}
+function npSelectCategory(cat){npCategory=cat;npItems=npGetItems(cat);npPage=0;npIndex=0;}
+function npSelectFeatured(){
+ var c=npItems[npIndex],title=c?c.name:'Žádné stanice';
+ npText('npFeaturedTitle',title);npText('npSection',npTabs[npCatIndex]?npTabs[npCatIndex][1]:'Kanály');
+ npText('npCount',npItems.length+' stanic');
+ var on=null,next=null;if(c&&typeof channelShows==='function'){var x=channelShows(c);on=x[0];next=x[1];}
+ npText('npNow',on?on.t:'Pro tuto stanici zatím nemáme TV program.');
+ npText('npNowTime',on?fmt(on.a)+' – '+fmt(on.b):'Živé vysílání');
+ npText('npNext',next?'Následuje '+fmt(next.a)+' · '+next.t:'');
+ npText('npFav',c&&favorites[c.key]?'★ Oblíbená stanice':'');
+ $('npProgress').style.width=npProgress(on)+'%';
+}
+function npDraw(){
+ npTabs=npGroups();
+ npCatIndex=Math.max(0,Math.min(npTabs.length-1,npCatIndex));
+ npItems=npGetItems(npCategory);
+ if(npIndex>=npItems.length)npIndex=Math.max(0,npItems.length-1);
+ npPage=Math.floor(npIndex/npPageSize);
+ var clock=new Date();npText('npClock',('0'+clock.getHours()).slice(-2)+':'+('0'+clock.getMinutes()).slice(-2));
+ npDrawTabs();npSelectFeatured();
+ var list=$('npGrid');list.textContent='';
+ var begin=npPage*npPageSize,end=Math.min(npItems.length,begin+npPageSize);
+ for(var i=begin;i<end;i++)(function(pos){
+  var c=npItems[pos],program=typeof channelShows==='function'?channelShows(c)[0]:null;
+  var card=element('button','np-card'+(pos===npIndex?' selected':'')+(activeChannel&&c.key===activeChannel.key?' active':''));
+  card.appendChild(element('span','np-num','STANICE '+('0'+(channels.indexOf(c)+1)).slice(-3)));
+  card.appendChild(element('span','np-station',c.name));
+  card.appendChild(element('span','np-program',program?program.t:'Živé vysílání'));
+  var bar=element('span','np-mini-progress'),inside=element('i','');inside.style.width=npProgress(program)+'%';bar.appendChild(inside);card.appendChild(bar);
+  card.onclick=function(){npIndex=pos;choosePeek();};
+  list.appendChild(card);
+ })(i);
+ if(!npItems.length)list.appendChild(element('div','np-empty','V této kategorii zatím nejsou žádné stanice.'));
+ npText('npPage',(npItems.length?npPage+1:0)+' / '+Math.max(1,Math.ceil(npItems.length/npPageSize)));
+ npFocusItem();
+}
+function drawPeek(){npDraw();}
+function choosePeek(){
+ if(!npItems.length)return;
+ var c=npItems[npIndex];show('tvPeek',false);playChannel(c);
+}
+function npOpenPeek(){
+ npTabs=npGroups();npCategory='__all';npCatIndex=0;
+ npItems=npGetItems(npCategory);npIndex=Math.max(0,npItems.indexOf(activeChannel));
+ npFocus='cards';show('tvPeek',true);npDraw();
+}
+function npNavInGrid(code){
+ var indexInPage=npIndex%npPageSize,max=npItems.length-1,target=npIndex;
+ if(!npItems.length)return;
+ if(code===37)target=Math.max(0,npIndex-1);
+ else if(code===39)target=Math.min(max,npIndex+1);
+ else if(code===40)target=Math.min(max,npIndex+3);
+ else if(code===38){if(indexInPage<3){npFocus='tabs';npDraw();return;}target=Math.max(0,npIndex-3);}
+ else if(code===427)target=Math.max(0,npIndex-npPageSize);
+ else if(code===428)target=Math.min(max,npIndex+npPageSize);
+ npIndex=target;npDraw();
+}
 function liveKey(e,code,back){
  if($('playerView').classList.contains('hidden')||!$('playerDiag').classList.contains('hidden'))return false;
- var open=!$('tvPeek').classList.contains('hidden');
- if(open){
-  if(back||code===37)show('tvPeek',false);
-  else if(code===13){if(!e.repeat)choosePeek();}
-  else if(code===38||code===40||code===427||code===428){peekIndex=Math.max(0,Math.min(peekItems.length-1,peekIndex+(code===38?-1:code===40?1:code===427?-7:7)));drawPeek();}
+ var opened=!$('tvPeek').classList.contains('hidden');
+ if(opened){
+  if(back){show('tvPeek',false);}
+  else if(code===13){if(!e.repeat){if(npFocus==='tabs'){npSelectCategory(npTabs[npCatIndex][0]);npFocus='cards';npDraw();}else choosePeek();}}
+  else if(npFocus==='tabs'){
+   if(code===37||code===39){npCatIndex=Math.max(0,Math.min(npTabs.length-1,npCatIndex+(code===37?-1:1)));npSelectCategory(npTabs[npCatIndex][0]);npDraw();}
+   else if(code===40){npFocus='cards';npDraw();}
+   else return false;
+  }else if(code===37||code===38||code===39||code===40||code===427||code===428){npNavInGrid(code);}
+  else if(code===406){var chosen=npItems[npIndex];if(chosen){toggleFav(chosen);npDraw();}}
   else return false;
- }else if(code===13){
-  if(e.repeat)return true;peekItems=liveFromGuide&&rows.length?rows:channels;
-  peekIndex=Math.max(0,peekItems.indexOf(activeChannel));show('tvPeek',true);drawPeek();
- }else if(code===39||code===457){tvInfo(activeChannel);}
+ }else if(code===13){if(!e.repeat)npOpenPeek();}
+ else if(code===39||code===457){if(activeChannel)tvInfo(activeChannel);}
  else if(code===37){liveFromGuide=true;backFromPlayer();}
  else return false;
  e.preventDefault();e.stopPropagation();return true;
 }
+
+
+var bindData=Object.create(null),bindChannel=null,bindBack=null,bindPool=[],bindPage=0;
+var bindSaved=storeRead('nymind-epg-bind-v1',{})||{};
+function indexGuide(data){
+ var now=Date.now();
+ Object.keys(data).forEach(function(id){
+  var progs=data[id][1],valid=progs.filter(function(p){return p[1]>now;});
+  if(!valid.length)return;
+  var match=bindData[id];
+  if(!match||(!match[1].some(function(p){return p[0]<=now&&now<p[1];})&&valid.some(function(p){return p[0]<=now&&now<p[1];})))bindData[id]=[data[id][0],valid];
+ });
+}
+function bindText(id){
+ var d=bindData[id],now=Date.now(),p=d[1].filter(function(x){return x[1]>now;})[0];
+ return (d[0][0]||id)+' · '+id+(p?' · '+(p[0]>now?'od '+fmt(p[0])+' ':'')+p[2]:'');
+}
+function bindApply(){
+ var id=bindSaved[bindChannel.key],item=bindData[id];if(!item)return;
+ listings[bindChannel.key]=item[1].map(function(p){return {a:p[0],b:p[1],t:p[2]};});
+}
+function closeBind(){show('bindBox',false);paintGuide(true);}
+function bindDisplay(){
+ var box=$('bindItems');box.textContent='';
+ function btn(label,fn){var b=element('button','',label);b.onclick=fn;box.appendChild(b);}
+ bindPool.slice(bindPage*6,bindPage*6+6).forEach(function(id){btn(bindText(id),function(){
+  bindSaved[bindChannel.key]=id;try{localStorage.setItem('nymind-epg-bind-v1',JSON.stringify(bindSaved));}catch(e){}
+  bindApply();closeBind();
+ });});
+ if(bindPage)btn('← Předchozí',function(){bindPage--;bindDisplay();});
+ if((bindPage+1)*6<bindPool.length)btn('Další →',function(){bindPage++;bindDisplay();});
+ btn('Zavřít',closeBind);box.firstChild.focus();
+}
+function openBind(){
+ if(!rows[row])return;bindChannel=rows[row];var query=bindChannel.name.toLowerCase().match(/[a-zá-ž0-9]+/g)||[];
+ query=query.filter(function(x){return x.length>1&&['hd','sk','cz','fhd','uhd','hevc'].indexOf(x)<0;});
+ function score(id){var s=stationName(id+' '+bindData[id][0].join(' ')),n=0;query.forEach(function(x){if(s.indexOf(stationName(x))>=0)n+=x.length;});return n;}
+ var now=Date.now();bindPool=Object.keys(bindData).filter(function(id){return bindData[id][1].some(function(p){return p[1]>now;});}).map(function(id){return {id:id,s:score(id)};}).sort(function(a,b){return b.s-a.s||a.id.localeCompare(b.id);}).map(function(x){return x.id;});bindPage=0;
+ safeText('bindTitle','Přiřadit program: '+bindChannel.name);
+ safeText('bindHint',bindPool.length?'Vyber odpovídající stanici podle názvu, ID a pořadu.':'Z načtených zdrojů zatím nejsou k dispozici pořady.');
+ show('bindBox',true);bindDisplay();
+}
+function bindKey(e,code,back){
+ if($('bindBox').classList.contains('hidden'))return false;
+ var el=document.activeElement;if(back)closeBind();else if(code===13){if(!e.repeat)el.click();}else if(code>=37&&code<=40){var adj=code===37||code===38?el.previousElementSibling:el.nextElementSibling;if(adj)adj.focus();}else return false;
+ e.preventDefault();e.stopPropagation();return true;
+}
+$('bindBtn').onclick=openBind;
+
+
 function startTelevision(){
  anchorNow();guideRows();openGuide();
  var last=channels.filter(function(c){return c.key===recent[0];})[0];
@@ -642,7 +866,7 @@ function startTelevision(){
 
 function remoteKey(e){var code=e.keyCode||e.which||({ArrowLeft:37,ArrowUp:38,ArrowRight:39,ArrowDown:40,Enter:13})[e.key],k=e.key||'',back=code===10009||code===8||code===27||k==='Back'||k==='Escape'||k==='BrowserBack';
 if(back&&!$('pinBox').classList.contains('hidden')){e.preventDefault();goLauncher();return;}
-if(pinInput(e,code)||guideKey(e,code,back)||liveKey(e,code,back))return;
+if(pinInput(e,code)||bindKey(e,code,back)||guideKey(e,code,back)||liveKey(e,code,back))return;
 if(back&&!dialogOpen&&!padOpen&&!editing&&!$('mainView').classList.contains('hidden')){e.preventDefault();openGuide();return;}
 var arrow=code>=37&&code<=40,ok=code===13,field=document.activeElement;
 if(padOpen){padKey(e,code,back);return;}
