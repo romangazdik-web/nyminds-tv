@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Rádia 2.0.6</title>
+<title>Nymind TV – Rádia 2.0.7</title>
 <!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
 /* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
@@ -228,7 +228,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.6</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.7</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script>(function(){
@@ -608,16 +608,43 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
      return;
    }
    
+   /* GitHub is the primary Rock Radio metadata provider.
+      Two HTTPS endpoints avoid older Samsung CORS/network incompatibilities. */
+   function useRockRecord(data,via){
+     if(token!==requestId||!isOpen())return false;
+     if(!data||data.station!=='rockradio'||!data.artist||!data.song)return false;
+     var seconds=Number(data.updated||0),age=Math.floor(Date.now()/1000-seconds);
+     /* Samsung TV timezones/clock can be shifted by an hour; never reject
+        an otherwise valid song merely because updated appears in the future. */
+     if(!seconds||age>=1500||age < -7200)return false;
+     renderMeta({artist:data.artist,song:data.song,img:data.img||''},i,token);
+     if(age<0)note.textContent='Rock Radio · data z GitHubu ('+via+') · zkontroluj čas TV';
+     else note.textContent='Rock Radio · aktualizace před '+Math.floor(age/60)+' min · '+via;
+     return true;
+   }
+   function fallbackGithubAPI(){
+     var url='https://api.github.com/repos/romangazdik-web/nyminds-tv/contents/app/rock-now.json?ref=radio-data';
+     xhrJSON(url,function(payload){
+       if(token!==requestId||!isOpen())return;
+       var record=null;
+       try {
+         if(payload&&payload.content&&payload.encoding==='base64'){
+           var raw=atob(String(payload.content).replace(/\s/g,''));
+           try{raw=decodeURIComponent(escape(raw));}catch(ignore){}
+           record=JSON.parse(raw);
+         }else if(payload&&payload.station==='rockradio')record=payload;
+       }catch(e){}
+       if(useRockRecord(record,'GitHub API'))return;
+       fallbackRock();
+       if(!record)note.textContent='Rock Radio: TV nepřečetla data ani z GitHub API. Testuji záložní zdroje.';
+       else note.textContent='Rock Radio: uložené údaje jsou neaktuální; čekám na novou skladbu.';
+     });
+   }
    var rockCache='https://raw.githubusercontent.com/romangazdik-web/nyminds-tv/radio-data/app/rock-now.json?ts='+Date.now();
    xhrJSON(rockCache,function(data){
      if(token!==requestId||!isOpen())return;
-     var time=Number(data&&data.updated||0),age=Math.floor(Date.now()/1000-time);
-     if(data&&data.station==='rockradio'&&data.artist&&data.song&&age>=0&&age<1200){
-       renderMeta({artist:data.artist,song:data.song,img:data.img||''},i,token);
-       note.textContent='Poslední aktualizace skladby před '+Math.max(0,Math.floor(age/60))+' min · Rock Radio';
-     }else{
-       fallbackRock();
-     }
+     if(useRockRecord(data,'GitHub RAW'))return;
+     fallbackGithubAPI();
    });
    function fallbackRock(){
      var rockSources=[
