@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Rádia 2.0.4</title>
+<title>Nymind TV – Rádia 2.0.5</title>
 <!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
 /* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
@@ -228,7 +228,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.4</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.5</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script>(function(){
@@ -516,37 +516,80 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
    }
  }
  /* JSONP fallback pro stare Tizeny - resi CORS u verejnych Icecast statistik. */
+ 
+/* Rock Radio 2.0.5: skutecny Icecast HTML status.xsl + diagnostika.
+   JSONP varianta funguje bez CORS i na starsim Tizenu. */
  function rockJSONP(target,callback){
    var cb='__nymindRockMeta'+Date.now()+'_'+Math.floor(Math.random()*1000000);
    var el=document.createElement('script'),done=false,timer=0;
-   function finish(value){
-     if(done)return;
-     done=true;
+   function finish(value,reason){
+     if(done)return;done=true;
      if(timer)clearTimeout(timer);
      try{if(el.parentNode)el.parentNode.removeChild(el);}catch(e){}
      try{delete window[cb];}catch(e){window[cb]=undefined;}
-     callback(value);
+     callback(value,reason);
    }
    window[cb]=function(payload){
-     var json=null;
-     try{
-       if(payload&&typeof payload.contents==='string')json=JSON.parse(payload.contents);
-       else if(payload&&payload.icestats)json=payload;
-     }catch(e){}
-     finish(json);
+     if(payload&&typeof payload.contents==='string')finish(payload.contents,'odpověď');
+     else if(payload&&payload.icestats)finish(payload,'odpověď');
+     else finish(null,'prázdná data');
    };
    el.async=true;
-   el.onerror=function(){finish(null);};
+   el.onerror=function(){finish(null,'chyba načtení');};
    el.src='https://api.allorigins.win/get?callback='+cb+
-          '&url='+encodeURIComponent(target+(target.indexOf('?')>=0?'&':'?')+'nymindTs='+Date.now());
-   timer=setTimeout(function(){finish(null);},10500);
+          '&url='+encodeURIComponent(target+(target.indexOf('?')>=0?'&':'?')+'ts='+Date.now());
+   timer=setTimeout(function(){finish(null,'timeout');},9500);
    try{document.getElementsByTagName('head')[0].appendChild(el);}
-   catch(e){finish(null);}
+   catch(e){finish(null,'blokováno');}
  }
- 
+ function rockXHR(url,callback){
+   var x=new XMLHttpRequest(),done=false,tm=0;
+   function finish(result,reason){
+     if(done)return;done=true;
+     if(tm)clearTimeout(tm);
+     try{x.abort();}catch(e){}
+     callback(result,reason);
+   }
+   try{
+     x.onreadystatechange=function(){
+       if(x.readyState!==4||done)return;
+       if(x.status>=200&&x.status<300)finish(x.responseText,'odpověď');
+       else finish(null,x.status?'HTTP '+x.status:'blokováno/CORS');
+     };
+     x.onerror=function(){finish(null,'síť/CORS');};
+     x.ontimeout=function(){finish(null,'timeout');};
+     x.open('GET',url+(url.indexOf('?')>=0?'&':'?')+'ts='+Date.now(),true);
+     x.timeout=7800;tm=setTimeout(function(){finish(null,'timeout');},8200);
+     x.send(null);
+   }catch(e){finish(null,'chyba prohlížeče');}
+ }
+ function parseRockData(response,isHtml){
+   if(!response)return null;
+   var m=null;
+   if(isHtml){
+     try{m=extractIcecastHTML(String(response),'rockradio128.mp3');}catch(e){}
+     if(!m){
+       /* Nektere Icecast servery vkladaji HTML do bunky <td><span>...</span></td>. */
+       var raw=String(response),at=raw.toLowerCase().indexOf('/rockradio128.mp3');
+       if(at>=0){
+         var snippet=raw.slice(at,at+7500);
+         var next=snippet.search(/<h[234][^>]*>[^<]*Mountpoint/i);
+         if(next>0)snippet=snippet.slice(0,next);
+         var found=snippet.match(/Currently\s*playing[\s\S]{0,220}?<td\b[^>]*>([\s\S]*?)<\/td>/i);
+         if(found){
+           var value=found[1].replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+           m=splitTitle(value);
+         }
+       }
+     }
+   }else{
+     try{var d=typeof response==='string'?JSON.parse(response):response;m=extractIcecast(d,'rockradio128.mp3');}catch(e){}
+   }
+   return m;
+ }
  function queryMeta(i,token){
    if(i===0){
-     /* Signál: zachovat dosavadní funkční načítání. */
+     /* Signál: beze změny. */
      var sources=[
        {url:'https://onair.play.cz/json/signal-radio.json',parse:extractOnAir},
        {url:'https://onair.play.cz/json/signal.json',parse:extractOnAir},
@@ -564,35 +607,34 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
      attempt(0);
      return;
    }
-   /* Rock Radio: paralelni poskytovatele, prvni validni skladba vyhrava.
-      JSONP funguje i bez cross-origin XHR podpory v Samsung Tizen 3. */
-   var hostA='https://ice.abradio.cz/status-json.xsl';
-   var hostB='https://ice.radia.cz/status-json.xsl';
-   var sources=[
-     {kind:'jsonp',url:hostA},
-     {kind:'jsonp',url:hostB},
-     {kind:'xhr',url:'https://proxy.cors.dev/'+hostA},
-     {kind:'xhr',url:hostA}
+   var rockSources=[
+     {label:'HTML-JSONP',kind:'jsonp',html:true,url:'https://ice.abradio.cz/status.xsl'},
+     {label:'HTML-CORS',kind:'xhr',html:true,url:'https://proxy.cors.dev/https://ice.abradio.cz/status.xsl'},
+     {label:'JSON-JSONP',kind:'jsonp',html:false,url:'https://ice.abradio.cz/status-json.xsl'},
+     {label:'JSON-CORS',kind:'xhr',html:false,url:'https://proxy.cors.dev/https://ice.abradio.cz/status-json.xsl'}
    ];
-   var pending=sources.length,found=false;
-   function result(data){
-     if(token!==requestId||!isOpen()||found)return;
-     var m=null;
-     try{m=extractIcecast(data,'rockradio128.mp3');}catch(e){}
-     if(m){
-       found=true;
-       renderMeta(m,i,token);
+   var remaining=rockSources.length,matched=false,details=[];
+   function check(s,data,reason){
+     if(token!==requestId||!isOpen()||matched)return;
+     var found=parseRockData(data,s.html);
+     details.push(s.label+': '+(found?'OK':reason==='odpověď'?'data bez skladby':reason));
+     if(found){
+       matched=true;
+       renderMeta(found,i,token);
      }else{
-       pending--;
-       if(pending===0){
+       remaining--;
+       if(!remaining){
          renderMeta(null,i,token);
-         note.textContent='Momentálně se nepodařilo načíst metadata Rock Radia. Zvuk běží dál.';
+         /* Zobrazi se pouze kdyz zdroje selzou; umozni odlisit CORS od spatnych dat. */
+         note.textContent='Test Rock: '+details.join(' | ');
        }
      }
    }
-   for(var k=0;k<sources.length;k++){
-     if(sources[k].kind==='jsonp')rockJSONP(sources[k].url,result);
-     else xhrJSON(sources[k].url,result);
+   for(var j=0;j<rockSources.length;j++){
+     (function(s){
+       if(s.kind==='jsonp')rockJSONP(s.url,function(data,reason){check(s,data,reason);});
+       else rockXHR(s.url,function(data,reason){check(s,data,reason);});
+     })(rockSources[j]);
    }
  }
  function refresh(force){
