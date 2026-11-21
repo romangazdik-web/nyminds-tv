@@ -108,8 +108,11 @@
    if(stremio&&stremio.click)stremio.click();
  }
  function onKey(e){
-   if(!opened)return;
    var k=e.keyCode||e.which;
+   if(!opened){
+     if(k===13&&document.activeElement===tile){stop(e);open();}
+     return;
+   }
    if(k===37){stop(e);setFocus(selected-1);}
    else if(k===39){stop(e);setFocus(selected+1);}
    else if(k===13){stop(e);launchStremio();}
@@ -117,6 +120,7 @@
    else if(k===40){stop(e);}
  }
  function onHardwareBack(e){if(opened&&e.keyName==='back'){stop(e);close();}}
+ tile.addEventListener('click',function(e){if(!opened){stop(e);open();}},true);
  track.addEventListener('click',function(e){
    if(!opened)return;
    var node=e.target;
