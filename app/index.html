@@ -417,6 +417,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
  }
  function reset(i){
    current=i;requestId++;lastQuery=0;lastMeta='';
+   kicker.textContent='PRÁVĚ HRAJE';
    song.textContent='Informace o skladbě';artist.textContent='Načítám informace…';note.textContent='Zjišťuji aktuální skladbu';
    resetArt(i);
  }
