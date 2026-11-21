@@ -41,81 +41,32 @@ def parse_html(raw):
     return None
 
 def parse_rock_website(raw):
-    """Use the Rock Radio official playlist; first listed row is latest known track."""
-    class Text(HTMLParser):
+    """Select the newest published song on the official Rock Radio playlist page."""
+    class Extractor(HTMLParser):
         def __init__(self):
             super().__init__()
-            self.items=[]
-            self.skip=0
+            self.tokens=[]
+            self.ignore=0
         def handle_starttag(self,tag,attrs):
-            if tag in ('script','style','noscript'):self.skip+=1
+            if tag in ('script','style','noscript'):
+                self.ignore+=1
         def handle_endtag(self,tag):
-            if tag in ('script','style','noscript'):self.skip=max(0,self.skip-1)
+            if tag in ('script','style','noscript'):
+                self.ignore=max(0,self.ignore-1)
         def handle_data(self,data):
-            if not self.skip:
-                value=html.unescape(data).strip()
-                if value:self.items.append(value)
-    parser=Text()
+            if not self.ignore:
+                v=html.unescape(data).strip()
+                if v:self.tokens.append(v)
+    parser=Extractor()
     parser.feed(raw)
-    data=parser.items
-    for i,v in enumerate(data[:250]):
-        if re.fullmatch(r'\d{1,2}:\d{2}',v):
-            if i+2>=len(data):break
-            song,artist=data[i+1:i+3]
-            if (not re.match(r'^\d{1,2}:\d{2}
-    params=urllib.parse.urlencode({"entity":"song","country":"CZ","limit":5,"term":artist+" "+song})
-    try:
-        items=json.loads(fetch("https://itunes.apple.com/search?"+params)).get("results",[])
-        norm=lambda x:re.sub("[^a-z0-9]","",str(x).lower())
-        for item in items:
-            a=norm(item.get("artistName",""));t=norm(item.get("trackName",""))
-            if a and t and (a in norm(artist) or norm(artist) in a) and (t in norm(song) or norm(song) in t):
-                img=item.get("artworkUrl100","")
-                if img.startswith("https://"):return img.replace("100x100","600x600")
-    except Exception as e:print("Artwork unavailable:",e)
-    return ""
-
-def main():
-    result=None
-    for suffix in ("status-json.xsl","status.xsl"):
-        for host in HOSTS:
-            try:
-                raw=fetch(host+suffix)
-                result=parse_json(raw) if suffix=="status-json.xsl" else parse_html(raw)
-                if result:break
-            except Exception as e:print("Source failed:",host+suffix,str(e))
-        if result:break
-    if not result:
-        for address in ('https://rockovyradio.cz/playlist/rock-radio',
-                        'https://www.rockovyradio.cz/playlist/rock-radio'):
-            try:
-                result=parse_rock_website(fetch(address))
-                if result:
-                    print('Official Rock Radio playlist parsed:', address)
-                    break
-                print('Official playlist page has no recognizable song:', address)
-            except Exception as e:
-                print('Official playlist unavailable:', address,str(e))
-    if not result:
-        raise SystemExit("No song obtained; preserving existing metadata.")
-    artist,song=result
-    previous={}
-    if OUT.exists():
-        try:previous=json.loads(OUT.read_text(encoding="utf-8"))
-        except (ValueError,OSError):pass
-    now=int(time.time())
-    same=previous.get("artist")==artist and previous.get("song")==song
-    if same and now-int(previous.get("updated",0))<600:
-        print("Song unchanged; metadata cache recent")
-        return
-    img=previous.get("img","") if same else lookup_art(artist,song)
-    OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps({"station":"rockradio","artist":artist,"song":song,"img":img,"updated":now},ensure_ascii=False)+"\n",encoding="utf-8")
-    print("Current song:",artist,"-",song)
-
-if __name__=="__main__":main()
-,song) and 1<len(song)<180
-                    and 1<len(artist)<140 and 'playlist' not in artist.lower()):
+    for i,value in enumerate(parser.tokens[:250]):
+        if re.fullmatch(r'\d{1,2}:\d{2}',value):
+            if i+2 >= len(parser.tokens):
+                break
+            song,artist=parser.tokens[i+1:i+3]
+            if (not re.fullmatch(r'\d{1,2}:\d{2}',song) and
+                1 < len(song) < 180 and 1 < len(artist) < 140 and
+                'playlist' not in artist.lower()):
                 return artist,song
     return None
 
@@ -142,6 +93,17 @@ def main():
                 if result:break
             except Exception as e:print("Source failed:",host+suffix,str(e))
         if result:break
+    if not result:
+        for url in ('https://rockovyradio.cz/playlist/rock-radio',
+                    'https://www.rockovyradio.cz/playlist/rock-radio'):
+            try:
+                result=parse_rock_website(fetch(url))
+                if result:
+                    print('Official Rock Radio playlist parsed:',url)
+                    break
+                print('No recognisable song on official playlist:',url)
+            except Exception as e:
+                print('Official playlist not available:',url,str(e))
     if not result:
         raise SystemExit("No song obtained; preserving existing metadata.")
     artist,song=result
