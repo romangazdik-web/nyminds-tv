@@ -1,0 +1,35 @@
+name: Nymind TV - Rock Radio metadata
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '3/5 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rock-radio-metadata
+  cancel-in-progress: false
+
+jobs:
+  update-rock-radio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: radio-data
+          fetch-depth: 1
+      - name: Get current song from public Icecast
+        run: python3 scripts/update_rock_meta.py
+      - name: Commit current song on radio-data branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/rock-now.json
+          if git diff --cached --quiet; then
+            echo "Song still current"
+            exit 0
+          fi
+          git commit -m "Update Rock Radio song metadata"
+          git push origin HEAD:radio-data
