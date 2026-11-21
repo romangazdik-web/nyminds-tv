@@ -23,6 +23,8 @@ jobs:
         with:
           ref: radio-data
           fetch-depth: 1
+      - name: Validate metadata script syntax
+        run: python3 -m py_compile scripts/update_rock_meta.py
       - name: Get current song from public radio sources
         run: python3 scripts/update_rock_meta.py
       - name: Commit current song on radio-data branch
