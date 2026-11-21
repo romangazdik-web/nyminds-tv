@@ -2,7 +2,7 @@
    Never copies stream URLs, request headers, addons, credentials or keys.
    Only local, same-origin, display-safe data from stremiok.progress.
    Remote: DOWN from tile -> row, LEFT/RIGHT cards, UP/BACK -> tiles.
-   Clicking a card opens StremioK's own Watching view (not a fake direct seek). */
+   Clicking a card launches StremioK; direct title deep links are not supported yet. */
 (function(){
 'use strict';
 var root=document.getElementById('nymind-continue'),cards=document.getElementById('nymind-cw-cards'),hint=document.getElementById('nymind-cw-hint');
