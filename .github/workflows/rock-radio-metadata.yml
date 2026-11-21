@@ -1,6 +1,9 @@
 name: Nymind TV - Rock Radio metadata
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/rock-radio-metadata.yml'
   schedule:
     - cron: '3/5 * * * *'
 
