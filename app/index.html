@@ -95,6 +95,52 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 /* Smaller viewports retain readable content without relying on JS scaling. */
 @media(max-height:800px){h1{font-size:60px}.intro-area{margin-bottom:5vh}.tile-face{height:130px;width:134px}.tile{width:138px}.app-icon{width:68px;height:68px;left:32px;top:30px}.topbar{top:5%}}
 </style>
+<style type="text/css">
+
+/* NYMIND_RADIO_PATCH_v1 : Tizen 3 / Chromium 47 safe UI */
+.tile.nymind-radio-tile .tile-face{border-color:rgba(180,215,226,.6);background:rgba(19,45,52,.78)}
+.tile.nymind-radio-tile.active .tile-face,.tile.nymind-radio-tile:focus .tile-face{border-color:#ecfbff;box-shadow:0 0 0 5px rgba(100,200,217,.19),0 16px 36px #08121b}
+#nymind-radio-overlay{position:fixed;inset:0;top:0;right:0;bottom:0;left:0;z-index:15000;color:#f5fbff;background:#08151c;font-family:'Segoe UI',Arial,sans-serif;overflow:hidden;box-sizing:border-box}
+#nymind-radio-overlay *{box-sizing:border-box}
+#nymind-radio-overlay.nymind-radio-hidden{display:none!important}
+#nymind-radio-overlay .nr-halo{position:absolute;top:-40%;right:-14%;width:68%;height:145%;border-radius:50%;background:radial-gradient(ellipse,rgba(33,117,129,.32),rgba(14,48,61,.10) 50%,transparent 72%);pointer-events:none}
+#nymind-radio-overlay .nr-header{position:absolute;top:8%;left:7%;right:7%;height:18%;border-bottom:1px solid rgba(210,230,235,.14)}
+#nymind-radio-overlay .nr-brand{color:#86bec3;letter-spacing:4px;font-size:17px;font-weight:bold}
+#nymind-radio-overlay .nr-header h2{font-weight:650;font-size:66px;line-height:1.06;letter-spacing:-2px;margin:14px 0 8px}
+#nymind-radio-overlay .nr-subhead{color:#a3b8c1;font-size:21px;margin:0}
+#nymind-radio-overlay .nr-close{position:absolute;right:0;top:7px;color:#b8d0d8;font-size:20px}
+#nymind-radio-overlay .nr-content{position:absolute;top:32%;bottom:13%;left:7%;right:7%;display:-webkit-flex;display:flex}
+#nymind-radio-overlay .nr-stations{width:39%;min-width:39%;margin-right:4%}
+#nymind-radio-overlay .nr-station{display:block;height:31%;min-height:105px;width:100%;border:2px solid rgba(205,233,237,.13);border-radius:22px;background:rgba(255,255,255,.045);margin:0 0 22px;padding:21px 26px;text-align:left;color:#eef9fc;cursor:pointer;outline:0;position:relative}
+#nymind-radio-overlay .nr-station.focused{border-color:#ecfcff;background:rgba(90,181,191,.15);box-shadow:0 0 0 5px rgba(164,233,241,.11)}
+#nymind-radio-overlay .nr-station.on-air{background:rgba(40,118,124,.15)}
+#nymind-radio-overlay .nr-dot{display:inline-block;width:13px;height:13px;border-radius:50%;background:#3e606c;vertical-align:middle;margin-right:15px}
+#nymind-radio-overlay .nr-station.on-air .nr-dot{background:#76e4bb;box-shadow:0 0 0 6px rgba(112,220,176,.12)}
+#nymind-radio-overlay .nr-station-name{font-size:30px;line-height:1.2;font-weight:650;vertical-align:middle}
+#nymind-radio-overlay .nr-station-desc{font-size:17px;color:#b7cbd0;display:block;margin:12px 0 0 31px}
+#nymind-radio-overlay .nr-player{width:57%;background:rgba(13,34,44,.73);border:1px solid rgba(166,228,231,.16);border-radius:30px;padding:8% 7% 5%;position:relative}
+#nymind-radio-overlay .nr-badge{font-size:16px;letter-spacing:2px;color:#a9c6c9;font-weight:bold}
+#nymind-radio-overlay .nr-badge-dot{display:inline-block;width:11px;height:11px;background:#61dbc5;border-radius:50%;margin-right:9px}
+#nymind-radio-overlay .nr-name{font-size:55px;line-height:1.15;letter-spacing:-1px;margin:27px 0 13px;font-weight:650}
+#nymind-radio-overlay .nr-description{color:#a9c6c9;font-size:21px}
+#nymind-radio-overlay .nr-status{display:block;font-size:19px;color:#d8eced;margin-top:23px;min-height:34px;max-width:100%}
+#nymind-radio-overlay .nr-controls{position:absolute;bottom:9%;left:7%;right:7%;height:58px}
+#nymind-radio-overlay .nr-action{border:2px solid rgba(223,248,250,.32);border-radius:16px;background:rgba(255,255,255,.09);font-size:20px;font-weight:600;padding:14px 22px;color:white;cursor:pointer;outline:0}
+#nymind-radio-overlay .nr-action.focused{border-color:white;background:rgba(91,177,187,.3)}
+#nymind-radio-overlay .nr-wave{position:absolute;right:9%;top:21%;height:104px;width:128px;text-align:center;opacity:.75}
+#nymind-radio-overlay .nr-wave span{display:inline-block;width:9px;height:24px;margin:0 4px;background:#61c6c0;border-radius:8px;vertical-align:middle;opacity:.78}
+#nymind-radio-overlay .nr-wave.nr-wave-on span:nth-child(1){height:26px;animation:nrWave1 1.35s ease-in-out infinite alternate}
+#nymind-radio-overlay .nr-wave.nr-wave-on span:nth-child(2){height:65px;animation:nrWave1 1.1s .2s ease-in-out infinite alternate}
+#nymind-radio-overlay .nr-wave.nr-wave-on span:nth-child(3){height:92px;animation:nrWave2 1.3s .1s ease-in-out infinite alternate}
+#nymind-radio-overlay .nr-wave.nr-wave-on span:nth-child(4){height:54px;animation:nrWave2 1.1s .4s ease-in-out infinite alternate}
+#nymind-radio-overlay .nr-wave.nr-wave-on span:nth-child(5){height:32px;animation:nrWave1 1.5s .3s ease-in-out infinite alternate}
+@keyframes nrWave1{from{height:14px}to{height:84px}}
+@keyframes nrWave2{from{height:78px}to{height:21px}}
+#nymind-radio-overlay .nr-footer{position:absolute;bottom:5%;left:7%;right:7%;color:#9bb5bb;font-size:18px;border-top:1px solid rgba(218,241,244,.12);padding-top:22px}
+#nymind-radio-overlay .nr-footer strong{color:#eaf5f5;font-weight:600}
+@media(max-height:800px){#nymind-radio-overlay .nr-header h2{font-size:49px}#nymind-radio-overlay .nr-station-name{font-size:24px}#nymind-radio-overlay .nr-name{font-size:45px}#nymind-radio-overlay .nr-wave{transform:scale(.7);transform-origin:top right}#nymind-radio-overlay .nr-station{padding:16px 21px;min-height:83px;margin-bottom:10px}#nymind-radio-overlay .nr-content{top:30%;bottom:12%}}
+
+</style>
 </head>
 <body>
 <div id="boot-cover" class="boot-cover" aria-hidden="true"></div>
@@ -139,7 +185,13 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
         <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" aria-hidden="true"><rect x="10" y="18" width="62" height="43" rx="8" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 32h12m5 0h23M20 43h22m5 0h13M30 68h22" fill="none" stroke="currentColor" stroke-width="3"/></svg></span>
         <span class="tile-copy"><strong>Živá TV</strong><small>Kanály a program</small></span>
       </div>
-    </section></div>
+    
+      <!-- NYMIND_RADIO_PATCH_v1: Rádio na hlavní ploše -->
+      <div class="tile nymind-radio-tile" data-kind="radio" tabindex="0" aria-label="Rádia — Signál a Rock Radio">
+        <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 29h42a8 8 0 0 1 8 8v26a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8V37a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M22 29 60 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="29" cy="51" r="12" fill="none" stroke="currentColor" stroke-width="3"/><path d="M49 44h13M49 52h13M49 60h13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M43 17a14 14 0 0 1 11 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+        <span class="tile-copy"><strong>Rádia</strong><small>Signál · Rock Radio</small></span>
+      </div>
+</section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
   <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Monochrome Edition · 1.3.6</span></div>
@@ -154,7 +206,141 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
      (document.activeElement===tile||tile.classList.contains('active')))launch(e);
  },true);
 })();
-</script><script src="app.js"></script>
+</script>
+<!-- NYMIND RADIO: zabudovaný přehrávač, bez dalšího modulu -->
+<div id="nymind-radio-overlay" class="nymind-radio-hidden" aria-hidden="true">
+  <div class="nr-halo"></div>
+  <div class="nr-header">
+    <div class="nr-brand">NYMIND <span style="color:#d4e7e9">TV</span> / AUDIO</div>
+    <h2>Rádia<span style="color:#69d3c7">.</span></h2>
+    <p class="nr-subhead">Tvoje oblíbené stanice. Jedním stiskem.</p>
+    <div class="nr-close">↩ Zpět = zavřít</div>
+  </div>
+  <div class="nr-content">
+    <div class="nr-stations">
+      <button type="button" class="nr-station focused" id="nr-signal" tabindex="-1"><span class="nr-dot"></span><span class="nr-station-name">Signál Rádio</span><span class="nr-station-desc">České i světové melodie</span></button>
+      <button type="button" class="nr-station" id="nr-rock" tabindex="-1"><span class="nr-dot"></span><span class="nr-station-name">Rock Radio</span><span class="nr-station-desc">Rocková muzika naplno</span></button>
+    </div>
+    <div class="nr-player">
+      <div class="nr-badge"><span class="nr-badge-dot"></span>ŽIVÉ VYSÍLÁNÍ</div>
+      <div class="nr-wave" id="nr-wave"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="nr-name" id="nr-name">Signál Rádio</div>
+      <div class="nr-description" id="nr-description">Internetové rádio · MP3</div>
+      <div class="nr-status" id="nr-status">Vyber stanici a stiskni OK.</div>
+      <div class="nr-controls"><button type="button" class="nr-action" id="nr-pause" tabindex="-1">❚❚ Pozastavit</button></div>
+    </div>
+  </div>
+  <div class="nr-footer"><strong>↑ ↓</strong> výběr &nbsp; <strong>OK</strong> spustit / ovládat &nbsp; <strong>← →</strong> přejít na pauzu &nbsp; <strong>Zpět</strong> ukončit</div>
+  <audio id="nr-audio" preload="none"></audio>
+</div>
+
+<script>
+/* NYMIND_RADIO_PATCH_v1 — ES5, Samsung Tizen 3.0 / Chromium 47 */
+(function(){
+ 'use strict';
+ var root=document.getElementById('nymind-radio-overlay');
+ var tile=document.querySelector('.nymind-radio-tile');
+ var audio=document.getElementById('nr-audio');
+ if(!root||!tile||!audio) return;
+ var stations=[
+  {name:'Signál Rádio',desc:'České i světové melodie',urls:['https://icecast1.play.cz/signal128.mp3']},
+  {name:'Rock Radio',desc:'Rocková muzika naplno',urls:['https://ice.abradio.cz/rockradio128.mp3','https://ice.radia.cz/rockradio128.mp3']}
+ ];
+ var open=false, selected=0, playing=-1, sourceIndex=0, focused=0, retryTimer=0, startTimer=0, loading=false, requested=false;
+ var byId=function(id){return document.getElementById(id);};
+ function status(s){byId('nr-status').textContent=s;}
+ function sync(){
+   byId('nr-signal').className='nr-station'+(focused===0?' focused':'')+(playing===0&&!loading&&!audio.paused?' on-air':'');
+   byId('nr-rock').className='nr-station'+(focused===1?' focused':'')+(playing===1&&!loading&&!audio.paused?' on-air':'');
+   byId('nr-pause').className='nr-action'+(focused===2?' focused':'');
+   byId('nr-pause').textContent=audio.paused?'▶ Pokračovat':'❚❚ Pozastavit';
+   var st=stations[(playing<0?selected:playing)];
+   byId('nr-name').textContent=st.name;
+   byId('nr-description').textContent=st.desc+' · Internetové rádio MP3';
+   byId('nr-wave').className='nr-wave'+(!audio.paused&&!loading?' nr-wave-on':'');
+ }
+ function clearTimers(){if(retryTimer){clearTimeout(retryTimer);retryTimer=0;}if(startTimer){clearTimeout(startTimer);startTimer=0;}}
+ function stop(){clearTimers();requested=false;loading=false;try{audio.pause();audio.removeAttribute('src');audio.load();}catch(e){} playing=-1;sync();}
+ function closeRadio(){if(!open)return;open=false;stop();root.className='nymind-radio-hidden';root.setAttribute('aria-hidden','true');try{tile.focus();}catch(e){}}
+ function failStream(){
+   if(!open||playing<0||!requested)return;
+   clearTimers();
+   if(sourceIndex+1<stations[playing].urls.length){sourceIndex++;status('Zkouším záložní stream…');loadSource();}
+   else{loading=false;requested=false;try{audio.pause();}catch(e){}status('Stream se nepodařilo přehrát. Stiskni OK pro nový pokus.');sync();}
+ }
+ function loadSource(){
+   if(!open||playing<0||!requested)return;
+   loading=true;sync();
+   try{
+     audio.pause();audio.src=stations[playing].urls[sourceIndex];audio.load();
+     var p=audio.play();
+     if(p&&typeof p.catch==='function'){p.catch(function(){/* Prohlížeč může blokovat automatické spuštění; stav řeší timeout. */});}
+   }catch(e){failStream();return;}
+   startTimer=setTimeout(function(){if(loading&&open)failStream();},17000);
+ }
+ function playStation(i){
+   if(!open)return;
+   clearTimers();selected=i;playing=i;focused=i;sourceIndex=0;requested=true;loading=true;
+   try{localStorage.setItem('nymind-radio-last',String(i));}catch(e){}
+   status('Připojuji se k '+stations[i].name+'…');sync();loadSource();
+ }
+ function pauseToggle(){
+   if(playing<0){playStation(selected);return;}
+   if(audio.paused){requested=true;loading=true;status('Obnovuji vysílání…');sync();try{var p=audio.play();if(p&&p.catch)p.catch(function(){status('Přehrávání se nespustilo. Zkus OK znovu.');});}catch(e){status('Přehrávání se nepodařilo obnovit.');}}
+   else{requested=false;clearTimers();try{audio.pause();}catch(e){}status('Pozastaveno.');sync();}
+ }
+ function openRadio(){
+   if(open)return;
+   /* Nebourej primární správu aplikací, pokud je otevřena. */
+   var other=byId('overlay');if(other&&other.className.indexOf('hidden')===-1)return;
+   try{var n=parseInt(localStorage.getItem('nymind-radio-last'),10);if(n===0||n===1)selected=n;}catch(e){}
+   focused=selected;root.className='';root.setAttribute('aria-hidden','false');open=true;playStation(selected);
+ }
+ function isRadioSelected(){
+   if(document.activeElement===tile)return true;
+   var active=document.querySelector('#tiles .tile.active');
+   return active===tile;
+ }
+ function grab(e){if(e.preventDefault)e.preventDefault();if(e.stopImmediatePropagation)e.stopImmediatePropagation();else if(e.stopPropagation)e.stopPropagation();}
+ function keyCode(e){return e.keyCode||e.which||0;}
+ function handleKey(e){
+   var k=keyCode(e),key=e.key||'';
+   if(!open){
+     if(k===13||key==='Enter'){
+       if(isRadioSelected()){grab(e);openRadio();}
+     }
+     return;
+   }
+   /* Hlasitost, Mute a Home ponech systému. */
+   if(k===447||k===448||k===449||k===36||key==='AudioVolumeUp'||key==='AudioVolumeDown'||key==='AudioVolumeMute')return;
+   if(k===10009||k===27||k===8||k===461||key==='Escape'||key==='Backspace'||key==='BrowserBack') {grab(e);closeRadio();return;}
+   if(k===38||key==='ArrowUp'){grab(e);focused=(focused+2)%3;sync();return;}
+   if(k===40||key==='ArrowDown'){grab(e);focused=(focused+1)%3;sync();return;}
+   if(k===37||key==='ArrowLeft'){grab(e);focused=(focused===2?playing>=0?playing:selected:2);sync();return;}
+   if(k===39||key==='ArrowRight'){grab(e);focused=2;sync();return;}
+   if(k===13||key==='Enter') {grab(e);if(focused===2)pauseToggle();else playStation(focused);return;}
+   if(k===10252||k===179||key==='MediaPlayPause'){grab(e);pauseToggle();return;}
+   if(k===415||key==='MediaPlay'){grab(e);if(playing>=0&&audio.paused)pauseToggle();return;}
+   if(k===19||k===413||key==='MediaPause'||key==='MediaStop'){grab(e);if(!audio.paused)pauseToggle();return;}
+   /* Předávat jiná tlačítka není bezpečné — launcher by mohl přepnout modul. */
+   grab(e);
+ }
+ window.addEventListener('keydown',handleKey,true);
+ window.addEventListener('tizenhwkey',function(e){if(open&&e.keyName==='back'){grab(e);closeRadio();}},true);
+ tile.addEventListener('click',function(e){grab(e);openRadio();},true);
+ byId('nr-signal').addEventListener('click',function(){focused=0;playStation(0);});
+ byId('nr-rock').addEventListener('click',function(){focused=1;playStation(1);});
+ byId('nr-pause').addEventListener('click',function(){focused=2;pauseToggle();});
+ audio.addEventListener('playing',function(){if(!open||!requested)return;loading=false;clearTimers();status('Právě hraje · živě');sync();});
+ audio.addEventListener('waiting',function(){if(!open||!requested)return;loading=true;status('Načítám zvuk…');sync();});
+ audio.addEventListener('stalled',function(){if(!open||!requested)return;loading=true;status('Čekám na pokračování streamu…');sync();});
+ audio.addEventListener('pause',function(){if(open&&!requested)sync();});
+ audio.addEventListener('error',function(){if(open&&requested){failStream();}});
+ window.addEventListener('pagehide',stop,false);
+ document.addEventListener('visibilitychange',function(){if(document.hidden&&open)closeRadio();},false);
+})();
+</script>
+<script src="app.js"></script>
 <script>
 /* VISUAL EDITION 1.3.2. ES5 only: no key handlers, no module navigation changes. */
 (function () {
