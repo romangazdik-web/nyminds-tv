@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind TV – Rádia 2.0.2</title>
+<title>Nymind TV – Rádia 2.0.3</title>
 <!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
 /* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
@@ -171,7 +171,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 #nymind-radio-overlay .nr-artwork.nr-album-on .nr-artwork-logo,#nymind-radio-overlay .nr-artwork.nr-album-on .nr-artwork-fallback{display:none}
 #nymind-radio-overlay .nr-artwork.nr-logo-fallback .nr-artwork-logo{display:none}
 #nymind-radio-overlay .nr-artwork.nr-logo-fallback .nr-artwork-fallback{display:block}
-#nymind-radio-overlay .nr-status{max-width:63%;font-size:16px}
+#nymind-radio-overlay .nr-status{position:absolute;bottom:19%;left:7%;max-width:60%;min-height:0;font-size:15px;margin:0;color:#b5c8cc;line-height:1.3;pointer-events:none}
 #nymind-radio-overlay .nr-wave{top:14%;right:7%;height:50px;-webkit-transform:scale(.67);transform:scale(.67);-webkit-transform-origin:top right;transform-origin:top right}
 @media(max-height:800px){#nymind-radio-overlay .nr-station{min-height:94px;height:30%;padding-left:96px}#nymind-radio-overlay .nr-logo-box{width:62px;height:62px;left:15px;top:16px}#nymind-radio-overlay .nr-now-box{margin-top:14px}#nymind-radio-overlay .nr-now-song{font-size:23px}#nymind-radio-overlay .nr-artwork{top:26%}#nymind-radio-overlay .nr-status{font-size:14px;margin-top:9px}}
 </style>
@@ -228,7 +228,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 </section></div>
     <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
   </main>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.2</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Rádia · 2.0.3</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 <script>(function(){
@@ -365,7 +365,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
  byId('nr-signal').addEventListener('click',function(){focused=0;playStation(0);});
  byId('nr-rock').addEventListener('click',function(){focused=1;playStation(1);});
  byId('nr-pause').addEventListener('click',function(){focused=2;pauseToggle();});
- audio.addEventListener('playing',function(){if(!open||!requested)return;loading=false;clearTimers();status('Právě hraje · živě');sync();});
+ audio.addEventListener('playing',function(){if(!open||!requested)return;loading=false;clearTimers();status('');sync();});
  audio.addEventListener('waiting',function(){if(!open||!requested)return;loading=true;status('Načítám zvuk…');sync();});
  audio.addEventListener('stalled',function(){if(!open||!requested)return;loading=true;status('Čekám na pokračování streamu…');sync();});
  audio.addEventListener('pause',function(){if(open&&!requested)sync();});
@@ -450,6 +450,30 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
    }
    return null;
  }
+ /* Icecast status.xsl jako záloha, pokud JSON není dostupný kvůli CORS nebo konfiguraci serveru. */
+ function extractIcecastHTML(html,mount){
+   var all=String(html||''),pos=all.toLowerCase().indexOf(mount.toLowerCase());
+   if(pos<0)return null;
+   var area=all.slice(pos,pos+12000);
+   var nextMount=area.search(/<h[234][^>]*>[^<]*Mountpoint\b/i);
+   if(nextMount>0)area=area.slice(0,nextMount);
+   var match=area.match(/Currently\s+playing\s*:\s*<\/(?:th|td)>[\s\S]{0,300}?<td[^>]*>([\s\S]*?)<\/td>/i);
+   if(!match)return null;
+   var value='';
+   try{var parsed=new DOMParser().parseFromString('<body>'+match[1]+'</body>','text/html');value=(parsed.body&&parsed.body.textContent)||'';}catch(e){return null;}
+   return splitTitle(value.replace(/\s+/g,' ').trim());
+ }
+ function xhrText(url,callback){
+   var x=new XMLHttpRequest(),finished=false;
+   function end(s){if(finished)return;finished=true;callback(s);}
+   try{
+     x.onreadystatechange=function(){if(x.readyState!==4)return;end(x.status>=200&&x.status<300?x.responseText:null);};
+     x.onerror=function(){end(null);};x.ontimeout=function(){end(null);};
+     x.open('GET',url+(url.indexOf('?')>=0?'&':'?')+'_='+Date.now(),true);
+     x.timeout=8500;x.send(null);
+   }catch(e){end(null);}
+ }
+
  function xhrJSON(url,callback){
    var x=new XMLHttpRequest(),finished=false;
    function end(d){if(finished)return;finished=true;callback(d);}
@@ -500,15 +524,19 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
        {url:'https://icecast1.play.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'signal128.mp3');}}
      ];
    }else{
+     /* Nejprve veřejný read-only CORS proxy pro informace o streamu.
+        Když není dostupný, zkusí se původní zdroj. Hudební stream zůstává stejný. */
      sources=[
+       {url:'https://proxy.cors.dev/https://ice.radia.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}},
+       {url:'https://proxy.cors.dev/https://ice.radia.cz/status.xsl',text:true,parse:function(d){return extractIcecastHTML(d,'rockradio128.mp3');}},
        {url:'https://ice.radia.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}},
-       {url:'https://ice.abradio.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}}
+       {url:'https://proxy.cors.dev/https://ice.abradio.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}}
      ];
    }
    function attempt(n){
      if(token!==requestId||!isOpen())return;
      if(n>=sources.length){renderMeta(null,i,token);return;}
-     xhrJSON(sources[n].url,function(data){
+     (sources[n].text?xhrText:xhrJSON)(sources[n].url,function(data){
        if(token!==requestId||!isOpen())return;
        var m=null;try{m=sources[n].parse(data);}catch(e){}
        if(m)renderMeta(m,i,token);else attempt(n+1);
