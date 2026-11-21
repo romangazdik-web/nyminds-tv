@@ -84,7 +84,7 @@
     },function(msg){status('Spuštění selhalo: '+msg);});
   }
   function select(i){selected=Math.max(0,Math.min(tiles.length-1,i));for(var j=0;j<tiles.length;j++){var base=tiles[j].className.replace(/\s+active\b/g,'');tiles[j].className=base+(j===selected?' active':'');}tiles[selected].focus();}
-  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='continue'){if(window.NymindContinue&&window.NymindContinue.open)window.NymindContinue.open();}else launchMatch(t.getAttribute('data-match'),false);}
+  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
   function hideList(){openList=false;$('overlay').className='overlay hidden';select(selected);}
   function renderList(){var box=$('module-list');box.innerHTML='';if(!modules.length){box.innerHTML='<div class="module">'+(loaded?'Žádné moduly nejsou dostupné.':'Načítám seznam modulů…')+'</div>';return;}
