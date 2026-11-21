@@ -1,0 +1,31 @@
+/* Nymind TV 2.0.11 — simple, low-memory fullscreen preview for Tizen 3. */
+#nymind-continue{position:fixed;top:0;right:0;bottom:0;left:0;z-index:16000;color:#f6f8fb;background:#101a2b;font-family:Arial,sans-serif;overflow:hidden}
+#nymind-continue *{box-sizing:border-box}
+#nymind-continue.cw-closed{display:none!important}
+#nymind-continue .cw-ambient{display:none}
+#nymind-continue .cw-head{position:absolute;left:7%;top:8%;right:7%;height:22%;border-bottom:1px solid rgba(255,255,255,.18)}
+#nymind-continue .cw-brand{color:#aecbd9;font-weight:bold;letter-spacing:3px;font-size:17px}
+#nymind-continue .cw-head h2{font-size:65px;font-weight:bold;margin:14px 0 6px}
+#nymind-continue .cw-head h2 span{color:#8cced2}
+#nymind-continue .cw-subtitle{color:#c7d3e0;font-size:21px;margin:0}
+#nymind-continue .cw-close{position:absolute;top:0;right:0;font-size:18px;color:#cedce4}
+#nymind-continue .cw-rowhead{position:absolute;top:32%;left:7%;right:7%;height:28px}
+#nymind-continue .cw-rowhead-title{font-size:16px;letter-spacing:2px;font-weight:bold}
+#nymind-continue .cw-rowcount{float:right;font-size:17px;color:#ccd8e1}
+#nymind-continue .cw-viewport{position:absolute;top:38%;height:49%;left:7%;right:7%;overflow:hidden}
+#nymind-continue .cw-track{height:100%;width:100%;font-size:0;white-space:nowrap}
+#nymind-continue .cw-load{color:#e8eef4;font-size:25px;padding-top:75px}
+#nymind-continue .cw-card{display:inline-block;vertical-align:top;position:relative;width:29%;height:98%;margin-right:3%;border:2px solid #53677a;border-radius:16px;background:#263b51;overflow:hidden;color:#fff}
+#nymind-continue .cw-card.cw-selected{border:4px solid #fff;background:#29465a}
+#nymind-continue .cw-poster{display:block;position:absolute;top:0;left:0;width:100%;height:100%;background:#334960}
+#nymind-continue .cw-poster img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+#nymind-continue .cw-poster-fallback{display:block;position:absolute;left:0;right:0;top:35%;text-align:center;color:#aebdce;font-size:80px}
+#nymind-continue .cw-vignette{position:absolute;bottom:0;left:0;right:0;height:68%;background:linear-gradient(to bottom,transparent,#09121f)}
+#nymind-continue .cw-cardtext{position:absolute;bottom:28px;left:19px;right:19px;white-space:normal}
+#nymind-continue .cw-kind{display:block;font-size:13px;color:#a7d2e3;font-weight:bold;letter-spacing:2px;margin-bottom:9px}
+#nymind-continue .cw-title{display:block;font-size:27px;line-height:1.18;font-weight:bold;max-height:96px;overflow:hidden}
+#nymind-continue .cw-subline{display:block;color:#d1dce5;font-size:16px;margin-top:8px}
+#nymind-continue .cw-progress{position:absolute;bottom:12px;left:19px;right:19px;height:5px;background:#526073;border-radius:6px}
+#nymind-continue .cw-progress-fill{display:block;height:100%;background:#a8e2ef}
+#nymind-continue .cw-footer{position:absolute;left:7%;bottom:5%;right:7%;height:46px;padding-top:20px;border-top:1px solid #435568;color:#c8d7e0;font-size:17px}
+#nymind-continue .cw-footer span{margin-right:28px}
