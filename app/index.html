@@ -141,6 +141,40 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 @media(max-height:800px){#nymind-radio-overlay .nr-header h2{font-size:49px}#nymind-radio-overlay .nr-station-name{font-size:24px}#nymind-radio-overlay .nr-name{font-size:45px}#nymind-radio-overlay .nr-wave{transform:scale(.7);transform-origin:top right}#nymind-radio-overlay .nr-station{padding:16px 21px;min-height:83px;margin-bottom:10px}#nymind-radio-overlay .nr-content{top:30%;bottom:12%}}
 
 </style>
+
+<style id="nymind-radio-style-202">
+/* 2.0.2: stejne barvy jako zbytek hlavni plochy. */
+.tile.nymind-radio-tile .tile-face{border:2px solid rgba(255,255,255,.38);background:rgba(30,37,45,.77);box-shadow:0 15px 28px rgba(0,0,0,.25)}
+.tile.nymind-radio-tile.active .tile-face,.tile.nymind-radio-tile:focus .tile-face{border:3px solid #fff;background:rgba(92,97,103,.79);box-shadow:0 0 0 5px rgba(255,255,255,.14),0 16px 38px #060b11}
+#nymind-radio-overlay .nr-station{padding-left:122px;min-height:126px;height:31%}
+#nymind-radio-overlay .nr-station .nr-station-desc{margin-left:30px;max-width:85%}
+#nymind-radio-overlay .nr-station .nr-dot{margin-right:9px;width:10px;height:10px}
+#nymind-radio-overlay .nr-station-name{font-size:28px}
+#nymind-radio-overlay .nr-logo-box{display:block;position:absolute;left:22px;top:21px;width:80px;height:80px;line-height:80px;border-radius:19px;border:1px solid rgba(220,238,240,.15);background:#e9eef0;text-align:center;overflow:hidden;color:#13232c}
+#nymind-radio-overlay .nr-logo-box img{display:block;width:100%;height:100%;object-fit:contain}
+#nymind-radio-overlay .nr-logo-box .nr-logo-fallback{display:none;font-weight:bold;font-size:15px;line-height:1.2;position:absolute;top:25px;left:3px;right:3px;letter-spacing:-.5px}
+#nymind-radio-overlay .nr-logo-box.nr-logo-error img{display:none}
+#nymind-radio-overlay .nr-logo-box.nr-logo-error .nr-logo-fallback{display:block}
+#nymind-radio-overlay .nr-station-track{display:block;color:#b1dbda;font-size:15px;margin:9px 0 0 30px;max-width:89%;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+#nymind-radio-overlay .nr-name,#nymind-radio-overlay .nr-description{max-width:63%}
+#nymind-radio-overlay .nr-name{font-size:51px}
+#nymind-radio-overlay .nr-now-box{position:relative;max-width:61%;margin-top:35px;min-height:145px}
+#nymind-radio-overlay .nr-now-kicker{font-weight:bold;letter-spacing:2.5px;color:#8bcac5;font-size:15px}
+#nymind-radio-overlay .nr-now-song{font-weight:700;font-size:29px;line-height:1.21;margin-top:12px;color:#fff;overflow:hidden;max-height:76px}
+#nymind-radio-overlay .nr-now-artist{font-size:21px;line-height:1.3;margin-top:9px;color:#c7d8db;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#nymind-radio-overlay .nr-now-note{font-size:14px;color:#91aeb6;margin-top:10px}
+#nymind-radio-overlay .nr-artwork{position:absolute;right:6%;top:31%;width:32%;height:0;padding-bottom:32%;border-radius:24px;overflow:hidden;background:linear-gradient(140deg,#36434b,#111e26);border:1px solid rgba(233,246,246,.22);box-shadow:0 20px 52px rgba(0,0,0,.37)}
+#nymind-radio-overlay .nr-artwork .nr-album-cover{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:none}
+#nymind-radio-overlay .nr-artwork .nr-artwork-logo{position:absolute;left:11%;top:12%;width:78%;height:75%;object-fit:contain}
+#nymind-radio-overlay .nr-artwork .nr-artwork-fallback{display:none;position:absolute;left:9%;right:9%;top:43%;font-weight:700;font-size:31px;text-align:center;color:#e8eef0}
+#nymind-radio-overlay .nr-artwork.nr-album-on .nr-album-cover{display:block}
+#nymind-radio-overlay .nr-artwork.nr-album-on .nr-artwork-logo,#nymind-radio-overlay .nr-artwork.nr-album-on .nr-artwork-fallback{display:none}
+#nymind-radio-overlay .nr-artwork.nr-logo-fallback .nr-artwork-logo{display:none}
+#nymind-radio-overlay .nr-artwork.nr-logo-fallback .nr-artwork-fallback{display:block}
+#nymind-radio-overlay .nr-status{max-width:63%;font-size:16px}
+#nymind-radio-overlay .nr-wave{top:14%;right:7%;height:50px;-webkit-transform:scale(.67);transform:scale(.67);-webkit-transform-origin:top right;transform-origin:top right}
+@media(max-height:800px){#nymind-radio-overlay .nr-station{min-height:94px;height:30%;padding-left:96px}#nymind-radio-overlay .nr-logo-box{width:62px;height:62px;left:15px;top:16px}#nymind-radio-overlay .nr-now-box{margin-top:14px}#nymind-radio-overlay .nr-now-song{font-size:23px}#nymind-radio-overlay .nr-artwork{top:26%}#nymind-radio-overlay .nr-status{font-size:14px;margin-top:9px}}
+</style>
 </head>
 <body>
 <div id="boot-cover" class="boot-cover" aria-hidden="true"></div>
@@ -338,6 +372,169 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
  audio.addEventListener('error',function(){if(open&&requested){failStream();}});
  window.addEventListener('pagehide',stop,false);
  document.addEventListener('visibilitychange',function(){if(document.hidden&&open)closeRadio();},false);
+})();
+</script>
+
+<!-- NYMIND RADIO 2.0.2 : loga, skladby a obaly -->
+<script>
+(function(){
+ 'use strict';
+ /* ES5 / Chromium 47; vlastni prehravac zustava beze zmeny. */
+ var root=document.getElementById('nymind-radio-overlay'),audio=document.getElementById('nr-audio');
+ var player=root&&root.querySelector('.nr-player');
+ if(!root||!audio||!player)return;
+ var logos=['https://api.play.cz/static/radio_logo/t200/signal.png','https://rockovyradio.cz/design/img/logo.svg'];
+ var names=['Signál Rádio','Rock Radio'],shortNames=['SIGNÁL','ROCK RADIO'],current=-1,requestId=0,lastQuery=0,lastMeta='',lastCoverScript=null,metaStatus=null;
+ function $(id){return document.getElementById(id);}
+ function make(tag,cls,textValue){var e=document.createElement(tag);if(cls)e.className=cls;if(textValue)e.textContent=textValue;return e;}
+ function logoImg(station,cls,box){var img=make('img',cls);img.alt='Logo '+names[station];img.src=logos[station];img.onerror=function(){if(box)box.className+=(box.className.indexOf('nr-logo-error')<0?' nr-logo-error':'');};return img;}
+ function stationLogo(i){
+   var btn=$(i===0?'nr-signal':'nr-rock'),box=make('span','nr-logo-box'),alt=make('span','nr-logo-fallback',shortNames[i]);
+   box.appendChild(logoImg(i,'',box));box.appendChild(alt);btn.insertBefore(box,btn.firstChild);
+   var track=make('span','nr-station-track','');btn.appendChild(track);return track;
+ }
+ var stationTracks=[stationLogo(0),stationLogo(1)];
+ var art=make('div','nr-artwork'),album=make('img','nr-album-cover'),logo=make('img','nr-artwork-logo'),fallback=make('span','nr-artwork-fallback');
+ var now=make('div','nr-now-box'),kicker=make('div','nr-now-kicker','PRÁVĚ HRAJE'),song=make('div','nr-now-song','Informace o skladbě'),artist=make('div','nr-now-artist','Načítám informace…'),note=make('div','nr-now-note','');
+ album.alt='Obal právě hrané skladby';album.onerror=function(){art.className='nr-artwork';};
+ logo.alt='Logo rádia';logo.onerror=function(){art.className='nr-artwork nr-logo-fallback';};
+ fallback.textContent='RÁDIO';art.appendChild(album);art.appendChild(logo);art.appendChild(fallback);player.appendChild(art);
+ now.appendChild(kicker);now.appendChild(song);now.appendChild(artist);now.appendChild(note);
+ var desc=$('nr-description');desc.parentNode.insertBefore(now,desc.nextSibling);
+ function isOpen(){return root.className.indexOf('nymind-radio-hidden')===-1;}
+ function activeStation(){
+   var url=audio.currentSrc||audio.src||'';
+   if(/rockradio/i.test(url))return 1;
+   if(/signal/i.test(url))return 0;
+   return ($('nr-name').textContent||'').indexOf('Rock')>=0?1:0;
+ }
+ function resetArt(i){art.className='nr-artwork';album.style.display='none';album.removeAttribute('src');logo.src=logos[i];fallback.textContent=shortNames[i];}
+ function showArt(url){
+   if(!/^https:\/\//i.test(url||''))return;
+   album.onload=function(){art.className='nr-artwork nr-album-on';album.style.display='block';};
+   album.onerror=function(){art.className='nr-artwork';album.style.display='none';};
+   album.src=url;
+ }
+ function reset(i){
+   current=i;requestId++;lastQuery=0;lastMeta='';
+   song.textContent='Informace o skladbě';artist.textContent='Načítám informace…';note.textContent='Zjišťuji aktuální skladbu';
+   resetArt(i);
+ }
+ function norm(v){return String(v||'').toLowerCase().replace(/[^a-z0-9á-ž]/g,'');}
+ function splitTitle(title){
+   var s=String(title||''),parts=s.split(/\s[-–—]\s/);
+   if(parts.length<2)return null;
+   var a=parts.shift(),t=parts.join(' - ');
+   if(!a||!t||a.length>120||t.length>160)return null;
+   return {artist:a,song:t};
+ }
+ function extractOnAir(data){
+   var d=data&&data.data?data.data:data;
+   if(!d||typeof d!=='object')return null;
+   if(Object.prototype.toString.call(d)==='[object Array]')d=d[0];
+   if(!d)return null;
+   var a=d.artist||d.interpret||'',t=d.song||d.title||'',img=d.img||d.cover||'';
+   if(!a&&t){var p=splitTitle(t);if(p){a=p.artist;t=p.song;}}
+   if(a&&t)return {artist:String(a),song:String(t),img:String(img||'')};
+   return null;
+ }
+ function extractIcecast(data,mount){
+   if(!data||!data.icestats)return null;
+   var list=data.icestats.source||[];
+   if(Object.prototype.toString.call(list)!=='[object Array]')list=[list];
+   for(var i=0;i<list.length;i++){
+     var s=list[i]||{},addr=String(s.listenurl||s.server_url||'');
+     if(addr.indexOf(mount)<0)continue;
+     var p=splitTitle(s.title||s.yp_currently_playing||'');
+     if(p)return p;
+   }
+   return null;
+ }
+ function xhrJSON(url,callback){
+   var x=new XMLHttpRequest(),finished=false;
+   function end(d){if(finished)return;finished=true;callback(d);}
+   try{
+     x.onreadystatechange=function(){if(x.readyState!==4)return;try{end(x.status>=200&&x.status<300?JSON.parse(x.responseText):null);}catch(e){end(null);}};
+     x.onerror=function(){end(null);};x.ontimeout=function(){end(null);};x.open('GET',url+(url.indexOf('?')>=0?'&':'?')+'_='+Date.now(),true);x.timeout=7500;x.send(null);
+   }catch(e){end(null);}
+ }
+ function findAlbum(artistName,trackName,token){
+   if(lastCoverScript){try{lastCoverScript.parentNode.removeChild(lastCoverScript);}catch(e){}lastCoverScript=null;}
+   var cb='__nymindCover_'+token;
+   window[cb]=function(data){
+     if(token!==requestId||!isOpen())return;
+     var res=data&&data.results?data.results:[];
+     for(var i=0;i<res.length;i++){
+       var item=res[i]||{},ca=norm(item.artistName),ct=norm(item.trackName);
+       if(!ca||!ct||!norm(artistName)||!norm(trackName))continue;
+       if((ca.indexOf(norm(artistName))<0&&norm(artistName).indexOf(ca)<0)||(ct.indexOf(norm(trackName))<0&&norm(trackName).indexOf(ct)<0))continue;
+       if(item.artworkUrl100){showArt(String(item.artworkUrl100).replace('100x100','600x600').replace(/^http:/,'https:'));break;}
+     }
+   };
+   var script=document.createElement('script');lastCoverScript=script;script.async=true;
+   script.src='https://itunes.apple.com/search?entity=song&country=CZ&limit=5&term='+encodeURIComponent(artistName+' '+trackName)+'&callback='+cb;
+   script.onerror=function(){try{delete window[cb];}catch(e){window[cb]=null;}};
+   document.getElementsByTagName('head')[0].appendChild(script);
+ }
+ function renderMeta(m,i,token){
+   if(token!==requestId||current!==i||!isOpen())return;
+   if(!m||!m.song||!m.artist){
+     song.textContent='Živé vysílání';artist.textContent='Název skladby není dostupný';note.textContent='Rádio přehrává dál · logo zůstává zobrazené';
+     stationTracks[i].textContent='';return;
+   }
+   var key=m.artist+'\u0001'+m.song;
+   song.textContent=m.song;artist.textContent=m.artist;note.textContent='Automatická aktualizace během poslechu';
+   stationTracks[i].textContent=m.artist+' — '+m.song;
+   if(lastMeta!==key){
+     lastMeta=key;resetArt(i);
+     if(m.img&&/^https:\/\//i.test(m.img)){showArt(m.img);}
+     else findAlbum(m.artist,m.song,token);
+   }
+ }
+ function queryMeta(i,token){
+   var sources;
+   if(i===0){
+     sources=[
+       {url:'https://onair.play.cz/json/signal-radio.json',parse:extractOnAir},
+       {url:'https://onair.play.cz/json/signal.json',parse:extractOnAir},
+       {url:'https://icecast1.play.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'signal128.mp3');}}
+     ];
+   }else{
+     sources=[
+       {url:'https://ice.radia.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}},
+       {url:'https://ice.abradio.cz/status-json.xsl',parse:function(d){return extractIcecast(d,'rockradio128.mp3');}}
+     ];
+   }
+   function attempt(n){
+     if(token!==requestId||!isOpen())return;
+     if(n>=sources.length){renderMeta(null,i,token);return;}
+     xhrJSON(sources[n].url,function(data){
+       if(token!==requestId||!isOpen())return;
+       var m=null;try{m=sources[n].parse(data);}catch(e){}
+       if(m)renderMeta(m,i,token);else attempt(n+1);
+     });
+   }
+   attempt(0);
+ }
+ function refresh(force){
+   if(!isOpen())return;
+   var i=activeStation(),nowMs=Date.now();
+   if(i!==current)reset(i);
+   if(!force&&nowMs-lastQuery<38000)return;
+   lastQuery=nowMs;queryMeta(i,requestId);
+ }
+ function schedule(){setTimeout(function(){refresh(true);},450);}
+ $('nr-signal').addEventListener('click',schedule,false);
+ $('nr-rock').addEventListener('click',schedule,false);
+ audio.addEventListener('playing',schedule,false);
+ window.addEventListener('keydown',function(e){
+   var k=e.keyCode||e.which;
+   if(isOpen()&&(k===38||k===40||k===13||k===37||k===39))setTimeout(function(){refresh(false);},350);
+ },false);
+ setInterval(function(){
+   if(isOpen())refresh(false);
+   else if(current!==-1){current=-1;requestId++;lastQuery=0;lastMeta='';}
+ },4000);
 })();
 </script>
 <script src="app.js"></script>
