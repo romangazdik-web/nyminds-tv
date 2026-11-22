@@ -85,34 +85,29 @@
   }
   function select(i){selected=Math.max(0,Math.min(tiles.length-1,i));for(var j=0;j<tiles.length;j++){var base=tiles[j].className.replace(/\s+active\b/g,'');tiles[j].className=base+(j===selected?' active':'');}tiles[selected].focus();}
   function launchPS5(){
-    status('Hledám vstup PlayStation 5…');
+    status('Přepínám na PlayStation 5 · HDMI 2…');
     if(typeof tizen==='undefined'||!tizen.systeminfo||!tizen.tvwindow){
-      status('PS5: tento modul nemá přístup k přepnutí HDMI. Použij Zdroj na ovladači.');
+      status('PS5 je na HDMI 2. Tento modul nemá přístup k přepnutí vstupu; použij Zdroj na ovladači.');
       return;
     }
     try{
       tizen.systeminfo.getPropertyValue('VIDEOSOURCE',function(info){
-        var sources=(info&&info.connected)||[],target=null,hdmi=[];
+        var sources=(info&&info.connected)||[],target=null;
         for(var i=0;i<sources.length;i++){
-          var src=sources[i];
-          if(src.type!=='HDMI')continue;
-          hdmi.push(src);
-          if(/playstation|ps5|ps 5/i.test(String(src.name||'')))target=src;
+          if(String(sources[i].type).toUpperCase()==='HDMI' && Number(sources[i].number)===2){
+            target=sources[i];break;
+          }
         }
-        if(!target){
-          status('PS5: HDMI vstupy '+hdmi.map(function(x){return x.number;}).join(', ')+'. Napiš mi číslo HDMI, kde máš PS5, a nastavíme přímé spuštění.');
-          return;
-        }
+        if(!target){status('PS5: HDMI 2 není dostupné. Zapni konzoli a zkus znovu, nebo přepni Zdroj → HDMI 2.');return;}
         try{
           tizen.tvwindow.setSource(target,function(){
-            status('Přepnuto na '+(target.name||'HDMI '+target.number)+'.');
-            try{tizen.application.launch('org.tizen.tv-viewer');}catch(ignore){}
+            status('HDMI 2 vybráno. Pokud stále vidíš plochu, otevři Zdroj → HDMI 2.');
           },function(err){
-            status('PS5: HDMI nelze přepnout ('+(err&&err.name||'chyba')+').');
+            status('PS5: automatické přepnutí HDMI 2 selhalo ('+(err&&err.name||'chyba')+'). Zvol Zdroj → HDMI 2.');
           });
-        }catch(e){status('PS5: přepnutí HDMI není povoleno ('+(e.name||'chyba')+').');}
-      },function(err){status('PS5: nelze zjistit HDMI vstupy ('+(err&&err.name||'chyba')+').');});
-    }catch(e){status('PS5: HDMI API není dostupné ('+(e.name||'chyba')+').');}
+        }catch(e){status('PS5: přepnutí HDMI 2 není povoleno ('+(e.name||'chyba')+'). Zvol Zdroj → HDMI 2.');}
+      },function(err){status('PS5: zdroje HDMI nejsou přístupné ('+(err&&err.name||'chyba')+'). Zvol Zdroj → HDMI 2.');});
+    }catch(e){status('PS5: HDMI API není dostupné ('+(e.name||'chyba')+'). Zvol Zdroj → HDMI 2.');}
   }
   function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
