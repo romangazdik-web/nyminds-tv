@@ -108,7 +108,7 @@
     },7500);
     function finishFail(reason){
       if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
-      ps5Notice('PS5 · HDMI 2: '+reason+'  Použij Zdroj → HDMI 2.');
+      ps5Notice('PS5 · HDMI 2: '+reason+'  Na tomto Samsungu může být nutné přepnout Zdroj → HDMI 2 ručně.');
     }
     if(typeof tizen==='undefined'||!tizen.systeminfo||!tizen.tvwindow){
       finishFail('TizenBrew nemá přístup k ovládání vstupů.');
