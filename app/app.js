@@ -111,7 +111,20 @@
       ps5Notice('PS5 · HDMI 2: '+reason+'  Na tomto Samsungu může být nutné přepnout Zdroj → HDMI 2 ručně.');
     }
     if(typeof tizen==='undefined'||!tizen.systeminfo||!tizen.tvwindow){
-      finishFail('TizenBrew nemá přístup k ovládání vstupů.');
+      /* Diagnostic fallback: system viewer opens the LAST Samsung TV source.
+         It cannot explicitly select HDMI 2 or power on the PS5. */
+      if(typeof tizen!=='undefined'&&tizen.application&&typeof tizen.application.launch==='function'){
+        ps5Notice('HDMI API není dostupné. Zkouším otevřít systémový TV prohlížeč…');
+        try{
+          tizen.application.launch('org.tizen.tv-viewer',function(){
+            if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
+          },function(e){
+            finishFail('Ani systémový TV prohlížeč se nepodařilo otevřít ('+(e&&e.name||'chyba')+').');
+          });
+        }catch(e){finishFail('Systémový TV prohlížeč nelze spustit ('+(e.name||'chyba')+').');}
+      }else{
+        finishFail('TizenBrew nepovoluje ani HDMI API, ani spuštění systémového TV prohlížeče.');
+      }
       return;
     }
     try{
