@@ -117,11 +117,11 @@
     try{
       tizen.systeminfo.getPropertyValue('VIDEOSOURCE',function(info){
         if(finished)return;
-        var sources=(info&&info.connected)||[],target=null,i;
+        var sources=((info&&info.connected)||[]).concat((info&&info.disconnected)||[]),target=null,i;
         for(i=0;i<sources.length;i++){
           if(String(sources[i].type).toUpperCase()==='HDMI'&&Number(sources[i].number)===2){target=sources[i];break;}
         }
-        if(!target){finishFail('Televize nehlásí HDMI 2 jako připojený vstup. Zapni konzoli.');return;}
+        if(!target){finishFail('Televize ve výpisu vstupů nenašla HDMI 2.');return;}
         try{
           tizen.tvwindow.setSource(target,function(){
             if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
