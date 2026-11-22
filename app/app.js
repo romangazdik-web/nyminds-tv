@@ -128,7 +128,7 @@
           try{
             ws.send(JSON.stringify({method:'ms.remote.control',params:{Cmd:'Click',DataOfCmd:'KEY_SOURCE',Option:'false',TypeOfRemote:'SendRemoteKey'}}));
             /* WebSocket confirms delivery, not whether Samsung actually switched inputs. */
-            end('Příkaz Zdroj odeslán. Pokud se otevřela nabídka zdrojů, vyber HDMI 2.');
+            setTimeout(function(){end('Příkaz Zdroj odeslán. Pokud se otevřela nabídka zdrojů, vyber HDMI 2.');},500);
           }catch(e){end('Příkaz Zdroj nelze odeslat ('+(e.name||'chyba')+').');}
         }else if(data&&(/unauthorized|denied|error/i.test(String(data.event||'')))){
           end('Samsung odmítl lokální ovládání ('+data.event+').');
