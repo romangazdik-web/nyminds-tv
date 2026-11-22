@@ -95,69 +95,48 @@
     }
     el.textContent=message;el.style.display='block';
     clearTimeout(ps5Timer);
-    ps5Timer=setTimeout(function(){el.style.display='none';},8500);
+    ps5Timer=setTimeout(function(){el.style.display='none';},11000);
   }
   function launchPS5(){
     if(ps5Busy)return;
     ps5Busy=true;
-    var finished=false;
-    ps5Notice('PlayStation 5: přepínám na HDMI 2…');
-    var failTimer=setTimeout(function(){
+    ps5Notice('PS5: zkouším lokální ovladač Samsungu (port 8001)…');
+    /* This test sends only KEY_SOURCE after an authorized Samsung remote connection.
+       It neither switches directly to HDMI 2 nor powers on the PS5. */
+    var ws=null,finished=false,authorized=false,timeout=0;
+    var url='ws://127.0.0.1:8001/api/v2/channels/samsung.remote.control?name=bnltaW5kIFRWI';
+    function end(message){
       if(finished)return;finished=true;ps5Busy=false;
-      ps5Notice('HDMI 2 neodpovídá. Přepni prosím ručně přes Zdroj → HDMI 2.');
+      clearTimeout(timeout);
+      ps5Notice(message);
+      try{if(ws)ws.close();}catch(ignore){}
+    }
+    timeout=setTimeout(function(){
+      end('Test Samsung: port 8001 neodpovídá nebo čeká na povolení. Přepni Zdroj → HDMI 2 ručně.');
     },7500);
-    function finishFail(reason){
-      if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
-      ps5Notice('PS5 · HDMI 2: '+reason+'  Na tomto Samsungu může být nutné přepnout Zdroj → HDMI 2 ručně.');
-    }
-    if(typeof tizen==='undefined'||!tizen.systeminfo||!tizen.tvwindow){
-      /* Diagnostic fallback: system viewer opens the LAST Samsung TV source.
-         It cannot explicitly select HDMI 2 or power on the PS5. */
-      if(typeof tizen!=='undefined'&&tizen.application&&typeof tizen.application.launch==='function'){
-        ps5Notice('HDMI API není dostupné. Zkouším otevřít systémový TV prohlížeč…');
-        try{
-          tizen.application.launch('org.tizen.tv-viewer',function(){
-            if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
-          },function(e){
-            finishFail('Ani systémový TV prohlížeč se nepodařilo otevřít ('+(e&&e.name||'chyba')+').');
-          });
-        }catch(e){finishFail('Systémový TV prohlížeč nelze spustit ('+(e.name||'chyba')+').');}
-      }else{
-        finishFail('TizenBrew nepovoluje ani HDMI API, ani spuštění systémového TV prohlížeče.');
-      }
-      return;
-    }
     try{
-      tizen.systeminfo.getPropertyValue('VIDEOSOURCE',function(info){
-        if(finished)return;
-        var sources=((info&&info.connected)||[]).concat((info&&info.disconnected)||[]),target=null,i;
-        for(i=0;i<sources.length;i++){
-          if(String(sources[i].type).toUpperCase()==='HDMI'&&Number(sources[i].number)===2){target=sources[i];break;}
+      ws=new WebSocket(url);
+      ws.onopen=function(){
+        ps5Notice('Lokální spojení otevřeno. Čekám na autorizaci ovladače…');
+      };
+      ws.onmessage=function(ev){
+        if(finished||authorized)return;
+        var data;
+        try{data=JSON.parse(ev.data);}catch(ignore){return;}
+        if(data&&data.event==='ms.channel.connect'){
+          authorized=true;
+          try{
+            ws.send(JSON.stringify({method:'ms.remote.control',params:{Cmd:'Click',DataOfCmd:'KEY_SOURCE',Option:'false',TypeOfRemote:'SendRemoteKey'}}));
+            /* WebSocket confirms delivery, not whether Samsung actually switched inputs. */
+            end('Příkaz Zdroj odeslán. Pokud se otevřela nabídka zdrojů, vyber HDMI 2.');
+          }catch(e){end('Příkaz Zdroj nelze odeslat ('+(e.name||'chyba')+').');}
+        }else if(data&&(/unauthorized|denied|error/i.test(String(data.event||'')))){
+          end('Samsung odmítl lokální ovládání ('+data.event+').');
         }
-        if(!target){finishFail('Televize ve výpisu vstupů nenašla HDMI 2.');return;}
-        try{
-          tizen.tvwindow.setSource(target,function(){
-            if(finished)return;finished=true;ps5Busy=false;clearTimeout(failTimer);
-            ps5Notice('HDMI 2 vybráno. Otevírám obraz PS5…');
-            try{
-              if(tizen.application&&tizen.application.launch){
-                tizen.application.launch('org.tizen.tv-viewer',function(){},function(err){
-                  try{tizen.tvwindow.show(function(){},function(e){
-                    ps5Notice('HDMI 2 vybráno, ale obraz nelze otevřít: '+(e&&e.name||'chyba'));
-                  },['0%','0%','100%','100%'],'MAIN','FRONT');}catch(ex){
-                    ps5Notice('HDMI 2 vybráno, ale systém blokuje obraz konzole ('+(ex.name||'chyba')+').');
-                  }
-                });
-              }else{
-                tizen.tvwindow.show(function(){},function(e){
-                  ps5Notice('HDMI 2 vybráno, ale obraz nelze otevřít: '+(e&&e.name||'chyba'));
-                },['0%','0%','100%','100%'],'MAIN','FRONT');
-              }
-            }catch(e){ps5Notice('HDMI 2 vybráno, spuštění obrazu blokováno ('+(e.name||'chyba')+').');}
-          },function(err){finishFail('Přepnutí nebylo povoleno ('+(err&&err.name||'chyba')+').');});
-        }catch(e){finishFail('Přepnutí HDMI není dostupné ('+(e.name||'chyba')+').');}
-      },function(err){finishFail('Seznam HDMI vstupů nelze načíst ('+(err&&err.name||'chyba')+').');});
-    }catch(e){finishFail('Ovládání HDMI není dostupné ('+(e.name||'chyba')+').');}
+      };
+      ws.onerror=function(){end('Lokální ovladač Samsungu není dostupný. TizenBrew může blokovat spojení na port 8001.');};
+      ws.onclose=function(){if(!finished)end('Samsung uzavřel spojení na portu 8001.');};
+    }catch(e){end('WebSocket není povolen ('+(e.name||'chyba')+').');}
   }
   function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
