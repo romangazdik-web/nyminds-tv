@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=1920,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Nymind Sports | Sports Hub</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080a10;color:#eff1fa;font-family:Arial,Helvetica,sans-serif;font-size:22px}
+button{font-family:inherit}#shell{width:1920px;height:1080px;position:absolute;transform-origin:top left;overflow:hidden;background:radial-gradient(ellipse 950px 520px at 60% -18%,#24243a 0,#131622 57%,#0b0d15 100%)}
+#side{position:absolute;left:0;top:0;width:100px;height:1080px;background:#0c0e17;border-right:1px solid #292d3c;z-index:5;padding:28px 14px}
+#brand{width:68px;height:68px;display:block;border-radius:18px;background:#ece5ff;color:#171421;text-align:center;font-weight:900;font-size:31px;line-height:68px;margin:0 0 55px}
+.sidebtn{width:70px;height:75px;margin-bottom:11px;border:1px solid transparent;border-radius:13px;background:transparent;color:#9da0ba;display:block;outline:0;cursor:pointer}
+.sidebtn svg{height:28px;width:28px;display:block;margin:6px auto 4px;stroke:currentColor;stroke-width:2.1;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sidebtn span{display:block;font-size:13px;white-space:nowrap}.sidebtn.sel{background:#28283b;color:#f6f2ff;border-color:#4d4b68}
+.sidebtn.exit{position:absolute;bottom:22px;left:14px}.sidebtn:focus,button:focus{outline:3px solid #f7f7ff!important;outline-offset:2px!important;box-shadow:0 0 0 6px #a59bfb2b}
+#workspace{position:absolute;left:100px;top:0;width:1820px;height:1080px;padding:32px 47px 0 52px}
+#topline{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2c3040}
+#topline .identity{font-weight:800;font-size:31px;letter-spacing:-.7px}
+#topline .identity em{font-style:normal;color:#bcafff}#topline .right{color:#a4a8bc;font-size:18px}
+#page-head{height:104px;display:flex;align-items:flex-start;justify-content:space-between;padding-top:31px}
+#page-head h1{font-size:45px;font-weight:800;margin:0;letter-spacing:-1.3px}
+#page-head .muted{font-size:18px;color:#8f93ab;margin:10px 0 0}
+.pill{background:#252738;border:1px solid #3b3b52;border-radius:14px;padding:13px 19px;color:#cccce0;font-size:18px;outline:0;cursor:pointer}
+.pill.on{background:#4c476e;border-color:#9488db;color:white}.pill.small{font-size:16px;padding:10px 15px}
+#sections{display:flex;gap:13px;margin:8px 0 27px;height:58px}
+.tab{height:55px;border-radius:12px;background:#1c1e2a;border:1px solid #36384a;color:#afb0c2;padding:0 27px;font-weight:bold;font-size:19px;cursor:pointer;outline:0}
+.tab.on{background:#e5ddff;color:#29243f;border-color:#e5ddff}
+#subbar{height:74px;display:flex;align-items:center;gap:11px;margin-bottom:11px;overflow:hidden}
+#leagues{display:flex;align-items:center;gap:10px;max-width:1250px;overflow:hidden;white-space:nowrap;flex-shrink:0}
+.league{background:#242636;color:#b9bad0;border:1px solid #393b53;padding:15px 21px;border-radius:13px;cursor:pointer;outline:0;font-size:17px;white-space:nowrap}
+.league.sel{background:#49435f;color:#fff;border-color:#9690cd}#refresh{margin-left:auto;white-space:nowrap}
+#dates{height:75px;display:flex;align-items:center;gap:9px;margin-bottom:17px;white-space:nowrap;overflow:hidden}
+.date{border:1px solid #353949;border-radius:11px;background:#1b1e2c;color:#b1b6c8;min-width:137px;height:65px;font-size:16px;cursor:pointer;outline:0}
+.date strong{display:block;font-size:19px;color:white;margin-top:6px}.date.sel{background:#3f3c5b;border-color:#9187c7}
+#body{height:650px;position:relative}
+#summary{display:flex;gap:20px;height:630px}
+#events-pane{width:1100px;overflow:auto;padding:0 8px 55px 0}
+#preview-pane{width:600px;background:linear-gradient(143deg,#202236,#151823);border:1px solid #3d4055;border-radius:21px;padding:26px 30px;position:relative;overflow:hidden}
+.block-title{font-size:25px;font-weight:bold;margin:4px 0 18px}.count{color:#9b9eb3;font-size:16px;margin-left:12px}
+.event-row{height:112px;background:#1d202e;border:1px solid #333648;border-radius:15px;margin:0 0 11px;color:#f4f2fb;width:100%;padding:15px 22px;text-align:left;display:flex;align-items:center;cursor:pointer;outline:0}
+.event-row:hover,.event-row.isselected{background:#29283c;border-color:#6d678b}
+.clubmark{width:62px;height:62px;border-radius:50%;background:#2c3040;display:inline-flex;align-items:center;justify-content:center;margin-right:15px;flex-shrink:0;overflow:hidden;color:#eeecff;font-size:20px;font-weight:bold;border:1px solid #434860}
+.clubmark img{width:80%;height:80%;object-fit:contain}
+.teams{flex:1;min-width:0}.teams strong{font-size:21px;display:block;margin:0 0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.teams small{color:#9ca1b7;font-size:16px}
+.score{font-weight:800;font-size:27px;color:#eee7ff;min-width:85px;text-align:center;margin-left:15px}
+.livebadge{font-weight:bold;color:#ff9b9b;font-size:14px;letter-spacing:1px}
+#preview-pane .eyebrow{font-size:15px;color:#c8c1ff;text-transform:uppercase;letter-spacing:2px;font-weight:bold}
+#preview-pane .bigtitle{font-size:34px;line-height:1.23;margin:18px 0 27px;min-height:100px}
+#preview-logos{height:152px;display:flex;align-items:center;justify-content:center;gap:30px}
+#preview-logos .clubmark{width:110px;height:110px;margin:0;font-size:33px}#preview-logos .versus{font-size:23px;color:#8a89a5}
+#preview-score{text-align:center;font-size:43px;font-weight:bold;margin:24px 0 10px}
+#preview-state{text-align:center;font-size:20px;color:#a5a6c0}
+#preview-bottom{position:absolute;left:30px;right:30px;bottom:27px;display:flex;gap:12px}
+.primary{border:0;background:#dfd6ff;color:#2c2442;font-weight:bold}.darkbtn{border:1px solid #46475b;background:#292b3c;color:#e3dff7}
+.action{padding:15px 22px;border-radius:12px;cursor:pointer;outline:0;font-size:19px}
+#status{font-size:19px;color:#a9acc1;min-height:26px;margin:-12px 0 17px}
+#standings-page,#following-page{display:none}
+#standings-wrap{background:#171a27;border:1px solid #37394c;border-radius:17px;height:635px;overflow:auto;padding:18px 25px}
+#table-league-title{font-size:28px;font-weight:bold;margin-bottom:17px}
+.standrow{width:100%;display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #2e3143;font-size:18px;color:#e1e2ed;min-height:53px}
+.standrow:nth-child(odd){background:#1d2131}.standrow.header{background:#292b3e;color:#b7afda;font-weight:bold}
+.standrow .pos{width:57px;color:#afaaca}.standrow .name{flex:1;min-width:300px}.standrow .stat{width:110px;text-align:center}
+#following-wrap{height:635px;overflow:auto;display:flex;align-content:flex-start;gap:16px;flex-wrap:wrap}
+.followcard{width:330px;background:#242638;border:1px solid #45465a;border-radius:17px;padding:22px;min-height:146px;cursor:pointer;text-align:left;color:#fff;outline:0}
+.followcard b{font-size:23px;display:block;margin:12px 0 10px}.followcard small{font-size:15px;color:#aeb1c7}
+#overlay{position:absolute;z-index:20;left:100px;top:0;width:1820px;height:1080px;display:none;padding:33px 75px 44px;background:radial-gradient(ellipse at 53% -16%,#33314e 0,#131621 62%,#0a0c14 100%)}
+#back-detail{margin-bottom:40px}
+#detail-title{text-align:center;color:#b7b5ce;font-size:20px;margin:10px 0 33px}
+#score-hero{display:flex;justify-content:center;align-items:center;gap:60px;height:180px}
+.teamhero{text-align:center;width:430px;font-size:27px;font-weight:bold}
+.teamhero .clubmark{display:flex;margin:0 auto 15px;width:105px;height:105px}
+#hero-score{min-width:220px;text-align:center;font-size:57px;font-weight:900}
+#hero-date{font-size:19px;color:#adb0c8;text-align:center;margin:25px 0}
+#detail-tabs{display:flex;gap:11px;margin:30px 0}
+#detail-content{height:470px;overflow:auto;border:1px solid #3a3c53;background:#1b1e2c;border-radius:19px;padding:25px 30px;color:#d7d8e8;font-size:20px}
+.detail-line{padding:16px 4px;border-bottom:1px solid #33384a;display:flex;justify-content:space-between}
+.detail-line span{color:#aeb0ca}.detail-line b{font-weight:normal;text-align:right;max-width:65%}
+#notice{position:absolute;z-index:30;bottom:33px;left:370px;right:370px;background:#39324d;color:#f5efff;border:1px solid #8f79bb;border-radius:15px;padding:19px 25px;text-align:center;font-size:19px;display:none}
+#foot{position:absolute;bottom:20px;left:155px;color:#6e7488;font-size:15px}
+</style></head>
+<body><div id="shell"><nav id="side"><div id="brand">N</div>
+<button class="sidebtn sel" data-nav="sports" aria-label="Sport"><svg viewBox="0 0 24 24"><path d="M7 3h10v6a5 5 0 0 1-10 0V3Z"/><path d="M7 5H4v3a4 4 0 0 0 4 4M17 5h3v3a4 4 0 0 1-4 4M12 14v4M8 21h8M9 18h6"/></svg><span>Sport</span></button>
+<button class="sidebtn" data-nav="tables" aria-label="Tabulky"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 10h16M4 16h16M10 4v16"/></svg><span>Tabulky</span></button>
+<button class="sidebtn" data-nav="follow" aria-label="Sledované"><svg viewBox="0 0 24 24"><path d="m12 3 3 6 6.5 1-4.75 4.6 1.1 6.4L12 18l-5.85 3 1.1-6.4L2.5 10 9 9z"/></svg><span>Moje týmy</span></button>
+<button class="sidebtn exit" data-nav="exit" aria-label="Zpět"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7M8 12h12"/></svg><span>Zpět</span></button>
+</nav>
+<div id="workspace">
+<div id="topline"><div class="identity">NYMIND <em>SPORTS</em></div><div class="right"><span id="clock"></span> &nbsp; • &nbsp; SPORTOVNÍ CENTRUM</div></div>
+<div id="page-head"><div><h1 id="page-title">Sport</h1><p class="muted" id="page-desc">Všechny zápasy, tvoje týmy a sportovní výsledky na jednom místě.</p></div><button class="pill small" id="hide-scores">◉ &nbsp; Skrýt skóre: vypnuto</button></div>
+<div id="sections"><button class="tab on" data-tab="mine">Moje sporty</button><button class="tab" data-tab="all">Všechny zápasy</button><button class="tab" data-tab="live">Právě se hraje</button><button class="tab" data-tab="table">Tabulky soutěží</button></div>
+<div id="subbar"><div id="leagues"></div><button class="pill small" id="refresh">↻ Obnovit</button></div>
+<div id="dates"></div>
+<div id="status">Načítám sportovní program…</div>
+<div id="body"><div id="summary"><div id="events-pane"><div class="block-title"><span id="list-heading">Živé a nejbližší zápasy</span><span class="count" id="list-count"></span></div><div id="event-list"></div></div>
+<div id="preview-pane"><div class="eyebrow" id="preview-league">SPORTS HUB</div><div class="bigtitle" id="preview-title">Vyber zápas</div><div id="preview-logos"></div><div id="preview-score"></div><div id="preview-state"></div><div id="preview-bottom"><button class="action primary" id="detail-open">Detail zápasu</button><button class="action darkbtn" id="quick-follow">☆ Sledovat</button></div></div></div>
+<div id="standings-page"><div id="standings-wrap"><div id="table-league-title">Tabulka soutěže</div><div id="standings-list"></div></div></div>
+<div id="following-page"><div class="block-title">Moje sledované týmy a soutěže</div><div id="following-wrap"></div></div>
+</div></div>
+<div id="overlay"><button class="action darkbtn" id="back-detail">← Zpět k zápasům</button><div id="detail-title">SPORTOVNÍ CENTRUM</div><div id="score-hero"><div class="teamhero"><div class="clubmark" id="detail-team1logo"></div><div id="detail-team1name"></div></div><div id="hero-score"></div><div class="teamhero"><div class="clubmark" id="detail-team2logo"></div><div id="detail-team2name"></div></div></div><div id="hero-date"></div>
+<div id="detail-tabs"><button class="tab on" data-detail="overview">Přehled</button><button class="tab" data-detail="stats">Statistiky</button><button class="tab" data-detail="teams">Týmy</button><button class="tab" data-detail="standings">Tabulka</button><button class="tab" data-detail="tv">Kde sledovat</button></div><div id="detail-content"></div></div>
+<div id="notice"></div><div id="foot">Nymind Sports • Funkční sportovní část pro Tizen 3.0 • Šipky = pohyb · OK = vybrat · Zpět = návrat</div>
+</div>
+<script>(function(){'use strict';
+var L=[
+['soccer','eng.1','Premier League'],['soccer','uefa.champions','Liga mistrů'],['soccer','esp.1','La Liga'],
+['soccer','ger.1','Bundesliga'],['soccer','ita.1','Serie A'],['soccer','fra.1','Ligue 1'],
+['hockey','nhl','NHL'],['basketball','nba','NBA'],['football','nfl','NFL'],['baseball','mlb','MLB']
+];
+var idx=0,tab='mine',selected=null,events=[],detailEvent=null,detailExtra=null,details='overview',hideScores=false,showOverlay=false,standings=[],standingsMessage='',view='sports',eventCache={},teamFollow={},leagueFollow={},lastFocused=null,dateOffset=0;
+function $(id){return document.getElementById(id);}
+function clone(d){return new Date(d.getTime());}
+function dateFor(offset){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+offset);return d;}
+function pad(n){return n<10?'0'+n:String(n);}
+function ymd(d){return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());}
+function msg(x){$('notice').textContent=x;$('notice').style.display='block';clearTimeout(msg.t);msg.t=setTimeout(function(){$('notice').style.display='none';},4800);}
+function clock(){var d=new Date();$('clock').textContent=pad(d.getHours())+':'+pad(d.getMinutes())+' · '+d.getDate()+'. '+(d.getMonth()+1)+'.';}clock();setInterval(clock,30000);
+function size(){var r=Math.min(window.innerWidth/1920,window.innerHeight/1080),s=$('shell');s.style.transform='scale('+r+')';s.style.left=((innerWidth-1920*r)/2)+'px';s.style.top=((innerHeight-1080*r)/2)+'px';}size();window.addEventListener('resize',size);
+function req(url,done){var r=new XMLHttpRequest();var finished=false;r.open('GET',url,true);r.timeout=13000;r.onreadystatechange=function(){if(r.readyState===4&&!finished){finished=true;if(r.status===200){try{done(null,JSON.parse(r.responseText));}catch(e){done('Data nejsou platný JSON');}}else{done('HTTP '+r.status);}}};r.onerror=function(){if(!finished){finished=true;done('Připojení, CORS nebo SSL');}};r.ontimeout=function(){if(!finished){finished=true;done('Vypršel čas načítání');}};try{r.send(null);}catch(e){done('Nelze odeslat požadavek');}}
+function clean(v){return v===undefined||v===null?'':String(v);}
+function getComp(e){return e&&e.competitions&&e.competitions[0]||{};}
+function teams(e){return getComp(e).competitors||[];}
+function tname(t){return t&&t.team&&(t.team.displayName||t.team.name)||'Neznámý tým';}
+function abbr(t){return t&&t.team&&t.team.abbreviation||tname(t).slice(0,3).toUpperCase();}
+function logo(t){var team=t&&t.team||{},arr=team.logos||[];return team.logo||arr[0]&&arr[0].href||'';}
+function when(e){try{return new Date(e.date).toLocaleString('cs-CZ',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});}catch(ex){return'Čas neznámý';}}
+function state(e){var s=e&&e.status&&e.status.type||{};return s.shortDetail||s.description||s.name||'';}
+function live(e){var s=e&&e.status&&e.status.type||{};return s.state==='in';}
+function finished(e){var s=e&&e.status&&e.status.type||{};return s.completed===true;}
+function score(t){return clean(t&&t.score);}
+function matchname(e){var ts=teams(e);return tname(ts[0])+' vs '+tname(ts[1]);}
+function logoNode(t,small){var box=document.createElement('div');box.className='clubmark';var u=logo(t);
+if(u){var im=document.createElement('img');im.src=u;im.alt='';im.onerror=function(){this.parentNode.removeChild(this);box.textContent=abbr(t).slice(0,3);};box.appendChild(im);}else box.textContent=abbr(t).slice(0,3);return box;}
+function button(parent,title,cls,fn){var b=document.createElement('button');b.className=cls;b.textContent=title;b.onclick=fn;parent.appendChild(b);return b;}
+function putText(id,str){$(id).textContent=str;}
+function setMode(v){tab=v;[].forEach.call(document.querySelectorAll('#sections .tab'),function(b){b.className='tab'+(b.getAttribute('data-tab')===v?' on':'');});$('dates').style.display=(v==='all'||v==='live')?'flex':'none';
+$('summary').style.display=v==='table'||view==='tables'||view==='follow'?'none':'flex';$('standings-page').style.display=v==='table'||view==='tables'?'block':'none';$('following-page').style.display=view==='follow'?'block':'none';
+if(v==='table'||view==='tables')loadStandings();else if(view==='follow')renderFollowing();else renderEvents();}
+function setView(v){if(v==='exit'){location.href='index.html';return;}view=v;[].forEach.call(document.querySelectorAll('#side .sidebtn'),function(b){b.className='sidebtn'+(b.getAttribute('data-nav')===v?' sel':'')+(b.getAttribute('data-nav')==='exit'?' exit':'');});
+if(v==='sports'){putText('page-title','Sport');putText('page-desc','Všechny zápasy, tvoje týmy a sportovní výsledky na jednom místě.');$('sections').style.display='flex';$('subbar').style.display='flex';setMode(tab==='table'?'mine':tab);}
+if(v==='tables'){putText('page-title','Tabulky');putText('page-desc','Aktuální pořadí v soutěži, body a výsledky.');$('sections').style.display='none';$('subbar').style.display='flex';setMode('table');}
+if(v==='follow'){putText('page-title','Moje týmy');putText('page-desc','Sleduj své oblíbené týmy napříč soutěžemi.');$('sections').style.display='none';$('subbar').style.display='none';setMode('mine');}}
+function renderLeagues(){var box=$('leagues');box.innerHTML='';for(var i=0;i<L.length;i++){(function(k){button(box,L[k][2],'league'+(idx===k?' sel':''),function(){idx=k;selected=null;renderLeagues();loadMatches();if(view==='tables'||tab==='table')loadStandings();});})(i);}}
+function renderDates(){var d=$('dates');d.innerHTML='';for(var i=-3;i<=6;i++){(function(o){var date=dateFor(o),day=['Ne','Po','Út','St','Čt','Pá','So'][date.getDay()];var b=button(d,day+' '+date.getDate()+'. '+(date.getMonth()+1)+'.','date'+(dateOffset===o?' sel':''),function(){dateOffset=o;renderDates();renderEvents();});var st=document.createElement('strong');st.textContent=o===0?'Dnes':o===1?'Zítra':o===-1?'Včera':'Zobrazit';b.appendChild(st);})(i);}}
+function currentL(){return L[idx];}
+function loadMatches(){var l=currentL(),cacheKey=l[0]+'/'+l[1];putText('status','Načítám '+l[2]+'…');var fresh=eventCache[cacheKey];if(fresh&&Date.now()-fresh.time<120000){events=fresh.events;renderEvents();return;}
+var d1=dateFor(-4),d2=dateFor(10),range=ymd(d1)+'-'+ymd(d2);
+var base='https://site.api.espn.com/apis/site/v2/sports/'+l[0]+'/'+l[1]+'/scoreboard';
+req(base+'?dates='+range+'&limit=200',function(err,res){if(err){req(base,function(e2,r2){if(e2){putText('status','Sportovní data nedostupná: '+e2);events=[];renderEvents();}else accept(r2);});}else accept(res);});
+function accept(data){events=data&&data.events||[];events.sort(function(a,b){return new Date(a.date)-new Date(b.date);});eventCache[cacheKey]={events:events,time:Date.now()};putText('status',l[2]+' · '+events.length+' dostupných událostí');renderEvents();}}
+function activeEvents(){var a=events.slice(),fav=Object.keys(teamFollow),wanted=[];
+if(tab==='live')return a.filter(function(e){return live(e);});
+if(tab==='all'){var d=dateFor(dateOffset);return a.filter(function(e){var q=new Date(e.date);return q.getFullYear()===d.getFullYear()&&q.getMonth()===d.getMonth()&&q.getDate()===d.getDate();});}
+if(fav.length){a.forEach(function(e){var ts=teams(e);if(ts.some(function(t){return !!teamFollow[clean(t.team&&t.team.id)];}))wanted.push(e);});if(wanted.length)return wanted;}
+var now=Date.now();a.sort(function(a,b){var ta=new Date(a.date).getTime(),tb=new Date(b.date).getTime();var da=live(a)?-1:ta>=now?ta-now:1e11+(now-ta),db=live(b)?-1:tb>=now?tb-now:1e11+(now-tb);return da-db;});return a;}
+function renderEvents(){if(view==='tables'||tab==='table'||view==='follow')return;var a=activeEvents(),box=$('event-list');box.innerHTML='';putText('list-count',a.length+' zápasů');
+putText('list-heading',tab==='live'?'Právě probíhá':tab==='all'?'Zápasy ve vybraný den':'Živé a nadcházející');
+if(!a.length){var m=document.createElement('div');m.className='pane';m.style.padding='45px';m.style.background='#1f2232';m.style.borderRadius='18px';m.textContent=events.length?'V tomto výběru nejsou žádné zápasy. Zkus jiný den nebo ligu.':'Zatím žádné výsledky. Zkus jinou soutěž nebo aktualizaci.';box.appendChild(m);clearPreview();return;}
+a.slice(0,65).forEach(function(e){var ts=teams(e),b=document.createElement('button');b.className='event-row';var icon1=logoNode(ts[0]),icon2=logoNode(ts[1]);
+b.appendChild(icon1);b.appendChild(icon2);var t=document.createElement('div');t.className='teams';var h=document.createElement('strong');h.textContent=tname(ts[0])+'  –  '+tname(ts[1]);t.appendChild(h);var small=document.createElement('small');small.textContent=when(e)+' • '+state(e);t.appendChild(small);b.appendChild(t);
+var sc=document.createElement('div');sc.className='score';sc.textContent=hideScores?'•••':live(e)||finished(e)?score(ts[0])+' : '+score(ts[1]):'– : –';b.appendChild(sc);b.onfocus=function(){preview(e);b.className='event-row isselected';};b.onblur=function(){b.className='event-row';};b.onmouseover=function(){preview(e);};b.onclick=function(){openDetail(e);};box.appendChild(b);});
+preview(a[0]);}
+function clearPreview(){selected=null;putText('preview-title','Vyber další soutěž');$('preview-logos').innerHTML='';putText('preview-score','');putText('preview-state','');}
+function preview(e){selected=e;var ts=teams(e);putText('preview-league',currentL()[2]+' • '+(live(e)?'ŽIVĚ':finished(e)?'DOHRÁNO':'PROGRAM'));
+putText('preview-title',matchname(e));var icons=$('preview-logos');icons.innerHTML='';icons.appendChild(logoNode(ts[0]));var vs=document.createElement('span');vs.className='versus';vs.textContent='VS';icons.appendChild(vs);icons.appendChild(logoNode(ts[1]));
+putText('preview-score',hideScores?'•••':live(e)||finished(e)?score(ts[0])+' : '+score(ts[1]):'– : –');putText('preview-state',when(e)+'\n'+state(e));
+putText('quick-follow',isFollowed(ts[0])?'★ Sledováno':'☆ Sledovat');}
+function isFollowed(t){return !!teamFollow[clean(t&&t.team&&t.team.id)];}
+function persist(){try{localStorage.setItem('nymind.sportv3.teams',JSON.stringify(teamFollow));localStorage.setItem('nymind.sportv3.leagues',JSON.stringify(leagueFollow));}catch(e){}}
+function follow(t){if(!t||!t.team||!t.team.id){msg('Tento tým nejde sledovat.');return;}var id=String(t.team.id);if(teamFollow[id]){delete teamFollow[id];msg('Sledování odebráno: '+tname(t));}else{teamFollow[id]={id:id,name:tname(t),logo:logo(t),league:currentL()[1],sport:currentL()[0]};msg('Sleduješ: '+tname(t));}persist();if(selected)preview(selected);if(view==='follow')renderFollowing();}
+function followFirst(){if(!selected){msg('Nejdřív vyber zápas.');return;}follow(teams(selected)[0]);}
+function openDetail(e){if(!e)return;showOverlay=true;detailEvent=e;details='overview';detailExtra=null;lastFocused=document.activeElement;$('overlay').style.display='block';var ts=teams(e);
+putText('detail-title',currentL()[2]+'  ·  '+state(e));putText('detail-team1name',tname(ts[0]));putText('detail-team2name',tname(ts[1]));
+var a=$('detail-team1logo'),b=$('detail-team2logo');a.innerHTML='';b.innerHTML='';var n1=logoNode(ts[0]),n2=logoNode(ts[1]);while(n1.firstChild)a.appendChild(n1.firstChild);while(n2.firstChild)b.appendChild(n2.firstChild);if(!a.textContent&&!a.children.length)a.textContent=abbr(ts[0]);if(!b.textContent&&!b.children.length)b.textContent=abbr(ts[1]);
+putText('hero-score',hideScores?'•••':live(e)||finished(e)?score(ts[0])+' : '+score(ts[1]):'VS');putText('hero-date',when(e)+' • '+state(e));renderDetailTabs();renderDetail();
+$('back-detail').focus();var l=currentL(),eventId=e.id;if(eventId){req('https://site.api.espn.com/apis/site/v2/sports/'+l[0]+'/'+l[1]+'/summary?event='+encodeURIComponent(eventId),function(er,d){if(detailEvent!==e)return;if(!er&&d){detailExtra=d;renderDetail();}});}}
+function closeDetail(){showOverlay=false;$('overlay').style.display='none';if(lastFocused&&document.body.contains(lastFocused))lastFocused.focus();else $('sections').querySelector('button').focus();}
+function renderDetailTabs(){[].forEach.call(document.querySelectorAll('#detail-tabs .tab'),function(b){b.className='tab'+(b.getAttribute('data-detail')===details?' on':'');});}
+function dline(box,a,b){var p=document.createElement('div');p.className='detail-line';var s=document.createElement('span');s.textContent=a;var v=document.createElement('b');v.textContent=b;p.appendChild(s);p.appendChild(v);box.appendChild(p);}
+function renderDetail(){if(!detailEvent)return;var e=detailEvent,ex=detailExtra,c=getComp(e),ts=teams(e),box=$('detail-content');box.innerHTML='';
+if(details==='overview'){dline(box,'Soutěž',currentL()[2]);dline(box,'Začátek',when(e));dline(box,'Stav',state(e));if(c.venue)dline(box,'Stadion',c.venue.fullName||'');if(c.broadcasts){var n=[];c.broadcasts.forEach(function(b){if(b.names)n=n.concat(b.names);});if(n.length)dline(box,'Vysílací sítě (ESPN)',n.join(' · '));}dline(box,'Identifikátor ESPN',clean(e.id));}
+if(details==='teams'){ts.forEach(function(t){dline(box,tname(t),t.homeAway==='home'?'Domácí':'Hosté');if(t.records&&t.records.length)dline(box,'Bilance',clean(t.records[0].summary));var btn=button(box,isFollowed(t)?'★ Odebrat '+tname(t):'☆ Sledovat '+tname(t),'action darkbtn',function(){follow(t);renderDetail();});btn.style.display='block';btn.style.marginTop='14px';});}
+if(details==='stats'){var ss=ex&&ex.boxscore&&ex.boxscore.players||[],found=false;if(ex&&ex.boxscore&&ex.boxscore.teams){ex.boxscore.teams.forEach(function(t){if(t.statistics&&t.statistics.length){found=true;dline(box,(t.team&&t.team.displayName)||'Tým','Statistiky');t.statistics.slice(0,18).forEach(function(v){dline(box,v.label||v.name||'Statistika',clean(v.displayValue||v.value));});}});}if(!found){ts.forEach(function(t){if(t.statistics&&t.statistics.length){found=true;dline(box,tname(t),'');t.statistics.slice(0,20).forEach(function(v){dline(box,v.displayName||v.name||'Statistika',clean(v.displayValue||v.value));});}});}if(!found)dline(box,'Podrobné statistiky','ESPN je pro tento zápas neposkytuje.');}
+if(details==='standings'){dline(box,'Soutěž',currentL()[2]);if(standings.length){standings.slice(0,12).forEach(function(r,i){dline(box,(i+1)+'. '+r.name,r.points+' b.');});}else{dline(box,'Tabulka','Zatím nenačtena.');var b=button(box,'Načíst tabulku','action primary',function(){loadStandings();msg('Tabulka se načítá v hlavní záložce.');});b.style.marginTop='18px';}}
+if(details==='tv'){dline(box,'Televizní kanály','V Nymind TV už máš samostatnou Živou TV.');dline(box,'Automatické párování','Bez ověřeného EPG nezobrazuji vymyšlené stanice.');var b2=button(box,'← Otevřít hlavní plochu Nymind TV','action primary',function(){location.href='index.html';});b2.style.marginTop='20px';}}
+function loadStandings(){var l=currentL();standings=[];standingsMessage='Načítám tabulku…';paintStandings();req('https://site.api.espn.com/apis/v2/sports/'+l[0]+'/'+l[1]+'/standings',function(err,data){if(err){standingsMessage='Tabulka není dostupná: '+err;paintStandings();return;}var list=[];function visit(node,depth){if(!node||depth>8)return;if(node.entries&&node.entries.length){node.entries.forEach(function(en){if(en.team){var arr=en.stats||en.statistics||[],data={name:en.team.displayName||en.team.name||'Tým',points:'–',played:'–',wins:'–',draws:'–',losses:'–',diff:'–'};arr.forEach(function(v){var n=String(v.name||v.type||v.abbreviation||'').toLowerCase(),val=clean(v.displayValue!==undefined?v.displayValue:v.value);if(n==='points'||n==='pts'||n==='point')data.points=val;if(n==='gamesplayed'||n==='gp')data.played=val;if(n==='wins'||n==='w')data.wins=val;if(n==='ties'||n==='draws'||n==='d')data.draws=val;if(n==='losses'||n==='l')data.losses=val;if(n==='pointdifferential'||n==='goaldifference'||n==='diff'||n==='gd')data.diff=val;});list.push(data);}});}if(node.children)node.children.forEach(function(k){visit(k,depth+1);});if(node.standings&&node.standings!==node)visit(node.standings,depth+1);if(node.groups)node.groups.forEach(function(k){visit(k,depth+1);});}visit(data,0);standings=list;standingsMessage=list.length?'':'ESPN pro tuto soutěž aktuální tabulku neposkytuje.';paintStandings();if(showOverlay&&details==='standings')renderDetail();});}
+function paintStandings(){putText('table-league-title',currentL()[2]);var b=$('standings-list');b.innerHTML='';if(!standings.length){var p=document.createElement('p');p.textContent=standingsMessage;b.appendChild(p);return;}
+var h=document.createElement('div');h.className='standrow header';['#','Tým','Z','V','R','P','Skóre','Body'].forEach(function(x,i){var t=document.createElement('div');t.className=i===0?'pos':i===1?'name':'stat';t.textContent=x;h.appendChild(t);});b.appendChild(h);
+standings.forEach(function(r,i){var row=document.createElement('div');row.className='standrow';[i+1,r.name,r.played,r.wins,r.draws,r.losses,r.diff,r.points].forEach(function(v,j){var t=document.createElement('div');t.className=j===0?'pos':j===1?'name':'stat';t.textContent=v;row.appendChild(t);});b.appendChild(row);});}
+function renderFollowing(){var p=$('following-wrap');p.innerHTML='';var ids=Object.keys(teamFollow);if(!ids.length){var note=document.createElement('div');note.style.cssText='color:#adb1ca;padding:55px;background:#202335;border-radius:16px;font-size:23px;';note.textContent='Zatím nikoho nesleduješ. Otevři detail zápasu → Týmy → ☆ Sledovat.';p.appendChild(note);return;}
+ids.forEach(function(id){var t=teamFollow[id],b=button(p,'','followcard',function(){var k=L.findIndex(function(l){return l[1]===t.league&&l[0]===t.sport;});if(k>=0){idx=k;renderLeagues();setView('sports');loadMatches();}else msg('Soutěž není v přehledu.');});var title=document.createElement('b');title.textContent=t.name;var sub=document.createElement('small');sub.textContent=t.league+' · Stiskni OK pro soutěž';b.appendChild(title);b.appendChild(sub);});}
+function nav(e){var k=e.keyCode;if(k===10009||k===27||k===8||k===461){if(showOverlay)closeDetail();else if(view!=='sports'){setView('sports');$('side').querySelector('.sidebtn').focus();}else location.href='index.html';e.preventDefault();return;}
+if(k!==37&&k!==39&&k!==38&&k!==40)return;var f=document.activeElement;if(!f)return;var subset=showOverlay?document.querySelectorAll('#overlay button'):document.querySelectorAll('#workspace button,#side button');
+var list=[];for(var i=0;i<subset.length;i++){var r=subset[i].getBoundingClientRect();if(r.width>0&&r.height>0)list.push(subset[i]);}
+var fr=f.getBoundingClientRect(),cx=fr.left+fr.width/2,cy=fr.top+fr.height/2,best=null,score=1e12;
+list.forEach(function(n){if(n===f)return;var r=n.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy;if(k===37&&dx>=-5||k===39&&dx<=5||k===38&&dy>=-5||k===40&&dy<=5)return;var major=(k===37||k===39)?Math.abs(dx):Math.abs(dy),minor=(k===37||k===39)?Math.abs(dy):Math.abs(dx),d=major+minor*2.5;if(d<score){score=d;best=n;}});
+if(best){best.focus();try{best.scrollIntoView({block:'nearest'});}catch(ex){best.scrollIntoView(false);}}e.preventDefault();}
+document.addEventListener('keydown',nav);
+[].forEach.call(document.querySelectorAll('#side button'),function(b){b.onclick=function(){setView(b.getAttribute('data-nav'));};});
+[].forEach.call(document.querySelectorAll('#sections button'),function(b){b.onclick=function(){setMode(b.getAttribute('data-tab'));};});
+[].forEach.call(document.querySelectorAll('#detail-tabs button'),function(b){b.onclick=function(){details=b.getAttribute('data-detail');renderDetailTabs();renderDetail();};});
+$('refresh').onclick=function(){delete eventCache[currentL()[0]+'/'+currentL()[1]];loadMatches();};
+$('hide-scores').onclick=function(){hideScores=!hideScores;putText('hide-scores','◉  Skrýt skóre: '+(hideScores?'zapnuto':'vypnuto'));renderEvents();if(showOverlay)openDetail(detailEvent);};
+$('detail-open').onclick=function(){openDetail(selected);};$('quick-follow').onclick=followFirst;$('back-detail').onclick=closeDetail;
+try{teamFollow=JSON.parse(localStorage.getItem('nymind.sportv3.teams')||'{}')||{};leagueFollow=JSON.parse(localStorage.getItem('nymind.sportv3.leagues')||'{}')||{};}catch(ex){teamFollow={};leagueFollow={};}
+renderLeagues();renderDates();setMode('mine');loadMatches();$('sections').querySelector('button').focus();
+}());</script></body></html>
