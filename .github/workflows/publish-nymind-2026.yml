@@ -1,0 +1,30 @@
+name: Publish Nymind TV v2.0.26
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-nymind-2026.yml'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact version
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Publish update tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(python3 -c "import json; print(json.load(open('package.json'))['version'])")" = "2.0.26"
+          if git ls-remote --exit-code --tags origin refs/tags/v2.0.26 >/dev/null 2>&1; then
+            echo "Tag already exists; no changes made"
+            exit 0
+          fi
+          git tag v2.0.26 "$GITHUB_SHA"
+          git push origin v2.0.26
+          gh release create v2.0.26 --title 'Nymind TV v2.0.26' --notes 'Aktualizace stávající aplikace Nymind TV. Dlaždice Živá TV nyní nabízí vlastní knihovničku oblíbených stanic a poslední sledované kanály pro rychlé spuštění pomocí ovladače. Oblíbené a historie používají dosavadní úložiště, přehrávání i EPG zůstávají zachovány. Nový TizenBrew modul není potřeba.'
