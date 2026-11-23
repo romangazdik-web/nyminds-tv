@@ -22,11 +22,11 @@ button{font-family:inherit}#shell{width:1920px;height:1080px;position:absolute;t
 .tab{height:55px;border-radius:12px;background:#1c1e2a;border:1px solid #36384a;color:#afb0c2;padding:0 27px;font-weight:bold;font-size:19px;cursor:pointer;outline:0}
 .tab.on{background:#e5ddff;color:#29243f;border-color:#e5ddff}
 #subbar{height:74px;display:flex;align-items:center;gap:11px;margin-bottom:11px;overflow:hidden}
-#leagues{display:flex;align-items:center;gap:10px;max-width:1250px;overflow:hidden;white-space:nowrap;flex-shrink:0}
-.league{background:#242636;color:#b9bad0;border:1px solid #393b53;padding:15px 21px;border-radius:13px;cursor:pointer;outline:0;font-size:17px;white-space:nowrap}
+#leagues{display:flex;align-items:center;gap:10px;max-width:1250px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;flex-shrink:1;padding:4px 2px}
+.league{flex:0 0 auto;background:#242636;color:#b9bad0;border:1px solid #393b53;padding:15px 21px;border-radius:13px;cursor:pointer;outline:0;font-size:17px;white-space:nowrap}
 .league.sel{background:#49435f;color:#fff;border-color:#9690cd}#refresh{margin-left:auto;white-space:nowrap}
-#dates{height:75px;display:flex;align-items:center;gap:9px;margin-bottom:17px;white-space:nowrap;overflow:hidden}
-.date{border:1px solid #353949;border-radius:11px;background:#1b1e2c;color:#b1b6c8;min-width:137px;height:65px;font-size:16px;cursor:pointer;outline:0}
+#dates{height:75px;display:flex;align-items:center;gap:9px;margin-bottom:17px;white-space:nowrap;overflow-x:auto;overflow-y:hidden}
+.date{flex:0 0 auto;border:1px solid #353949;border-radius:11px;background:#1b1e2c;color:#b1b6c8;min-width:137px;height:65px;font-size:16px;cursor:pointer;outline:0}
 .date strong{display:block;font-size:19px;color:white;margin-top:6px}.date.sel{background:#3f3c5b;border-color:#9187c7}
 #body{height:650px;position:relative}
 #summary{display:flex;gap:20px;height:630px}
@@ -84,7 +84,7 @@ button{font-family:inherit}#shell{width:1920px;height:1080px;position:absolute;t
 <div id="topline"><div class="identity">NYMIND <em>SPORTS</em></div><div class="right"><span id="clock"></span> &nbsp; • &nbsp; SPORTOVNÍ CENTRUM</div></div>
 <div id="page-head"><div><h1 id="page-title">Sport</h1><p class="muted" id="page-desc">Všechny zápasy, tvoje týmy a sportovní výsledky na jednom místě.</p></div><button class="pill small" id="hide-scores">◉ &nbsp; Skrýt skóre: vypnuto</button></div>
 <div id="sections"><button class="tab on" data-tab="mine">Moje sporty</button><button class="tab" data-tab="all">Všechny zápasy</button><button class="tab" data-tab="live">Právě se hraje</button><button class="tab" data-tab="table">Tabulky soutěží</button></div>
-<div id="subbar"><div id="leagues"></div><button class="pill small" id="refresh">↻ Obnovit</button></div>
+<div id="subbar"><button class="pill small" id="league-left">‹</button><div id="leagues"></div><button class="pill small" id="league-right">›</button><button class="pill small" id="refresh">↻ Obnovit</button></div>
 <div id="dates"></div>
 <div id="status">Načítám sportovní program…</div>
 <div id="body"><div id="summary"><div id="events-pane"><div class="block-title"><span id="list-heading">Živé a nejbližší zápasy</span><span class="count" id="list-count"></span></div><div id="event-list"></div></div>
@@ -183,9 +183,9 @@ function paintStandings(){putText('table-league-title',currentL()[2]);var b=$('s
 var h=document.createElement('div');h.className='standrow header';['#','Tým','Z','V','R','P','Skóre','Body'].forEach(function(x,i){var t=document.createElement('div');t.className=i===0?'pos':i===1?'name':'stat';t.textContent=x;h.appendChild(t);});b.appendChild(h);
 standings.forEach(function(r,i){var row=document.createElement('div');row.className='standrow';[i+1,r.name,r.played,r.wins,r.draws,r.losses,r.diff,r.points].forEach(function(v,j){var t=document.createElement('div');t.className=j===0?'pos':j===1?'name':'stat';t.textContent=v;row.appendChild(t);});b.appendChild(row);});}
 function renderFollowing(){var p=$('following-wrap');p.innerHTML='';var ids=Object.keys(teamFollow);if(!ids.length){var note=document.createElement('div');note.style.cssText='color:#adb1ca;padding:55px;background:#202335;border-radius:16px;font-size:23px;';note.textContent='Zatím nikoho nesleduješ. Otevři detail zápasu → Týmy → ☆ Sledovat.';p.appendChild(note);return;}
-ids.forEach(function(id){var t=teamFollow[id],b=button(p,'','followcard',function(){var k=L.findIndex(function(l){return l[1]===t.league&&l[0]===t.sport;});if(k>=0){idx=k;renderLeagues();setView('sports');loadMatches();}else msg('Soutěž není v přehledu.');});var title=document.createElement('b');title.textContent=t.name;var sub=document.createElement('small');sub.textContent=t.league+' · Stiskni OK pro soutěž';b.appendChild(title);b.appendChild(sub);});}
+ids.forEach(function(id){var t=teamFollow[id],b=button(p,'','followcard',function(){var k=-1;for(var z=0;z<L.length;z++){if(L[z][1]===t.league&&L[z][0]===t.sport){k=z;break;}}if(k>=0){idx=k;renderLeagues();setView('sports');loadMatches();}else msg('Soutěž není v přehledu.');});var title=document.createElement('b');title.textContent=t.name;var sub=document.createElement('small');sub.textContent=t.league+' · Stiskni OK pro soutěž';b.appendChild(title);b.appendChild(sub);});}
 function nav(e){var k=e.keyCode;if(k===10009||k===27||k===8||k===461){if(showOverlay)closeDetail();else if(view!=='sports'){setView('sports');$('side').querySelector('.sidebtn').focus();}else location.href='index.html';e.preventDefault();return;}
-if(k!==37&&k!==39&&k!==38&&k!==40)return;var f=document.activeElement;if(!f)return;var subset=showOverlay?document.querySelectorAll('#overlay button'):document.querySelectorAll('#workspace button,#side button');
+if(k===13||k===29443){var activeBtn=document.activeElement;if(activeBtn&&activeBtn.tagName==='BUTTON'){activeBtn.click();e.preventDefault();}return;}if(k!==37&&k!==39&&k!==38&&k!==40)return;var f=document.activeElement;if(!f)return;var subset=showOverlay?document.querySelectorAll('#overlay button'):document.querySelectorAll('#workspace button,#side button');
 var list=[];for(var i=0;i<subset.length;i++){var r=subset[i].getBoundingClientRect();if(r.width>0&&r.height>0)list.push(subset[i]);}
 var fr=f.getBoundingClientRect(),cx=fr.left+fr.width/2,cy=fr.top+fr.height/2,best=null,score=1e12;
 list.forEach(function(n){if(n===f)return;var r=n.getBoundingClientRect(),dx=r.left+r.width/2-cx,dy=r.top+r.height/2-cy;if(k===37&&dx>=-5||k===39&&dx<=5||k===38&&dy>=-5||k===40&&dy<=5)return;var major=(k===37||k===39)?Math.abs(dx):Math.abs(dy),minor=(k===37||k===39)?Math.abs(dy):Math.abs(dx),d=major+minor*2.5;if(d<score){score=d;best=n;}});
@@ -194,7 +194,7 @@ document.addEventListener('keydown',nav);
 [].forEach.call(document.querySelectorAll('#side button'),function(b){b.onclick=function(){setView(b.getAttribute('data-nav'));};});
 [].forEach.call(document.querySelectorAll('#sections button'),function(b){b.onclick=function(){setMode(b.getAttribute('data-tab'));};});
 [].forEach.call(document.querySelectorAll('#detail-tabs button'),function(b){b.onclick=function(){details=b.getAttribute('data-detail');renderDetailTabs();renderDetail();};});
-$('refresh').onclick=function(){delete eventCache[currentL()[0]+'/'+currentL()[1]];loadMatches();};
+$('refresh').onclick=function(){delete eventCache[currentL()[0]+'/'+currentL()[1]];loadMatches();};$('league-left').onclick=function(){$('leagues').scrollLeft-=460;};$('league-right').onclick=function(){$('leagues').scrollLeft+=460;};
 $('hide-scores').onclick=function(){hideScores=!hideScores;putText('hide-scores','◉  Skrýt skóre: '+(hideScores?'zapnuto':'vypnuto'));renderEvents();if(showOverlay)openDetail(detailEvent);};
 $('detail-open').onclick=function(){openDetail(selected);};$('quick-follow').onclick=followFirst;$('back-detail').onclick=closeDetail;
 try{teamFollow=JSON.parse(localStorage.getItem('nymind.sportv3.teams')||'{}')||{};leagueFollow=JSON.parse(localStorage.getItem('nymind.sportv3.leagues')||'{}')||{};}catch(ex){teamFollow={};leagueFollow={};}
