@@ -27,7 +27,29 @@ document.getElementById('stop').onclick=closeVideo;
 function parse(s){var lines=s.split(/\r?\n/),list=[],name='',group='';for(var i=0;i<lines.length;i++){var x=lines[i].trim();if(x.indexOf('#EXTINF:')===0){var mm=x.match(/group-title="([^"]+)"/i);group=mm?mm[1]:'';var pos=x.lastIndexOf(',');name=pos>=0?x.slice(pos+1).trim():'Kanál';}else if(/^https?:\/\//i.test(x)){list.push({name:name||'Kanál',group:group,url:x});name='';group='';}}return list;}
 function render(list){ch.innerHTML='';if(!list.length){msg.textContent='Žádné kanály nebyly nalezeny.';return;}msg.textContent='Načteno '+list.length+' kanálů. OK na kanálu spustí přímé přehrávání, pokud jej TV podporuje.';list.slice(0,1200).forEach(function(x){var b=document.createElement('button');b.className='channel focusable';var title=document.createElement('strong');title.textContent=x.name;var sub=document.createElement('em');sub.textContent=x.group||'TV';b.appendChild(title);b.appendChild(sub);b.onclick=function(){p.style.display='block';video.src=x.url;try{var attempt=video.play();if(attempt&&typeof attempt.catch==='function'){attempt.catch(function(){msg.textContent='Přehrávání tohoto formátu nemusí být na Samsungu podporováno.';});}}catch(err){msg.textContent='Tento formát nelze přímo přehrát na Samsungu.';}document.getElementById('stop').focus();};ch.appendChild(b);});}
 document.getElementById('load').onclick=function(){var url=document.getElementById('m3u').value.trim();if(!/^https?:\/\//i.test(url)){msg.textContent='Zadej úplnou HTTP(S) adresu playlistu.';return;}localStorage.setItem('nymind.sports.m3u',url);msg.textContent='Načítám playlist…';var xhr=new XMLHttpRequest();xhr.open('GET',url,true);xhr.timeout=15000;xhr.onreadystatechange=function(){if(xhr.readyState===4){if(xhr.status===200){render(parse(xhr.responseText));}else{msg.textContent='Načtení selhalo (HTTP '+xhr.status+'). Server možná blokuje CORS nebo vyžaduje přístup.';}}};xhr.onerror=function(){msg.textContent='Nepodařilo se připojit. Ověř adresu, HTTPS a CORS.';};xhr.ontimeout=function(){msg.textContent='Časový limit při načítání.';};xhr.send(null);};
-document.addEventListener('keydown',function(e){var k=e.keyCode;if(p.style.display==='block'){if(k===10009||k===27||k===8){closeVideo();e.preventDefault();}return;}if(k===10009||k===27||k===8){location.href='index.html';e.preventDefault();return;}var el=document.activeElement;if(el&&/INPUT/.test(el.tagName))return;var i=buttons.indexOf(el);if(i>=0&&(k===38||k===40)){var j=Math.max(0,Math.min(buttons.length-1,i+(k===38?-1:1)));buttons[j].focus();e.preventDefault();return;}if((k===37||k===39)&&i>=0){var page=document.querySelector('.screen.active');var target=page&&page.querySelector('.focusable,#m3u,button');if(target&&target!==el){target.focus();e.preventDefault();return;}}if(k===37&&i<0){buttons[last].focus();e.preventDefault();}});
+/* Samsung Tizen 3 remote: normalize TV key codes, navigate only visible controls. */
+function controls(){var page=document.querySelector('.screen.active');if(!page)return[];var nodes=page.querySelectorAll('button,input,.focusable');var out=[];for(var i=0;i<nodes.length;i++){var r=nodes[i].getBoundingClientRect();if(r.width>1&&r.height>1)out.push(nodes[i]);}return out;}
+function nearest(source, list, dir){var r=source.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,best=null,score=1e20;for(var j=0;j<list.length;j++){var t=list[j];if(t===source)continue;var q=t.getBoundingClientRect(),dx=q.left+q.width/2-cx,dy=q.top+q.height/2-cy;
+if(dir==='UP'&&dy>=-8||dir==='DOWN'&&dy<=8||dir==='LEFT'&&dx>=-8||dir==='RIGHT'&&dx<=8)continue;
+var main=(dir==='UP'||dir==='DOWN')?Math.abs(dy):Math.abs(dx),other=(dir==='UP'||dir==='DOWN')?Math.abs(dx):Math.abs(dy),cost=main+other*2.8;if(cost<score){score=cost;best=t;}}
+return best;}
+function normalize(k){if(k===37||k===4)return'LEFT';if(k===39||k===5)return'RIGHT';if(k===38||k===29460)return'UP';if(k===40||k===29461)return'DOWN';if(k===13||k===29443)return'OK';if(k===10009||k===27||k===8||k===461)return'BACK';return'';}
+document.addEventListener('keydown',function(e){var key=normalize(e.keyCode);if(!key)return;
+if(p.style.display==='block'){if(key==='BACK'){closeVideo();e.preventDefault();}return;}
+if(key==='BACK'){location.href='index.html';e.preventDefault();return;}
+var el=document.activeElement,navIndex=buttons.indexOf(el);
+if(el&&el.tagName==='INPUT'&&key==='OK')return;
+if(navIndex>=0){
+ if(key==='UP'||key==='DOWN'){var j=Math.max(0,Math.min(buttons.length-1,navIndex+(key==='UP'?-1:1)));buttons[j].focus();e.preventDefault();return;}
+ if(key==='RIGHT'){var candidates=controls();if(candidates.length){candidates[0].focus();}e.preventDefault();return;}
+ if(key==='OK'){el.click();e.preventDefault();return;}
+ if(key==='LEFT'){e.preventDefault();return;}
+}
+var items=controls();
+if(key==='LEFT'){var other=nearest(el,items,'LEFT');if(other){other.focus();}else{buttons[last].focus();}e.preventDefault();return;}
+if(key==='RIGHT'||key==='UP'||key==='DOWN'){var next=nearest(el,items,key);if(next){next.focus();try{next.scrollIntoView({block:'nearest'});}catch(er){next.scrollIntoView(false);}}else if(key==='UP'&&!items.length){buttons[last].focus();}e.preventDefault();return;}
+if(key==='OK'&&el&&el.tagName==='BUTTON'){el.click();e.preventDefault();return;}
+});
 buttons[0].focus();
 }());
 </script></body></html>
