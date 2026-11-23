@@ -28,10 +28,10 @@ button{font-family:inherit}#shell{width:1920px;height:1080px;position:absolute;t
 #dates{height:75px;display:flex;align-items:center;gap:9px;margin-bottom:17px;white-space:nowrap;overflow-x:auto;overflow-y:hidden}
 .date{flex:0 0 auto;border:1px solid #353949;border-radius:11px;background:#1b1e2c;color:#b1b6c8;min-width:137px;height:65px;font-size:16px;cursor:pointer;outline:0}
 .date strong{display:block;font-size:19px;color:white;margin-top:6px}.date.sel{background:#3f3c5b;border-color:#9187c7}
-#body{height:650px;position:relative}
-#summary{display:flex;gap:20px;height:630px}
-#events-pane{width:1100px;overflow:auto;padding:0 8px 55px 0}
-#preview-pane{width:600px;background:linear-gradient(143deg,#202236,#151823);border:1px solid #3d4055;border-radius:21px;padding:26px 30px;position:relative;overflow:hidden}
+#body{height:530px;position:relative}
+#summary{display:flex;gap:20px;height:520px}
+#events-pane{width:1100px;height:520px;overflow:auto;padding:0 8px 55px 0}
+#preview-pane{width:600px;background:linear-gradient(143deg,#202236,#151823);border:1px solid #3d4055;border-radius:21px;padding:26px 30px;height:520px;position:relative;overflow:hidden}
 .block-title{font-size:25px;font-weight:bold;margin:4px 0 18px}.count{color:#9b9eb3;font-size:16px;margin-left:12px}
 .event-row{height:112px;background:#1d202e;border:1px solid #333648;border-radius:15px;margin:0 0 11px;color:#f4f2fb;width:100%;padding:15px 22px;text-align:left;display:flex;align-items:center;cursor:pointer;outline:0}
 .event-row:hover,.event-row.isselected{background:#29283c;border-color:#6d678b}
@@ -51,12 +51,12 @@ button{font-family:inherit}#shell{width:1920px;height:1080px;position:absolute;t
 .action{padding:15px 22px;border-radius:12px;cursor:pointer;outline:0;font-size:19px}
 #status{font-size:19px;color:#a9acc1;min-height:26px;margin:-12px 0 17px}
 #standings-page,#following-page{display:none}
-#standings-wrap{background:#171a27;border:1px solid #37394c;border-radius:17px;height:635px;overflow:auto;padding:18px 25px}
+#standings-wrap{background:#171a27;border:1px solid #37394c;border-radius:17px;height:520px;overflow:auto;padding:18px 25px}
 #table-league-title{font-size:28px;font-weight:bold;margin-bottom:17px}
 .standrow{width:100%;display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #2e3143;font-size:18px;color:#e1e2ed;min-height:53px}
 .standrow:nth-child(odd){background:#1d2131}.standrow.header{background:#292b3e;color:#b7afda;font-weight:bold}
 .standrow .pos{width:57px;color:#afaaca}.standrow .name{flex:1;min-width:300px}.standrow .stat{width:110px;text-align:center}
-#following-wrap{height:635px;overflow:auto;display:flex;align-content:flex-start;gap:16px;flex-wrap:wrap}
+#following-wrap{height:520px;overflow:auto;display:flex;align-content:flex-start;gap:16px;flex-wrap:wrap}
 .followcard{width:330px;background:#242638;border:1px solid #45465a;border-radius:17px;padding:22px;min-height:146px;cursor:pointer;text-align:left;color:#fff;outline:0}
 .followcard b{font-size:23px;display:block;margin:12px 0 10px}.followcard small{font-size:15px;color:#aeb1c7}
 #overlay{position:absolute;z-index:20;left:100px;top:0;width:1820px;height:1080px;display:none;padding:33px 75px 44px;background:radial-gradient(ellipse at 53% -16%,#33314e 0,#131621 62%,#0a0c14 100%)}
@@ -142,7 +142,7 @@ function loadMatches(){var l=currentL(),cacheKey=l[0]+'/'+l[1];putText('status',
 var d1=dateFor(-4),d2=dateFor(10),range=ymd(d1)+'-'+ymd(d2);
 var base='https://site.api.espn.com/apis/site/v2/sports/'+l[0]+'/'+l[1]+'/scoreboard';
 req(base+'?dates='+range+'&limit=200',function(err,res){if(err){req(base,function(e2,r2){if(e2){putText('status','Sportovní data nedostupná: '+e2);events=[];renderEvents();}else accept(r2);});}else accept(res);});
-function accept(data){events=data&&data.events||[];events.sort(function(a,b){return new Date(a.date)-new Date(b.date);});eventCache[cacheKey]={events:events,time:Date.now()};putText('status',l[2]+' · '+events.length+' dostupných událostí');renderEvents();}}
+function accept(data){events=data&&data.events||[];events.sort(function(a,b){return new Date(a.date)-new Date(b.date);});if(!events.length){req(base,function(e2,r2){if(!e2&&r2&&r2.events&&r2.events.length){events=r2.events;events.sort(function(a,b){return new Date(a.date)-new Date(b.date);});}finish();});}else finish();}function finish(){eventCache[cacheKey]={events:events,time:Date.now()};putText('status',l[2]+' · '+events.length+' dostupných událostí');renderEvents();}}
 function activeEvents(){var a=events.slice(),fav=Object.keys(teamFollow),wanted=[];
 if(tab==='live')return a.filter(function(e){return live(e);});
 if(tab==='all'){var d=dateFor(dateOffset);return a.filter(function(e){var q=new Date(e.date);return q.getFullYear()===d.getFullYear()&&q.getMonth()===d.getMonth()&&q.getDate()===d.getDate();});}
