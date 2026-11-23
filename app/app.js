@@ -138,7 +138,7 @@
       ws.onclose=function(){if(!finished)end('Samsung uzavřel spojení na portu 8001.');};
     }catch(e){end('WebSocket není povolen ('+(e.name||'chyba')+').');}
   }
-  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
+  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else if(kind==='sports'){window.location.href='sports.html';}else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
   function hideList(){openList=false;$('overlay').className='overlay hidden';select(selected);}
   function renderList(){var box=$('module-list');box.innerHTML='';if(!modules.length){box.innerHTML='<div class="module">'+(loaded?'Žádné moduly nejsou dostupné.':'Načítám seznam modulů…')+'</div>';return;}
