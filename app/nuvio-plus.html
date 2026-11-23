@@ -1,0 +1,148 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=1920,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Nymind Nuvio · Tizen</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#080b14;color:#eef3fb;font:22px Arial,Helvetica,sans-serif;overflow:hidden}
+#shell{position:absolute;width:1920px;height:1080px;transform-origin:top left;background:radial-gradient(ellipse at 45% -25%,#2e344e 0,#121625 42%,#0b0e19 83%);overflow:hidden}
+#rail{position:absolute;left:0;top:0;bottom:0;width:116px;background:#101321d9;border-right:1px solid #30354b;padding:39px 17px;z-index:5}
+.mark{width:77px;height:77px;border-radius:23px;background:linear-gradient(135deg,#6671e6,#8a58ba);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:30px;margin-bottom:40px}
+.nav{width:80px;height:77px;border:0;border-radius:17px;color:#aeb6c9;background:transparent;margin-bottom:12px;font-size:29px;cursor:pointer;outline:0;position:relative}
+.nav.sel{background:#363750;color:#fff}.nav:focus,.action:focus,.chip:focus,.match:focus,.channel:focus,.guide-row:focus,.tab:focus,.field:focus,.gridbtn:focus{outline:4px solid #f5f8ff!important;outline-offset:1px!important;box-shadow:0 0 0 4px #797ae155}
+.nav small{display:block;font-size:12px;margin-top:4px}
+#main{position:absolute;left:116px;top:0;right:0;bottom:0;padding:36px 52px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;height:67px;margin-bottom:30px}
+.top strong{font-size:35px;letter-spacing:-1px}.accent{color:#aca1ff}.top small{color:#a8b4ca;font-size:18px}
+.page{display:none}.page.show{display:block}
+.headline{font-size:43px;letter-spacing:-1px;margin:2px 0 14px}.lede{color:#9daabd;font-size:19px;margin:0 0 27px}
+.tabs,.chips{display:flex;gap:12px;margin:20px 0;align-items:center;flex-wrap:wrap}
+.tab,.chip,.action,.gridbtn{border:1px solid #3c4159;border-radius:12px;background:#222638;color:#c3c9da;padding:14px 21px;font-size:19px;cursor:pointer;outline:0}
+.tab.sel,.chip.sel,.action.primary{background:#53507c;color:white;border-color:#7973bd}
+.action.primary{background:#7775d5}.action{margin-right:8px;margin-bottom:9px}
+.panels{display:flex;gap:24px}
+.pane{background:linear-gradient(145deg,#222639,#181c2a);border:1px solid #363b50;border-radius:18px;padding:25px}
+.pane h2{margin:0 0 16px;font-size:27px}
+.hero{border-radius:22px;border:1px solid #44435f;background:linear-gradient(112deg,#34365d,#1c2237 85%);padding:35px 40px;min-height:210px;margin-bottom:25px;display:flex;justify-content:space-between}
+.hero h2{font-size:37px;margin:0 0 15px}.hero p{color:#c8cce2;margin:0;line-height:1.5;max-width:930px}
+.emblem{font-size:125px;opacity:.55}
+.cardgrid{display:flex;flex-wrap:wrap;gap:20px}.feature{width:calc(33.33% - 14px);min-height:175px;padding:28px;background:#23283a;border:1px solid #3b4257;border-radius:18px}
+.feature b{font-size:26px;display:block;margin-bottom:12px}.feature p{font-size:19px;color:#b2bdce;line-height:1.4;margin:0}
+#matches{height:620px;overflow:auto;width:61%;padding-right:10px}
+.match{display:block;width:100%;margin-bottom:12px;border:1px solid #40465e;background:#1e2435;border-radius:14px;color:white;text-align:left;padding:19px 23px;cursor:pointer;outline:0}
+.match b{font-size:24px;display:block;margin-bottom:8px}.match span{font-size:17px;color:#abb9ca}.match .score{float:right;color:#d7ceff;font-size:25px}
+#right-preview{width:39%;height:620px}.empty{font-size:20px;color:#a5b4c8;line-height:1.55}
+#match-detail{display:none;position:absolute;z-index:12;left:116px;right:0;top:0;bottom:0;background:radial-gradient(ellipse at 10% 0,#353456,#111522 76%);padding:45px 65px}
+#detail-title{font-size:41px;margin:14px 0}.scoreline{font-size:48px;padding:30px 0;letter-spacing:1px}
+#detail-body{font-size:23px;line-height:1.55;color:#cdd5e5;max-height:470px;overflow:auto}
+#guide{height:650px;overflow:auto;background:#111624;border:1px solid #363e52;border-radius:16px;padding:0 8px}
+.guide-row{display:flex;width:100%;height:88px;align-items:center;border:0;border-bottom:1px solid #323749;background:#192030;color:white;text-align:left;cursor:pointer;outline:0}
+.guide-row:nth-child(even){background:#1e2636}
+.g-name{width:315px;flex-shrink:0;padding:15px;font-size:20px}.g-program{flex:1;padding:13px;font-size:20px;color:#d4dbe8;border-left:2px solid #515878}.g-program small{font-size:16px;display:block;color:#9da9be;margin-top:6px}
+#channel-list{height:595px;overflow:auto}
+.channel{width:98%;padding:17px 23px;margin-bottom:7px;background:#1d2535;color:white;border:1px solid #353e55;border-radius:10px;display:flex;justify-content:space-between;text-align:left;cursor:pointer;outline:0;font-size:20px}
+.channel em{font-size:16px;font-style:normal;color:#9ab1cc}
+.field{background:#111827;border:2px solid #48536a;border-radius:12px;padding:16px;font-size:22px;color:#fff;outline:0;width:1020px;max-width:100%}
+.info{font-size:18px;color:#abb9ce;line-height:1.5;margin-top:12px}
+#video-layer{display:none;position:absolute;z-index:20;inset:0;background:#030406}
+#video{width:100%;height:100%;object-fit:contain}
+#playerbar{position:absolute;left:45px;right:45px;bottom:35px;background:#101625cf;border-radius:20px;padding:22px;display:flex;justify-content:space-between;align-items:center}
+#player-title{font-size:27px}
+#multiview-grid{display:none;position:absolute;inset:125px 45px 85px;gap:13px;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.mvcell{border:2px solid #525970;background:#080b14;border-radius:13px;overflow:hidden;position:relative}
+.mvcell video{width:100%;height:100%}.mvcell span{position:absolute;left:14px;top:10px;color:white;background:#1119;padding:8px}
+.note{padding:16px 22px;border-radius:12px;border-left:4px solid #7a78dd;background:#222638;color:#bfc9db;font-size:18px;line-height:1.45;margin-top:16px}
+#toast{display:none;position:absolute;right:45px;bottom:35px;z-index:25;background:#3b315a;border:1px solid #7870b1;border-radius:12px;padding:16px 24px;font-size:20px;max-width:740px}
+#foot{position:absolute;bottom:17px;left:169px;color:#6c7990;font-size:15px}
+</style></head><body><div id="shell">
+<aside id="rail"><div class="mark">N+</div><button class="nav sel" data-page="home">⌂<small>Domů</small></button><button class="nav" data-page="sport">🏆<small>Sport</small></button><button class="nav" data-page="live">▣<small>Živá TV</small></button><button class="nav" data-page="guide">▤<small>EPG</small></button><button class="nav" data-page="multiview">▦<small>Multiview</small></button><button class="nav" data-page="ondemand">▶<small>Filmy</small></button><button class="nav" data-page="settings">⚙<small>Nastavení</small></button><button class="nav" data-page="exit">←<small>Zpět</small></button></aside>
+<main id="main"><div class="top"><strong>NUVIO <span class="accent">+ IPTV</span> <small>· Nymind Tizen port</small></strong><small id="time"></small></div>
+<section id="home" class="page show"><div class="hero"><div><h2>Všechno, co sleduješ. Na jednom místě.</h2><p>Sportovní centrum, tvoje IPTV, přehled kanálů a filmová knihovna ve vizuálním stylu Nuvio + IPTV. Vlastní aplikace optimalizovaná pro Samsung Tizen.</p></div><div class="emblem">▶</div></div><h2>Pokračovat ve sledování</h2><div class="cardgrid"><div class="feature"><b>🏆 Sportovní centrum</b><p>Aktuální zápasy, výsledky a detaily týmů ze sportovních dat.</p></div><div class="feature"><b>📺 Živá televize</b><p>Tvůj M3U playlist, skupiny, oblíbené kanály a přehrávač.</p></div><div class="feature"><b>▤ TV průvodce</b><p>Program podle dostupných údajů v playlistu a připojeného XMLTV EPG.</p></div><div class="feature"><b>▦ Multiview</b><p>Experimentální rozdělení obrazovky pro podporované kanály.</p></div><div class="feature"><b>🎞 Filmy a seriály</b><p>Vlastní videotéka nebo zdroje přes Nymind Cinema.</p></div><div class="feature"><b>⚙ Nastavení</b><p>Připojení playlistu a EPG. Data zůstanou na TV.</p></div></div></section>
+<section id="sport" class="page"><h1 class="headline">Sport</h1><p class="lede">Prohlížej soutěže, zápasy, skóre a detaily.</p><div class="tabs" id="league-tabs"></div><p id="sports-status" class="info">Vyber soutěž.</p><div class="panels"><div id="matches"></div><div class="pane" id="right-preview"><h2>Detail zápasu</h2><div class="empty" id="preview-text">Vyber konkrétní zápas. Otevře se kompletní obrazovka s výsledkem, stavem utkání, týmy a dostupnými podrobnostmi.</div></div></div></section>
+<section id="live" class="page"><h1 class="headline">Živá TV</h1><p class="lede">Kanály z tvého playlistu, skupiny a oblíbené.</p><div class="chips" id="groups"></div><p id="live-status" class="info">Přidej M3U v nastavení.</p><div id="channel-list"></div></section>
+<section id="guide" class="page"><h1 class="headline">Televizní průvodce</h1><p class="lede">EPG ze zdroje XMLTV nebo informací v playlistu.</p><div class="tabs"><button class="tab action" id="epg-refresh">Obnovit EPG</button><button class="tab action" id="guide-to-settings">Zdroj průvodce ⚙</button></div><div id="guide"></div></section>
+<section id="multiview" class="page"><h1 class="headline">Multiview</h1><p class="lede">Experimentální vícekanálové přehrávání, inspirované originálním Nuvio + IPTV.</p><div class="hero"><div><h2>Více zápasů na jedné obrazovce</h2><p>Vyber dvě stanice ze svého M3U seznamu. Přehrávání dvou současných videí závisí na výkonu a dekodéru Samsungu. Zvuk bude mít jen první kanál.</p></div><div class="emblem">▦</div></div><div class="tabs"><button id="mv-start" class="action primary">Spustit první dva kanály</button><button id="mv-stop" class="action">Ukončit Multiview</button></div><div class="note">Na původním Nuvio jsou až 4 streamy. Na starším Tizenu je toto pouze experimentální dvoukanálová funkce; nemusí být hardwarově podporovaná.</div></section>
+<section id="ondemand" class="page"><h1 class="headline">Filmy a seriály</h1><p class="lede">Mediální knihovna a přehrávání z vlastních zdrojů.</p><div class="hero"><div><h2>Nymind Cinema</h2><p>Pro katalogy Stremio, plakáty, epizody a kompatibilní streamovací doplňky už máš vlastní plnohodnotnou Nymind Cinema v hlavním launcheru.</p></div><div class="emblem">🎬</div></div><div class="note">Tady zatím není integrován katalog ani placené služby. Přímou videotéku IPTV budeme řešit až podle typu tvého poskytovatele.</div><button class="action primary" id="open-cinema-info">Jak otevřít Cinema</button></section>
+<section id="settings" class="page"><h1 class="headline">Nastavení · Zdroje</h1><p class="lede">Připojení IPTV a televizního průvodce.</p>
+<div class="pane"><h2>M3U playlist</h2><input class="field" id="playlist-url" placeholder="https://.../playlist.m3u" type="url"><div style="margin-top:16px"><button id="playlist-save" class="action primary">Uložit a načíst kanály</button><button id="playlist-clear" class="action">Vymazat nastavení</button></div><p class="info" id="playlist-status">Zatím nenastaveno.</p></div>
+<div class="pane" style="margin-top:15px"><h2>XMLTV průvodce (EPG)</h2><input class="field" id="epg-url" placeholder="https://.../guide.xml" type="url"><div style="margin-top:14px"><button id="epg-save" class="action primary">Uložit a načíst EPG</button></div><p class="info" id="epg-status">Volitelný zdroj XMLTV.</p></div>
+<div class="note">Aplikace nepřidává žádné kanály ani filmy. Podporuje standardní HTTP(S) M3U a XMLTV; CORS, SSL a kodeky jsou omezeny starým Tizen 3.0.</div>
+</section></main>
+<div id="match-detail"><button class="action" id="detail-back">← Zpět ke sportu</button><div id="detail-title"></div><div class="scoreline" id="detail-score"></div><div class="tabs" id="detail-tabs"><button class="tab sel" data-detail="summary">Přehled</button><button class="tab" data-detail="stats">Statistiky</button><button class="tab" data-detail="teams">Týmy</button><button class="tab" data-detail="channels">TV kanály</button></div><div class="pane" style="height:490px;overflow:auto"><div id="detail-body"></div></div></div>
+<div id="video-layer"><video id="video" controls autoplay></video><div id="multiview-grid"><div class="mvcell"><span>Kanál 1</span><video muted autoplay></video></div><div class="mvcell"><span>Kanál 2</span><video muted autoplay></video></div></div><div id="playerbar"><span id="player-title"></span><button id="player-back" class="action primary">← Zpět</button></div></div>
+<div id="toast"></div><div id="foot">Nymind TV · Samostatná Tizen aplikace · Ovladač: šipky, OK, Zpět</div></div>
+<script>
+(function(){
+'use strict';
+var shell=document.getElementById('shell'),rail=[].slice.call(document.querySelectorAll('.nav')),pages=[].slice.call(document.querySelectorAll('.page'));
+var active='home',lastRail=0,channels=[],selectedGroup='Vše',epg={},events=[],selectedEvent=null,details='summary',playing=false,multiview=false;
+var leagues=[['soccer/eng.1','Premier League'],['soccer/uefa.champions','Liga mistrů'],['soccer/esp.1','La Liga'],['soccer/ger.1','Bundesliga'],['hockey/nhl','NHL'],['basketball/nba','NBA'],['soccer/ita.1','Serie A']];
+var league=leagues[0],video=document.getElementById('video'),layer=document.getElementById('video-layer'),mv=document.getElementById('multiview-grid');
+function el(id){return document.getElementById(id);}function clean(v){return v===undefined||v===null?'':String(v);}
+function scale(){var z=Math.min(innerWidth/1920,innerHeight/1080);shell.style.transform='scale('+z+')';shell.style.left=((innerWidth-1920*z)/2)+'px';shell.style.top=((innerHeight-1080*z)/2)+'px';}scale();addEventListener('resize',scale);
+function clock(){el('time').textContent=new Date().toLocaleString('cs-CZ',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});}clock();setInterval(clock,45000);
+function toast(m){var box=el('toast');box.textContent=m;box.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){box.style.display='none';},5500);}
+function page(p){if(p==='exit'){location.href='index.html';return;}active=p;pages.forEach(function(n){n.className='page'+(n.id===p?' show':'');});rail.forEach(function(n,i){var ok=n.getAttribute('data-page')===p;n.className='nav'+(ok?' sel':'');if(ok)lastRail=i;});if(p==='live')renderChannels();if(p==='guide')renderGuide();if(p==='sport'&&!events.length)fetchScores(league);if(p==='settings'){el('playlist-url').value=localStorage.getItem('nymind.nuvio.playlist')||localStorage.getItem('nymind.sports.m3u')||'';el('epg-url').value=localStorage.getItem('nymind.nuvio.epg')||'';} }
+rail.forEach(function(b){b.onclick=function(){page(b.getAttribute('data-page'));};});
+function button(parent,text,klass,fn){var b=document.createElement('button');b.className=klass;b.textContent=text;b.onclick=fn;parent.appendChild(b);return b;}
+var lt=el('league-tabs');leagues.forEach(function(l){button(lt,l[1],'tab'+(l===league?' sel':''),function(){fetchScores(l);});});
+function fetchScores(l){league=l;events=[];el('matches').innerHTML='';el('sports-status').textContent='Načítám '+l[1]+'…';[].forEach.call(lt.children,function(b){b.className='tab'+(b.textContent===l[1]?' sel':'');});var req=new XMLHttpRequest();req.open('GET','https://site.api.espn.com/apis/site/v2/sports/'+l[0]+'/scoreboard',true);req.timeout=13000;
+req.onreadystatechange=function(){if(req.readyState!==4)return;if(req.status!==200){el('sports-status').textContent='Sportovní data nejsou dostupná (HTTP '+req.status+').';return;}try{var j=JSON.parse(req.responseText);events=j.events||[];el('sports-status').textContent=l[1]+' · '+events.length+' zápasů v aktuálním kalendáři';renderMatches();}catch(e){el('sports-status').textContent='Chyba formátu sportovních dat.';}};
+req.onerror=function(){el('sports-status').textContent='Nelze načíst výsledky. Server nebo CORS nemusí fungovat na Tizenu.';};
+req.ontimeout=function(){el('sports-status').textContent='Sportovní server neodpovídá.';};req.send(null);}
+function teamName(x){return x&&x.team&&(x.team.displayName||x.team.name)||'?';}
+function competitors(e){var a=e&&e.competitions&&e.competitions[0];return a&&a.competitors||[];}
+function state(e){return e&&e.status&&e.status.type&&(e.status.type.description||e.status.type.name)||'Neznámý stav';}
+function matchup(e){var a=competitors(e);return teamName(a[0])+'  vs  '+teamName(a[1]);}
+function score(e){var a=competitors(e),type=e&&e.status&&e.status.type;if(a.length<2)return'';return type&&(type.completed||type.state==='in')?clean(a[0].score)+' : '+clean(a[1].score):'– : –';}
+function date(e){return e&&e.date?new Date(e.date).toLocaleString('cs-CZ',{weekday:'short',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'}):'';}
+function renderMatches(){var box=el('matches');box.innerHTML='';if(!events.length){var p=document.createElement('p');p.className='empty';p.textContent='Pro tuto ligu nejsou ve vybraném termínu dostupné zápasy.';box.appendChild(p);return;}events.slice(0,45).forEach(function(e){var b=button(box,'','match',function(){openDetail(e);});var t=document.createElement('b');t.textContent=matchup(e);var sc=document.createElement('span');sc.className='score';sc.textContent=score(e);t.appendChild(sc);var sub=document.createElement('span');sub.textContent=date(e)+'  ·  '+state(e);b.appendChild(t);b.appendChild(sub);});var first=events[0];el('preview-text').textContent=matchup(first)+'\n'+state(first)+' · '+date(first)+'\nVyber zápas a otevři detail.';}
+function openDetail(e){selectedEvent=e;details='summary';el('match-detail').style.display='block';el('detail-title').textContent=matchup(e);el('detail-score').textContent=score(e);renderDetail();el('detail-back').focus();}
+function closeDetail(){el('match-detail').style.display='none';var b=el('matches').querySelector('button');if(b)b.focus();}
+var db=el('detail-tabs');[].forEach.call(db.querySelectorAll('button'),function(b){b.onclick=function(){details=b.getAttribute('data-detail');renderDetail();};});
+el('detail-back').onclick=closeDetail;
+function renderDetail(){var e=selectedEvent;if(!e)return;[].forEach.call(db.children,function(b){b.className='tab'+(b.getAttribute('data-detail')===details?' sel':'');});var body=el('detail-body');body.innerHTML='';var a=competitors(e),competition=e.competitions&&e.competitions[0];
+function line(t){var p=document.createElement('p');p.textContent=t;body.appendChild(p);}
+if(details==='summary'){line('Soutěž: '+league[1]);line('Výkop / začátek: '+date(e));line('Stav: '+state(e));if(competition&&competition.venue)line('Stadion: '+clean(competition.venue.fullName));if(competition&&competition.broadcasts&&competition.broadcasts.length)line('Vysílání (metadata ESPN): '+competition.broadcasts.map(function(x){return(x.names||[]).join(', ');}).join(' · '));}
+if(details==='teams'){a.forEach(function(x){line(teamName(x)+(x.homeAway?' · '+x.homeAway:'')+(x.records&&x.records.length?' · '+clean(x.records[0].summary):''));});if(!a.length)line('Údaje o týmech nejsou k dispozici.');}
+if(details==='stats'){var ok=false;a.forEach(function(x){if(x.statistics&&x.statistics.length){ok=true;line(teamName(x));x.statistics.slice(0,18).forEach(function(v){line('  '+clean(v.displayName||v.name)+': '+clean(v.displayValue||v.value));});}});if(!ok)line('Podrobné statistiky nejsou součástí tohoto přehledu ESPN.');}
+if(details==='channels'){line('Připojené IPTV kanály: '+channels.length);line('Automatické přiřazení vysílatele ke konkrétnímu zápasu ještě není spolehlivě dostupné.');line('Sledovat můžeš své kanály v sekci Živá TV.');}}
+function parseM3U(data){var ls=data.split(/\r?\n/),found=[],name='',group='',tvg='';for(var i=0;i<ls.length;i++){var x=ls[i].trim();if(x.indexOf('#EXTINF:')===0){var m=x.match(/group-title="([^"]*)"/i);group=m?m[1]:'Ostatní';m=x.match(/tvg-id="([^"]*)"/i);tvg=m?m[1]:'';name=x.slice(x.lastIndexOf(',')+1).trim()||'Kanál';}else if(/^https?:\/\//i.test(x)){found.push({name:name||'Kanál',group:group||'Ostatní',tvg:tvg,url:x});name='';group='';tvg='';}}return found;}
+function request(url,success,fail){var x=new XMLHttpRequest();x.open('GET',url,true);x.timeout=17000;x.onreadystatechange=function(){if(x.readyState===4){if(x.status===200)success(x.responseText);else fail('HTTP '+x.status);}};x.onerror=function(){fail('Spojení/CORS/SSL');};x.ontimeout=function(){fail('Časový limit');};x.send(null);}
+function saveM3U(){var url=el('playlist-url').value.trim();if(!/^https?:\/\//i.test(url)){el('playlist-status').textContent='Je potřeba úplná HTTP(S) adresa.';return;}localStorage.setItem('nymind.nuvio.playlist',url);el('playlist-status').textContent='Načítám playlist…';
+request(url,function(s){channels=parseM3U(s);el('playlist-status').textContent='Načteno '+channels.length+' kanálů';renderChannels();renderGuide();},function(e){el('playlist-status').textContent='Načtení selhalo: '+e+'. Zkontroluj CORS a oprávnění přístupu.';});}
+el('playlist-save').onclick=saveM3U;el('playlist-clear').onclick=function(){localStorage.removeItem('nymind.nuvio.playlist');channels=[];el('playlist-url').value='';el('playlist-status').textContent='Playlist odebrán.';renderChannels();};
+function groups(){var gs=['Vše','Oblíbené'];var seen={};channels.forEach(function(c){if(!seen[c.group]){seen[c.group]=true;gs.push(c.group);}});return gs;}
+function favoriteKey(c){return'nymind.nuvio.fav.'+c.name+'|'+c.group;}
+function isFav(c){return localStorage.getItem(favoriteKey(c))==='1';}
+function renderChannels(){var bar=el('groups');bar.innerHTML='';groups().slice(0,60).forEach(function(g){button(bar,g,'chip'+(g===selectedGroup?' sel':''),function(){selectedGroup=g;renderChannels();});});
+var box=el('channel-list');box.innerHTML='';var list=channels.filter(function(c){return selectedGroup==='Vše'||selectedGroup==='Oblíbené'&&isFav(c)||c.group===selectedGroup;});
+el('live-status').textContent=channels.length?list.length+' z '+channels.length+' kanálů':'Žádné kanály. V nastavení připoj M3U playlist.';
+list.slice(0,900).forEach(function(c){var b=button(box,'','channel',function(){play(c);});var name=document.createElement('span');name.textContent=c.name;var right=document.createElement('em');right.textContent=(isFav(c)?'★  ':'☆  ')+c.group;b.appendChild(name);b.appendChild(right);
+b.oncontextmenu=function(e){if(e&&e.preventDefault)e.preventDefault();toggleFav(c);return false;};
+b.addEventListener('keydown',function(e){if(e.keyCode===403){toggleFav(c);e.preventDefault();}});});}
+function toggleFav(c){var k=favoriteKey(c);if(isFav(c))localStorage.removeItem(k);else localStorage.setItem(k,'1');toast('Oblíbené: '+c.name);renderChannels();}
+function parseEPG(xml){var doc=(new DOMParser()).parseFromString(xml,'text/xml'),entries=doc.getElementsByTagName('programme'),out={},max=Math.min(entries.length,22000);
+for(var i=0;i<max;i++){var a=entries[i],c=a.getAttribute('channel'),title=a.getElementsByTagName('title')[0],start=a.getAttribute('start')||'',stop=a.getAttribute('stop')||'';if(!c||!title)continue;
+if(!out[c])out[c]=[];if(out[c].length<80)out[c].push({title:title.textContent||'Pořad',start:start,stop:stop});}return out;}
+function xmlDate(x){if(!x||x.length<12)return null;var t=x.slice(0,12),y=parseInt(t.slice(0,4),10),m=parseInt(t.slice(4,6),10)-1,d=parseInt(t.slice(6,8),10),h=parseInt(t.slice(8,10),10),min=parseInt(t.slice(10,12),10);var z=new Date(Date.UTC(y,m,d,h,min));var off=x.match(/([+-])(\d{2})(\d{2})$/);if(off){var diff=(parseInt(off[2],10)*60+parseInt(off[3],10))*60000;z=new Date(z.getTime()+(off[1]==='+'?-diff:diff));}return z;}
+function currentEPG(c){var list=epg[c.tvg]||epg[c.name]||[],now=Date.now();for(var i=0;i<list.length;i++){var a=xmlDate(list[i].start),b=xmlDate(list[i].stop);if(a&&b&&a.getTime()<=now&&b.getTime()>now)return list[i];}return null;}
+function renderGuide(){var box=el('guide');box.innerHTML='';if(!channels.length){var p=document.createElement('p');p.className='note';p.textContent='Nejdřív v Nastavení přidej M3U playlist.';box.appendChild(p);return;}
+channels.slice(0,600).forEach(function(c){var item=currentEPG(c),b=button(box,'','guide-row',function(){play(c);});var t=document.createElement('div');t.className='g-name';t.textContent=c.name;var prog=document.createElement('div');prog.className='g-program';prog.textContent=item?item.title:'Program zatím nedostupný';var sub=document.createElement('small');sub.textContent=item?'EPG · aktuálně vysílaný pořad':'Kanál · '+c.group;prog.appendChild(sub);b.appendChild(t);b.appendChild(prog);});}
+function loadEPG(){var url=el('epg-url').value.trim();if(!/^https?:\/\//i.test(url)){el('epg-status').textContent='Zadej HTTP(S) XMLTV URL.';return;}localStorage.setItem('nymind.nuvio.epg',url);el('epg-status').textContent='Načítám XMLTV…';
+request(url,function(data){try{epg=parseEPG(data);el('epg-status').textContent='EPG načteno pro '+Object.keys(epg).length+' stanic.';renderGuide();}catch(e){el('epg-status').textContent='Chyba čtení XMLTV.';}},function(e){el('epg-status').textContent='EPG selhalo: '+e;});}
+el('epg-save').onclick=loadEPG;el('epg-refresh').onclick=function(){page('settings');loadEPG();};el('guide-to-settings').onclick=function(){page('settings');rail[6].focus();};
+function stop(){try{video.pause();video.removeAttribute('src');video.load();}catch(e){}var vids=mv.querySelectorAll('video');for(var i=0;i<vids.length;i++){try{vids[i].pause();vids[i].removeAttribute('src');vids[i].load();}catch(e){}}layer.style.display='none';mv.style.display='none';video.style.display='block';playing=false;multiview=false;}
+function play(c){stop();playing=true;layer.style.display='block';el('player-title').textContent=c.name;video.src=c.url;try{var p=video.play();if(p&&p.catch)p.catch(function(){toast('Samsung nepodporuje formát nebo přístup streamu.');});}catch(e){toast('Stream nelze přehrát.');}el('player-back').focus();}
+el('player-back').onclick=stop;
+el('mv-start').onclick=function(){if(channels.length<2){toast('Multiview potřebuje nejméně dva kanály v M3U.');return;}stop();playing=true;multiview=true;layer.style.display='block';video.style.display='none';mv.style.display='grid';el('player-title').textContent='Multiview · experimentální';var vs=mv.querySelectorAll('video');for(var i=0;i<2;i++){vs[i].src=channels[i].url;vs[i].muted=i!==0;var name=vs[i].parentNode.querySelector('span');name.textContent=channels[i].name;try{var p=vs[i].play();if(p&&p.catch)p.catch(function(){});}catch(err){}}el('player-back').focus();};
+el('mv-stop').onclick=stop;el('open-cinema-info').onclick=function(){toast('Nymind Cinema otevři z hlavní plochy Nymind TV.');};
+function visibleFocusable(){var nodes=document.querySelectorAll('.page.show button,.page.show input,#rail button'),a=[];for(var i=0;i<nodes.length;i++){var r=nodes[i].getBoundingClientRect();if(r.width>0&&r.height>0)a.push(nodes[i]);}return a;}
+function nearest(from,list,key){var a=from.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2,best=null,dist=1e9;for(var i=0;i<list.length;i++){var t=list[i];if(t===from)continue;var b=t.getBoundingClientRect(),dx=b.left+b.width/2-ax,dy=b.top+b.height/2-ay;if(key===37&&dx>=-5||key===39&&dx<=5||key===38&&dy>=-5||key===40&&dy<=5)continue;var major=(key===37||key===39)?Math.abs(dx):Math.abs(dy),minor=(key===37||key===39)?Math.abs(dy):Math.abs(dx),d=major+minor*2.6;if(d<dist){dist=d;best=t;}}return best;}
+function focusNearest(key){var a=visibleFocusable(),f=document.activeElement,n=nearest(f,a,key);if(n){n.focus();try{n.scrollIntoView({block:'nearest'});}catch(e){n.scrollIntoView(false);}}}
+function back(){if(playing){stop();return;}if(el('match-detail').style.display==='block'){closeDetail();return;}if(active!=='home'){page('home');rail[0].focus();return;}location.href='index.html';}
+document.addEventListener('keydown',function(e){var k=e.keyCode;if(k===10009||k===27||k===8){back();e.preventDefault();return;}
+if(el('match-detail').style.display==='block'){if(k===37||k===39){var btns=[].slice.call(db.children),i=btns.indexOf(document.activeElement),j=Math.max(0,Math.min(btns.length-1,i+(k===39?1:-1)));btns[j].focus();e.preventDefault();}return;}
+if(playing)return;
+var activeEl=document.activeElement;if(activeEl&&activeEl.tagName==='INPUT')return;
+if(k===37||k===38||k===39||k===40){focusNearest(k);e.preventDefault();return;}if(k===13||k===29443){if(activeEl&&activeEl.tagName==='BUTTON'){activeEl.click();e.preventDefault();}}});
+var saved=localStorage.getItem('nymind.nuvio.playlist')||localStorage.getItem('nymind.sports.m3u');if(saved){el('playlist-url').value=saved;saveM3U();}
+var savedEpg=localStorage.getItem('nymind.nuvio.epg');if(savedEpg){el('epg-url').value=savedEpg;loadEPG();}
+rail[0].focus();
+}());</script></body></html>
