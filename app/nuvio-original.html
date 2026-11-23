@@ -1,0 +1,27 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=1920,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Nuvio + IPTV | Originální ukázka</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#090b11;color:#eef2f6;font:24px Arial,sans-serif;overflow:hidden}#stage{position:absolute;width:1920px;height:1080px;transform-origin:top left;background:radial-gradient(ellipse at 78% 8%,#212a40,#080a10 75%);overflow:hidden}
+header{height:120px;padding:31px 75px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #293240}h1{font-size:40px;margin:0}h1 b{color:#8dc7ff}.sub{font-size:18px;color:#a2afc1;margin:10px 0 0}.pill{color:#8ba5bc;border:1px solid #41536b;border-radius:26px;padding:12px 20px;font-size:17px}
+#visual{position:absolute;left:70px;top:153px;width:1300px;height:775px;border-radius:20px;border:1px solid #344252;background:#0b0f19;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#pic{max-width:100%;max-height:100%;object-fit:contain;display:block;transform-origin:center center;transition:transform .18s ease}
+#fallback{position:absolute;left:10%;right:10%;top:35%;text-align:center;display:none;background:#20293b;border-radius:14px;padding:25px;line-height:1.5}
+aside{position:absolute;left:1400px;top:152px;width:455px}aside h2{font-size:31px;margin:0 0 16px}aside p{font-size:21px;line-height:1.48;color:#bbc6d4;margin:0 0 22px}button{display:block;width:100%;margin:0 0 15px;padding:19px 23px;text-align:left;border:2px solid #435269;border-radius:12px;background:#1b2435;color:white;font:bold 22px Arial;outline:0}button:focus{border-color:white;background:#29405b;box-shadow:0 0 0 2px #68bbfe}#count{color:#88c9ff;font-weight:bold;font-size:19px;margin-bottom:15px}footer{position:absolute;bottom:37px;left:73px;font-size:19px;color:#a1afbd}.foot{color:#7e9bb3;font-size:16px;margin-top:30px}
+</style></head><body><div id="stage">
+<header><div><h1>ORIGINÁLNÍ <b>NUVIO + IPTV</b></h1><p class="sub">Skutečná ukázka autora homelessbrian · Reddit / r/NuvioForks</p></div><div class="pill">PROHLÍŽEČ UKÁZKY · NEINSTALUJE ANDROID APK</div></header>
+<div id="visual"><img id="pic" alt="Originální obrázek Nuvio + IPTV zveřejněný autorem na Redditu"><div id="fallback">Obrázek z Redditu se na televizoru nepodařilo načíst.<p>Na počítači nebo mobilu otevři příspěvek pomocí odkazu vpravo. Příčinou může být omezení přístupu Redditu nebo starý prohlížeč Samsungu.</p></div></div>
+<aside><h2>Jak vypadá originál</h2><p>Tohle je <strong>skutečná ukázka vydaná autorem Nuvio + IPTV</strong>, nikoli naše grafická napodobenina. Šipkami můžeš přiblížit jednotlivé části.</p><div id="count">Celý obrázek</div>
+<button class="ctl" data-mode="all">1 · Celá originální ukázka</button>
+<button class="ctl" data-mode="left">2 · Levá část detailně</button>
+<button class="ctl" data-mode="center">3 · Střed detailně</button>
+<button class="ctl" data-mode="right">4 · Pravá část detailně</button>
+<button class="ctl" data-mode="source">Informace o autorově příspěvku</button>
+<button class="ctl" data-mode="back">← Zpět na Nymind TV</button>
+<p class="foot">Zdroj: reddit.com/r/NuvioForks/comments/1xwegcn/<br>Originální Nuvio + IPTV je aplikace pro Android TV. Na Samsung Tizen 3.0 nativně neběží.</p></aside>
+<footer>↑↓ výběr · OK potvrdit · ←→ přepínání záběrů · Zpět = hlavní plocha</footer>
+</div><script>(function(){'use strict';var el=document.getElementById('stage'),pic=document.getElementById('pic'),fallback=document.getElementById('fallback'),count=document.getElementById('count'),controls=[].slice.call(document.querySelectorAll('button.ctl'));var preview='https://preview.redd.it/android-tv-android-nuvio-iptv-update-multiview-stalker-v0-9vwwuwp7dn1i1.png?auto=webp&crop=smart&s=6fa2be190941454a158d3aabd5f34ddae97f8a4b&width=640';var original='https://i.redd.it/9vwwuwp7dn1i1.png';var mode=0;function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);el.style.transform='scale('+k+')';el.style.left=((innerWidth-1920*k)/2)+'px';el.style.top=((innerHeight-1080*k)/2)+'px';}fit();addEventListener('resize',fit);
+pic.onerror=function(){if(pic.src!==preview){pic.src=preview;}else{pic.style.display='none';fallback.style.display='block';}};pic.src=original;
+function setMode(n){mode=(n+4)%4;var arr=['Celý obrázek','Detail: levá část','Detail: střed','Detail: pravá část'];count.textContent=arr[mode];var translate=['translate(0,0) scale(1)','translate(33%,0) scale(2)','translate(0,0) scale(2)','translate(-33%,0) scale(2)'];pic.style.transform=translate[mode];}
+function goBack(){location.href='index.html';}
+function activate(btn){var cmd=btn.getAttribute('data-mode');if(cmd==='back'){goBack();return;}if(cmd==='source'){count.textContent='Zdroj: Reddit / homelessbrian · 1xwegcn';return;}setMode(['all','left','center','right'].indexOf(cmd));}
+controls.forEach(function(b){b.onclick=function(){activate(b);};});
+document.addEventListener('keydown',function(e){var k=e.keyCode;var idx=controls.indexOf(document.activeElement);if(k===10009||k===27||k===8){goBack();e.preventDefault();return;}if(k===38||k===40){controls[Math.max(0,Math.min(controls.length-1,(idx<0?0:idx)+(k===38?-1:1)))].focus();e.preventDefault();return;}if(k===37||k===39){setMode(mode+(k===39?1:-1));e.preventDefault();return;}if(k===13||k===29443){if(idx<0)idx=0;activate(controls[idx]);e.preventDefault();return;}});
+controls[0].focus();}());</script></body></html>
