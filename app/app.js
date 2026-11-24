@@ -63,25 +63,16 @@
   function launchIptv(){
     if(iptvStarting)return;
     iptvStarting=true;
-    iptvNotice('Otevírám Nymind Živou TV…');
-    /* One TizenBrew request, same launch command as the official module menu. */
-    rpc(function(ws,list){
-      var m=null,i,hay;
-      for(i=0;i<list.length;i++){
-        hay=String(list[i].fullName||'')+' '+String(list[i].appName||'');
-        if(hay.toLowerCase().indexOf('romangazdik-web/tvpin')!==-1||hay.toLowerCase().indexOf('nymind iptv pin')!==-1||hay.toLowerCase().indexOf('nymind živá tv')!==-1){m=list[i];break;}
+    iptvNotice('Otevírám Nymind LIVE 1.2.0…');
+    /* TVPIN is a web app: direct navigation skips any stale TizenBrew module record
+       and uses an immutable verified v1.2.0 GitHub commit on jsDelivr. */
+    try{
+      var keys=['MediaPlay','MediaPause','MediaPlayPause','MediaStop','ChannelUp','ChannelDown','ColorF0Red','ColorF1Green','ColorF2Yellow','ColorF3Blue'];
+      if(typeof tizen!=='undefined'&&tizen.tvinputdevice){
+        for(var i=0;i<keys.length;i++){try{tizen.tvinputdevice.registerKey(keys[i]);}catch(ignore){}}
       }
-      if(!m){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('TizenBrew nenašel modul tvpin. Otevři Správce modulů a zkontroluj, zda je v seznamu. Nic nemaž.');return;}
-      /* Nymind LIVE follows current tvpin main; do not reuse an old TizenBrew pinned appPath. */
-      var url='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@main/app/tv09.html';
-      m.appPath=url;
-      if(!url){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('Modul tvpin nemá platnou spouštěcí adresu.');return;}
-      try{if(typeof tizen!=='undefined'&&tizen.tvinputdevice&&m.keys){for(i=0;i<m.keys.length;i++)tizen.tvinputdevice.registerKey(m.keys[i]);}}catch(e){}
-      try{ws.send(JSON.stringify({type:5,payload:m}));}catch(e){iptvStarting=false;iptvNotice('TizenBrew odmítl spouštění IPTV.');return;}
-      /* Use the current tvpin main HTML so stale installed GitHub tags cannot override the IPTV tile. */
-      setTimeout(function(){window.location.href=url;},280);
-      setTimeout(function(){iptvStarting=false;},5000);
-    },function(msg){iptvStarting=false;iptvNotice('Živá TV se nespustila: '+msg);});
+    }catch(ignoreKeys){}
+    window.location.href='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@8b33774c97e04fc9a14c18b41fbf00b78ef48b40/app/tv09.html';
   }
   function launchMatch(match,alreadyRefreshed){
     if(!loaded)return refresh(function(){launchMatch(match,true);});
