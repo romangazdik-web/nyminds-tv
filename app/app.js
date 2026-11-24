@@ -72,11 +72,13 @@
         if(hay.toLowerCase().indexOf('romangazdik-web/tvpin')!==-1||hay.toLowerCase().indexOf('nymind iptv pin')!==-1||hay.toLowerCase().indexOf('nymind živá tv')!==-1){m=list[i];break;}
       }
       if(!m){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('TizenBrew nenašel modul tvpin. Otevři Správce modulů a zkontroluj, zda je v seznamu. Nic nemaž.');return;}
-      var url=m.appPath||m.websiteURL;
+      /* Nymind LIVE follows current tvpin main; do not reuse an old TizenBrew pinned appPath. */
+      var url='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@main/app/tv09.html';
+      m.appPath=url;
       if(!url){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('Modul tvpin nemá platnou spouštěcí adresu.');return;}
       try{if(typeof tizen!=='undefined'&&tizen.tvinputdevice&&m.keys){for(i=0;i<m.keys.length;i++)tizen.tvinputdevice.registerKey(m.keys[i]);}}catch(e){}
       try{ws.send(JSON.stringify({type:5,payload:m}));}catch(e){iptvStarting=false;iptvNotice('TizenBrew odmítl spouštění IPTV.');return;}
-      /* Use exactly the URL resolved by TizenBrew, not a relative GitHub path. */
+      /* Use the current tvpin main HTML so stale installed GitHub tags cannot override the IPTV tile. */
       setTimeout(function(){window.location.href=url;},280);
       setTimeout(function(){iptvStarting=false;},5000);
     },function(msg){iptvStarting=false;iptvNotice('Živá TV se nespustila: '+msg);});
