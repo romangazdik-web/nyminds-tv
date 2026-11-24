@@ -98,6 +98,24 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
 /* PS5 official Sony wordmark; white on dark tile with offline text fallback. */
 #ps5Tile .tile-face .ps5-official-logo{position:absolute;left:9%;top:25%;width:82%;height:50%;object-fit:contain;-webkit-filter:brightness(0) invert(1);filter:brightness(0) invert(1)}
 #ps5Tile .tile-face .ps5-fallback{display:none;position:absolute;top:34%;width:100%;text-align:center;font-size:48px;font-weight:700;letter-spacing:-2px}
+
+/* Prima+ FREE / HbbTV bridge. For 2017 Tizen: opens Samsung's real TV
+   viewer instead of pretending that the unsupported prima+ web app works. */
+#primaTile .tile-face{background:rgba(30,37,45,.77)}
+#primaTile .prima-icon{position:absolute;left:13px;right:13px;top:53px;text-align:center;font-size:38px;line-height:54px;font-weight:750;letter-spacing:-1.7px;color:#fff}
+#primaTile .prima-icon b{color:#e9e9ec;font-size:43px;font-weight:500;padding-left:1px}
+#primaOverlay{z-index:90;background:rgba(6,10,16,.96)}
+#primaOverlay .prima-dialog{position:absolute;left:13%;top:13%;width:74%;height:74%;box-sizing:border-box;background:linear-gradient(145deg,#252e3a,#131a24 66%);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:60px 68px;color:#f4f6fa;box-shadow:0 25px 70px rgba(0,0,0,.7)}
+#primaOverlay .prima-eyebrow{font-size:17px;letter-spacing:4px;color:#d3d9e5;font-weight:bold}
+#primaOverlay .prima-headline{font-size:69px;line-height:1.1;margin:18px 0 20px;font-weight:650;letter-spacing:-2.5px}
+#primaOverlay .prima-headline em{font-style:normal;color:#eeeff5}
+#primaOverlay .prima-desc{font-size:25px;line-height:1.48;color:#e0e4eb;max-width:1300px}
+#primaOverlay .prima-steps{font-size:22px;line-height:1.75;color:#d2d8e1;padding:13px 0 15px;max-width:1300px}
+#primaOverlay .prima-actions{margin-top:20px;white-space:normal}
+#primaOverlay .prima-action{display:inline-block;vertical-align:top;cursor:pointer;outline:none;padding:16px 30px;border-radius:9px;border:3px solid rgba(255,255,255,.28);margin-right:18px;margin-bottom:14px;background:#323b49;color:#fff;font-size:25px;font-weight:600}
+#primaOverlay .prima-action.active,#primaOverlay .prima-action:focus{background:#f7f8fb;color:#131923;border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.15)}
+#primaOverlay .prima-support{font-size:18px;color:#9da7b6;max-width:1300px;line-height:1.4;margin-top:25px}
+#primaOverlay #primaStatus{margin-top:12px;font-size:19px;line-height:1.35;color:#f8d6a8;min-height:26px}
 </style>
 <style type="text/css">
 
@@ -224,6 +242,11 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
         <span class="tile-copy"><strong>Živá TV</strong><small>Kanály a program</small></span>
       </div>
     
+
+      <div class="tile prima-tile" id="primaTile" data-kind="prima" tabindex="0" aria-label="prima+ FREE přes HbbTV — televizní vysílání">
+        <span class="tile-face"><span class="prima-icon">prima<b>+</b></span></span>
+        <span class="tile-copy"><strong>prima+</strong><small>FREE · HbbTV</small></span>
+      </div>
       <div class="tile" id="sportsTile" data-kind="sports" tabindex="0" aria-label="Nuvio plus IPTV — funkční sport a televizní kanály">
         <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" aria-hidden="true"><rect x="8" y="12" width="66" height="58" rx="16" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="41" cy="38" r="16" fill="none" stroke="currentColor" stroke-width="3"/><path d="M41 22L50 29L47 41L35 45L26 37L32 26ZM14 64H68" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></span>
         <span class="tile-copy"><strong>Nuvio + IPTV</strong><small>Sportovní centrum</small></span>
@@ -243,6 +266,23 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
   <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind TV · Stabilní 2.0.19</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
+
+<div id="primaOverlay" class="overlay hidden" aria-hidden="true">
+  <div class="prima-dialog">
+    <div class="prima-eyebrow">NYMIND TV / PRIMA+</div>
+    <h2 class="prima-headline">prima<em>+</em> <span style="font-size:33px;letter-spacing:1px;vertical-align:middle">FREE</span></h2>
+    <div class="prima-desc">Na tvém Samsungu z roku 2017 je nejspolehlivější cestou k prima+ oficiální HbbTV – ovládá se přímo dálkovým ovladačem.</div>
+    <div class="prima-steps">1. Připoj anténu, kabelovou TV nebo satelit k tuneru televize a nalaď některý kanál Prima.<br/>
+    2. Zapni HbbTV v nastavení Samsungu (případně nainstaluj aplikaci HbbTV).<br/>
+    3. Otevři TV vysílání a na stanici Prima stiskni <strong>červené tlačítko</strong>. Pak vyber prima+ a přihlas se k tarifu FREE.</div>
+    <div class="prima-actions">
+      <div id="primaOpenTv" class="prima-action active" tabindex="0">▶ Přepnout na TV vysílání</div>
+      <div id="primaClose" class="prima-action" tabindex="0">Zpět na Nymind TV</div>
+    </div>
+    <div id="primaStatus" aria-live="polite"></div>
+    <div class="prima-support">HbbTV vyžaduje skutečný TV signál s HbbTV signalizací a internet. Přehrávání Prima+ pouze z IPTV seznamu touto cestou nefunguje. Web Prima+ na Tizenu 3.0 není oficiálně podporovaný.</div>
+  </div>
+</div>
 <!-- Živá TV: ovládá se pouze jednou přes app.js. -->
 <!-- NYMIND RADIO: zabudovaný přehrávač, bez dalšího modulu -->
 <div id="nymind-radio-overlay" class="nymind-radio-hidden" aria-hidden="true">
