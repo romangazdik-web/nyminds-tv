@@ -48,6 +48,39 @@
       if(job)job();
     },function(msg){fetching=false;loaded=false;pendingAction=null;status(msg+' · zkontroluj Host PC IP = 127.0.0.1');});
   }
+  function iptvNotice(message){
+    status(message);
+    var el=$('iptv-launch-notice');
+    if(!el){
+      el=document.createElement('div');
+      el.id='iptv-launch-notice';
+      el.style.cssText='position:fixed;z-index:30010;left:12%;right:12%;bottom:13%;padding:22px 28px;border:2px solid rgba(156,221,218,.8);border-radius:15px;background:#142631;color:#fff;font:23px Arial,sans-serif;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.7)';
+      document.body.appendChild(el);
+    }
+    el.textContent=message;el.style.display='block';
+  }
+  var iptvStarting=false;
+  function launchIptv(){
+    if(iptvStarting)return;
+    iptvStarting=true;
+    iptvNotice('Otevírám Nymind Živou TV…');
+    /* One TizenBrew request, same launch command as the official module menu. */
+    rpc(function(ws,list){
+      var m=null,i,hay;
+      for(i=0;i<list.length;i++){
+        hay=String(list[i].fullName||'')+' '+String(list[i].appName||'');
+        if(hay.toLowerCase().indexOf('romangazdik-web/tvpin')!==-1||hay.toLowerCase().indexOf('nymind iptv pin')!==-1||hay.toLowerCase().indexOf('nymind živá tv')!==-1){m=list[i];break;}
+      }
+      if(!m){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('TizenBrew nenašel modul tvpin. Otevři Správce modulů a zkontroluj, zda je v seznamu. Nic nemaž.');return;}
+      var url=m.appPath||m.websiteURL;
+      if(!url){try{ws.close();}catch(e){}iptvStarting=false;iptvNotice('Modul tvpin nemá platnou spouštěcí adresu.');return;}
+      try{if(typeof tizen!=='undefined'&&tizen.tvinputdevice&&m.keys){for(i=0;i<m.keys.length;i++)tizen.tvinputdevice.registerKey(m.keys[i]);}}catch(e){}
+      try{ws.send(JSON.stringify({type:5,payload:m}));}catch(e){iptvStarting=false;iptvNotice('TizenBrew odmítl spouštění IPTV.');return;}
+      /* Use exactly the URL resolved by TizenBrew, not a relative GitHub path. */
+      setTimeout(function(){window.location.href=url;},280);
+      setTimeout(function(){iptvStarting=false;},5000);
+    },function(msg){iptvStarting=false;iptvNotice('Živá TV se nespustila: '+msg);});
+  }
   function launchMatch(match,alreadyRefreshed){
     if(!loaded)return refresh(function(){launchMatch(match,true);});
     var mod=find(match);
@@ -138,7 +171,7 @@
       ws.onclose=function(){if(!finished)end('Samsung uzavřel spojení na portu 8001.');};
     }catch(e){end('WebSocket není povolen ('+(e.name||'chyba')+').');}
   }
-  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else if(kind==='sports'){window.location.href='nuvio-sports-v3.html';}else launchMatch(t.getAttribute('data-match'),false);}
+  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else if(kind==='sports'){window.location.href='nuvio-sports-v3.html';}else if(t.id==='iptvTile')launchIptv();else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
   function hideList(){openList=false;$('overlay').className='overlay hidden';select(selected);}
   function renderList(){var box=$('module-list');box.innerHTML='';if(!modules.length){box.innerHTML='<div class="module">'+(loaded?'Žádné moduly nejsou dostupné.':'Načítám seznam modulů…')+'</div>';return;}
