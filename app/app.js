@@ -60,19 +60,36 @@
     el.textContent=message;el.style.display='block';
   }
   var iptvStarting=false;
+  // Nymind LIVE must be launched as its installed TizenBrew module.
+  // Direct navigation to a mutable CDN HTML file bypasses TizenBrew's module
+  // startup and may leave TV media/input APIs uninitialized on Tizen 3.
+  // Keep the released tvpin page as a backup only when no module is installed.
+  var IPTV_FALLBACK='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@v1.3.1/app/tv09.html';
   function launchIptv(){
     if(iptvStarting)return;
     iptvStarting=true;
-    iptvNotice('Otevírám Nymind LIVE…');
-    /* Always load the live channel from tvpin/main, never an obsolete pinned commit.
-       Query version is unique per launch; publish updates by purging the @main app path. */
-    try{
-      var keys=['MediaPlay','MediaPause','MediaPlayPause','MediaStop','ChannelUp','ChannelDown','ColorF0Red','ColorF1Green','ColorF2Yellow','ColorF3Blue'];
-      if(typeof tizen!=='undefined'&&tizen.tvinputdevice){
-        for(var i=0;i<keys.length;i++){try{tizen.tvinputdevice.registerKey(keys[i]);}catch(ignore){}}
-      }
-    }catch(ignoreKeys){}
-    window.location.href='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@main/app/tv09.html?nymind_live='+Date.now();
+    iptvNotice('Spouštím Nymind LIVE přes TizenBrew…');
+    if(!loaded){
+      iptvStarting=false;
+      refresh(function(){launchIptv();});
+      return;
+    }
+    var mod=find('gh/romangazdik-web/tvpin') || find('tvpin') || find('Nymind Živá TV');
+    if(mod){
+      // Reuse the same working TizenBrew RPC launch path as Nymind Cinema.
+      // run() resolves the installed module appPath and registers its keys.
+      iptvStarting=false;
+      run(mod);
+      return;
+    }
+    // If a user did not install tvpin separately, preserve emergency access.
+    iptvNotice('Nymind LIVE není v modulech TizenBrew. Otevírám záložní verzi…');
+    try {
+      window.location.href=IPTV_FALLBACK+'?from=nymindtv2036';
+    } catch(ex) {
+      iptvStarting=false;
+      iptvNotice('Živou TV se nepodařilo spustit. Zkus ji otevřít v TizenBrew → Moduly → Nymind Živá TV.');
+    }
   }
   function launchMatch(match,alreadyRefreshed){
     if(!loaded)return refresh(function(){launchMatch(match,true);});
@@ -222,51 +239,7 @@
     else ps5ClosePanel();
   }
   function launchPS5(){ps5ShowPanel();}
-  /* prima+ FREE: HbbTV runs on the Samsung TV broadcast service, not as a
-     Chromium 47 website. This launcher opens the built-in Live TV viewer;
-     tuning Prima + RED remain under the real remote and HbbTV system. */
-  var primaOpen=false, primaSelected=0, primaBusy=false;
-  function primaButtons(){return [$('primaOpenTv'),$('primaClose')];}
-  function primaFocus(n){
-    var buttons=primaButtons();primaSelected=Math.max(0,Math.min(buttons.length-1,n));
-    for(var i=0;i<buttons.length;i++){buttons[i].className='prima-action'+(i===primaSelected?' active':'');}
-    try{buttons[primaSelected].focus();}catch(e){}
-  }
-  function primaMessage(msg){var el=$('primaStatus');if(el)el.textContent=msg||'';}
-  function openPrima(){
-    primaOpen=true;primaBusy=false;
-    $('primaOverlay').className='overlay';$('primaOverlay').setAttribute('aria-hidden','false');
-    primaMessage('');
-    primaFocus(0);
-  }
-  function closePrima(){
-    primaOpen=false;primaBusy=false;
-    $('primaOverlay').className='overlay hidden';$('primaOverlay').setAttribute('aria-hidden','true');
-    select(selected);
-  }
-  function launchPrimaTV(){
-    if(primaBusy)return;
-    primaBusy=true;
-    primaMessage('Přepínám do televizního vysílání Samsungu…');
-    // Samsung's documented way to leave an app for the tuner is TV viewer.
-    if(typeof tizen==='undefined'||!tizen.application||typeof tizen.application.launch!=='function'){
-      primaBusy=false;
-      return primaMessage('Přepnutí není v tomto režimu dostupné. Na ovladači otevři Home → Živé TV, nalaď Primu a stiskni červené tlačítko.');
-    }
-    try{
-      tizen.application.launch('org.tizen.tv-viewer',function(){
-        primaBusy=false;primaMessage('TV vysílání bylo spuštěno. Nalaď stanici Prima a stiskni červené tlačítko.');
-      },function(error){
-        primaBusy=false;
-        primaMessage('Samsung automatické přepnutí nepovolil'+(error&&error.name?' ('+error.name+')':'')+'. Otevři Home → Živé TV ručně a na Primě použij červené tlačítko.');
-      });
-    }catch(e){
-      primaBusy=false;
-      primaMessage('Automatické přepnutí se nepovedlo. Otevři Home → Živé TV ručně, nalaď Primu a použij červené tlačítko.');
-    }
-  }
-  function primaActivate(){if(primaSelected===0)launchPrimaTV();else closePrima();}
-  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else if(kind==='prima')openPrima();else if(kind==='sports'){window.location.href='nuvio-sports-v3.html';}else if(t.id==='iptvTile')launchIptv();else launchMatch(t.getAttribute('data-match'),false);}
+  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(t.id==='iptvTile')launchIptv();else if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
   function hideList(){openList=false;$('overlay').className='overlay hidden';select(selected);}
   function renderList(){var box=$('module-list');box.innerHTML='';if(!modules.length){box.innerHTML='<div class="module">'+(loaded?'Žádné moduly nejsou dostupné.':'Načítám seznam modulů…')+'</div>';return;}
@@ -291,14 +264,6 @@
       if(k===KEY.ENTER){ps5PanelAction();e.preventDefault();return;}
       return;
     }
-    if(primaOpen){
-      if(k===KEY.BACK||k===KEY.ESC){closePrima();e.preventDefault();return;}
-      if(k===KEY.LEFT||k===KEY.UP){primaFocus(0);e.preventDefault();return;}
-      if(k===KEY.RIGHT||k===KEY.DOWN){primaFocus(1);e.preventDefault();return;}
-      if(k===KEY.ENTER){primaActivate();e.preventDefault();return;}
-      if(k===KEY.RED){primaMessage('Červené tlačítko slouží až ve skutečném TV vysílání na stanici Prima.');e.preventDefault();return;}
-      return;
-    }
     if(openList){if(k===KEY.BACK||k===KEY.ESC){hideList();e.preventDefault();return;}
       if(k===KEY.UP||k===KEY.LEFT){moveList(-1);e.preventDefault();return;}
       if(k===KEY.DOWN||k===KEY.RIGHT){moveList(1);e.preventDefault();return;}
@@ -319,8 +284,5 @@
       if(b)b.onclick=function(){ps5PanelFocus(j);ps5PanelAction();};
     })(pi);
   }
-  var primaLaunchButton=$('primaOpenTv'),primaBackButton=$('primaClose');
-  if(primaLaunchButton)primaLaunchButton.onclick=function(){primaFocus(0);launchPrimaTV();};
-  if(primaBackButton)primaBackButton.onclick=function(){closePrima();};
   window.addEventListener('resize',fit);fit();setTimeout(fit,500);setTimeout(fit,1700);clock();setInterval(clock,15000);select(0);refresh();
 })();
