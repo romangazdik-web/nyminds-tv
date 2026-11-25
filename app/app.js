@@ -65,6 +65,12 @@
   // startup and may leave TV media/input APIs uninitialized on Tizen 3.
   // Keep the released tvpin page as a backup only when no module is installed.
   var IPTV_FALLBACK='https://cdn.jsdelivr.net/gh/romangazdik-web/tvpin@v1.3.1/app/tv09.html';
+  function fallbackIptv(reason){
+    iptvStarting=false;
+    iptvNotice('Spuštění modulu selhalo' + (reason ? ' (' + reason + ')' : '') + '. Zkouším záložní Nymind LIVE…');
+    try { window.location.href=IPTV_FALLBACK+'?from=nymindtv2036'; }
+    catch(e) { iptvNotice('Otevři v TizenBrew → Moduly → Nymind Živá TV.'); }
+  }
   function launchIptv(){
     if(iptvStarting)return;
     iptvStarting=true;
@@ -78,18 +84,11 @@
     if(mod){
       // Reuse the same working TizenBrew RPC launch path as Nymind Cinema.
       // run() resolves the installed module appPath and registers its keys.
-      iptvStarting=false;
-      run(mod);
+      run(mod,function(why){fallbackIptv(why);});
       return;
     }
-    // If a user did not install tvpin separately, preserve emergency access.
-    iptvNotice('Nymind LIVE není v modulech TizenBrew. Otevírám záložní verzi…');
-    try {
-      window.location.href=IPTV_FALLBACK+'?from=nymindtv2036';
-    } catch(ex) {
-      iptvStarting=false;
-      iptvNotice('Živou TV se nepodařilo spustit. Zkus ji otevřít v TizenBrew → Moduly → Nymind Živá TV.');
-    }
+    // If no registered tvpin module is found, use the stable backup.
+    fallbackIptv('Modul nebyl nalezen');
   }
   function launchMatch(match,alreadyRefreshed){
     if(!loaded)return refresh(function(){launchMatch(match,true);});
@@ -102,8 +101,8 @@
     }
     run(mod);
   }
-  function run(mod){
-    if(!mod){status('Modul zatím není dostupný');return;}
+  function run(mod,onFailure){
+    if(!mod){status('Modul zatím není dostupný');if(onFailure)onFailure('Modul chybí');return;}
     status('Spouštím '+displayName(mod)+'…');
     rpc(function(ws,mods){
       var match=null;
@@ -113,10 +112,11 @@
       if(!match){
         try{ws.close();}catch(e){}
         loaded=false;
+        if(onFailure)return onFailure('Modul se změnil');
         return status('Seznam se změnil. Otevři Všechny moduly nebo aplikaci spusť z TizenBrew.');
       }
       var url=match.appPath||match.websiteURL;
-      if(!url){try{ws.close();}catch(e){}return status('Modul nemá adresu pro spuštění');}
+      if(!url){try{ws.close();}catch(e){}if(onFailure)return onFailure('Modul nemá adresu');return status('Modul nemá adresu pro spuštění');}
       try{if(typeof tizen!=='undefined'&&tizen.tvinputdevice&&match.keys){for(var k=0;k<match.keys.length;k++)tizen.tvinputdevice.registerKey(match.keys[k]);}}catch(e){}
       ws.send(JSON.stringify({type:5,payload:match}));
       if(!match.evaluateScriptOnDocumentStart){setTimeout(function(){location.href=url;},350);}
@@ -124,7 +124,7 @@
         ws.onmessage=function(ev){try{var m=JSON.parse(ev.data);if(m.type===5)location.href=url;}catch(e){}};
         setTimeout(function(){location.href=url;},2200);
       }
-    },function(msg){status('Spuštění selhalo: '+msg);});
+    },function(msg){if(onFailure)return onFailure(msg);status('Spuštění selhalo: '+msg);});
   }
   function select(i){selected=Math.max(0,Math.min(tiles.length-1,i));for(var j=0;j<tiles.length;j++){var base=tiles[j].className.replace(/\s+active\b/g,'');tiles[j].className=base+(j===selected?' active':'');}tiles[selected].focus();}
   var ps5Busy=false,ps5Timer=0;
