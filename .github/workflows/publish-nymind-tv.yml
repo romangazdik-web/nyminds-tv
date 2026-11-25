@@ -35,7 +35,7 @@ jobs:
             git push origin "refs/tags/${TAG}"
           fi
           if ! gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "PS5 launch through a locally paired Windows desktop bridge; TV remote setup and safe HDMI fallback."
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind TV: restore Nymind LIVE IPTV launching through its installed TizenBrew module, with a verified release fallback; remove Prima+ and Sports Center tiles."
           fi
       - name: Purge jsDelivr launcher files
         shell: bash
@@ -50,4 +50,15 @@ jobs:
               echo
             done
           done
-          echo "Nymind TV release CDN purge finished."
+          echo "Nymind TV launcher purge finished."
+          # The live IPTV module is unchanged, but clear its manifest and entrypoint
+          # so neither old @main nor latest CDN metadata masks the installed module.
+          for REV in "" "@main" "@latest" "@v1.3.1"; do
+            for FILE in package.json app/tv09.html; do
+              URL="https://purge.jsdelivr.net/gh/romangazdik-web/tvpin${REV}/${FILE}"
+              echo "${URL}"
+              curl --max-time 15 -fsSL "${URL}" || echo "IPTV CDN purge rate-limited: ${URL}"
+              echo
+            done
+          done
+          echo "Nymind TV and IPTV CDN purge finished."
