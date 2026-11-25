@@ -176,7 +176,7 @@
   function ps5ValidIP(v){
     var parts=(''+(v||'')).trim().split('.');
     if(parts.length!==4)return false;
-    for(var i=0;i<4;i++){if(!/^\\d{1,3}$/.test(parts[i])||+parts[i]>255)return false;}
+    for(var i=0;i<4;i++){if(!/^\d{1,3}$/.test(parts[i])||+parts[i]>255)return false;}
     var a=+parts[0],b=+parts[1];
     return a===10||(a===172&&b>=16&&b<=31)||(a===192&&b===168);
   }
