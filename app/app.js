@@ -123,7 +123,7 @@
     clearTimeout(ps5Timer);
     ps5Timer=setTimeout(function(){el.style.display='none';},11000);
   }
-  function launchPS5(){
+  function ps5SourceOnly(){
     if(ps5Busy)return;
     ps5Busy=true;
     ps5Notice('PS5: zkouším lokální ovladač Samsungu (port 8001)…');
@@ -165,6 +165,63 @@
     }catch(e){end('WebSocket není povolen ('+(e.name||'chyba')+').');}
   }
 
+
+  /* PS5 -> Windows desktop bridge (HTTP top-level navigation, not fetch).
+     Tizen 3 blocks HTTPS -> local HTTP AJAX mixed content; a deliberate page
+     transition avoids that restriction. The desktop prompts for pairing once.
+     Never store a PSN credential in this publicly hosted launcher. */
+  var ps5PanelOpen=false,ps5MenuIndex=0,PS5_PC_KEY='nymind.ps5.desktop.ip';
+  function ps5Host(){try{return localStorage.getItem(PS5_PC_KEY)||'';}catch(e){return '';}}
+  function ps5SetHost(host){try{localStorage.setItem(PS5_PC_KEY,host);}catch(e){}}
+  function ps5ValidIP(v){
+    var parts=(''+(v||'')).trim().split('.');
+    if(parts.length!==4)return false;
+    for(var i=0;i<4;i++){if(!/^\\d{1,3}$/.test(parts[i])||+parts[i]>255)return false;}
+    var a=+parts[0],b=+parts[1];
+    return a===10||(a===172&&b>=16&&b<=31)||(a===192&&b===168);
+  }
+  function ps5PanelMessage(msg){var e=$('ps5PanelStatus');if(e)e.textContent=msg||'';}
+  function ps5Buttons(){return [$('ps5EditIp'),$('ps5Wake'),$('ps5Source'),$('ps5Back')];}
+  function ps5PanelFocus(n){
+    var buttons=ps5Buttons();
+    ps5MenuIndex=Math.max(0,Math.min(n,buttons.length-1));
+    for(var i=0;i<buttons.length;i++){
+      buttons[i].className='ps5-option'+(i===ps5MenuIndex?' active':'');
+    }
+    try{buttons[ps5MenuIndex].focus();}catch(e){}
+  }
+  function ps5ShowPanel(){
+    ps5PanelOpen=true;
+    var ip=ps5Host();$('ps5PcIp').value=ip;
+    $('ps5Overlay').className='overlay';$('ps5Overlay').setAttribute('aria-hidden','false');
+    ps5PanelMessage(ip?'Desktop: '+ip+' · port 8766':'Nejdřív zadej IP adresu desktopu v domácí síti.');
+    ps5PanelFocus(ip?1:0);
+  }
+  function ps5ClosePanel(){
+    ps5PanelOpen=false;
+    $('ps5Overlay').className='overlay hidden';$('ps5Overlay').setAttribute('aria-hidden','true');
+    select(selected);
+  }
+  function ps5SaveIP(){
+    var val=$('ps5PcIp').value.trim();
+    if(!ps5ValidIP(val)){ps5PanelMessage('Zadej IPv4 adresu desktopu v domácí síti, např. 192.168.0.100.');return false;}
+    ps5SetHost(val);ps5PanelMessage('Adresa uložena: '+val+' · port 8766');return true;
+  }
+  function ps5WakeViaDesktop(){
+    if(!ps5SaveIP())return;
+    var ip=ps5Host();
+    // Full-page navigation intentionally avoids HTTPS mixed-content XHR.
+    // The Windows bridge requests an on-TV PIN on the very first visit.
+    ps5PanelMessage('Přecházím na desktop '+ip+'…');
+    window.location.href='http://'+ip+':8766/wake';
+  }
+  function ps5PanelAction(){
+    if(ps5MenuIndex===0){try{$('ps5PcIp').focus();$('ps5PcIp').click();}catch(e){}}
+    else if(ps5MenuIndex===1)ps5WakeViaDesktop();
+    else if(ps5MenuIndex===2){ps5ClosePanel();ps5SourceOnly();}
+    else ps5ClosePanel();
+  }
+  function launchPS5(){ps5ShowPanel();}
   /* prima+ FREE: HbbTV runs on the Samsung TV broadcast service, not as a
      Chromium 47 website. This launcher opens the built-in Live TV viewer;
      tuning Prima + RED remain under the real remote and HbbTV system. */
@@ -222,6 +279,18 @@
   }
   function moveList(d){if(!modules.length)return;moduleSelected=Math.max(0,Math.min(modules.length-1,moduleSelected+d));renderList();var rs=$('module-list').children;if(rs[moduleSelected])rs[moduleSelected].scrollIntoView(false);}
   document.addEventListener('keydown',function(e){var k=e.keyCode;
+    if(ps5PanelOpen){
+      if(e.target && e.target.id==='ps5PcIp'){
+        if(k===KEY.ENTER){if(ps5SaveIP())ps5PanelFocus(1);e.preventDefault();return;}
+        if(k===KEY.BACK||k===KEY.ESC){ps5PanelFocus(1);e.preventDefault();return;}
+        return;
+      }
+      if(k===KEY.BACK||k===KEY.ESC){ps5ClosePanel();e.preventDefault();return;}
+      if(k===KEY.LEFT||k===KEY.UP){ps5PanelFocus(ps5MenuIndex-1);e.preventDefault();return;}
+      if(k===KEY.RIGHT||k===KEY.DOWN){ps5PanelFocus(ps5MenuIndex+1);e.preventDefault();return;}
+      if(k===KEY.ENTER){ps5PanelAction();e.preventDefault();return;}
+      return;
+    }
     if(primaOpen){
       if(k===KEY.BACK||k===KEY.ESC){closePrima();e.preventDefault();return;}
       if(k===KEY.LEFT||k===KEY.UP){primaFocus(0);e.preventDefault();return;}
@@ -241,6 +310,15 @@
       if(k===KEY.BACK||k===KEY.ESC){e.preventDefault();return;}}
   });
   for(var i=0;i<tiles.length;i++){(function(j){tiles[j].onclick=function(){select(j);launchSelected();};})(i);}
+  var ps5PcField=$('ps5PcIp');
+  if(ps5PcField)ps5PcField.onchange=ps5SaveIP;
+  var ps5ControlIds=['ps5EditIp','ps5Wake','ps5Source','ps5Back'];
+  for(var pi=0;pi<ps5ControlIds.length;pi++){
+    (function(j){
+      var b=$(ps5ControlIds[j]);
+      if(b)b.onclick=function(){ps5PanelFocus(j);ps5PanelAction();};
+    })(pi);
+  }
   var primaLaunchButton=$('primaOpenTv'),primaBackButton=$('primaClose');
   if(primaLaunchButton)primaLaunchButton.onclick=function(){primaFocus(0);launchPrimaTV();};
   if(primaBackButton)primaBackButton.onclick=function(){closePrima();};
