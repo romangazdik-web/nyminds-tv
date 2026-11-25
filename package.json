@@ -1,7 +1,7 @@
 {
   "name": "nyminds-tv",
-  "version": "2.0.35",
-  "description": "Nymind TV 2.0.35: PS5 tile can wake console through paired Windows desktop LAN bridge; on-TV IP setup, one-time PIN and Samsung HDMI source fallback.",
+  "version": "2.0.36",
+  "description": "Nymind TV 2.0.36: removed unwanted Prima+ and Sports Center tiles; restored Nymind LIVE/IPTV startup through the installed tvpin TizenBrew module with fallback to its v1.3.1 release. PS5, Cinema, TizenTube and Radio preserved.",
   "packageType": "app",
   "appName": "Nymind's TV – Monochrome",
   "appPath": "app/index.html",
