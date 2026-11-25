@@ -1,0 +1,53 @@
+name: Publish Nymind TV
+on:
+  push:
+    branches: [main]
+    paths:
+      - package.json
+      - .github/workflows/publish-nymind-tv.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nymind-tv-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.repository == 'romangazdik-web/nyminds-tv'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Publish tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./package.json').version")"
+          TAG="v${VERSION}"
+          echo "Publishing ${TAG} from ${GITHUB_SHA}"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "${TAG}" "${GITHUB_SHA}" -m "Nymind TV ${TAG}"
+            git push origin "refs/tags/${TAG}"
+          fi
+          if ! gh release view "${TAG}" >/dev/null 2>&1; then
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "PS5 launch through a locally paired Windows desktop bridge; TV remote setup and safe HDMI fallback."
+          fi
+      - name: Purge jsDelivr launcher files
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./package.json').version")"
+          for REV in "" "@main" "@latest" "@v${VERSION}"; do
+            for FILE in package.json app/index.html app/app.js; do
+              URL="https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv${REV}/${FILE}"
+              echo "${URL}"
+              curl --max-time 15 -fsSL "${URL}" || echo "CDN purge may be rate-limited: ${URL}"
+              echo
+            done
+          done
+          echo "Nymind TV release CDN purge finished."
