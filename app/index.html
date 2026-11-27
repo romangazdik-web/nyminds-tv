@@ -671,7 +671,7 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
 <div id="boot-cover" class="boot-cover" aria-hidden="true"></div>
 <div id="stage">
 
-<section id="nsp-spaces" class="nsp-world-0" aria-label="Nymind OS Spaces">
+<section id="nsp-spaces" class="nsp-world-0" tabindex="0" aria-label="Nymind OS Spaces">
   <div class="nsp-scenery" id="nsp-scenery"></div>
   <div class="nsp-shade"></div>
   <div class="nsp-glow"></div>
@@ -702,7 +702,7 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
     <div class="nsp-subtitle" id="nsp-subtitle">Filmy, seriály a večery, na které se těšíš.</div>
     <div class="nsp-line"></div>
     <div class="nsp-about" id="nsp-about">Všechno, co chceš sledovat. Stačí jeden stisk.</div>
-    <div class="nsp-open-row"><span class="nsp-ok-pill">OK</span><span id="nsp-launch">VSTOUPIT DO CINEMA</span><span class="nsp-open-arrow">↗</span></div>
+    <div class="nsp-open-row" id="nsp-open-action"><span class="nsp-ok-pill">OK</span><span id="nsp-launch">VSTOUPIT DO CINEMA</span><span class="nsp-open-arrow">↗</span></div>
   </div>
   <div class="nsp-bottom-bar">
     <span class="nsp-bottom-counter" id="nsp-count">01 <i>/</i> 05</span>
@@ -1748,11 +1748,12 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
    put('nsp-theme-tag',theme);put('nsp-mode',theme);
  }
  var reset=window.NYMIND_LAUNCHER_RESET;
- window.NYMIND_LAUNCHER_RESET=function(){atlasToggle(false);setScene(0);if(typeof reset==='function')reset();};
+ window.NYMIND_LAUNCHER_RESET=function(){atlasToggle(false);setScene(0);if(typeof reset==='function')reset();try{root.focus();}catch(ignore){}};
  window.addEventListener('keydown',onKey,true);
  window.addEventListener('keypress',onKey,true);
  window.addEventListener('keyup',onKey,true);
- setScene(0);updateTime();setInterval(updateTime,10000);
+ setScene(0);updateTime();try{root.focus();}catch(ignore){}setInterval(updateTime,10000);
+ var launchButton=$('nsp-open-action');if(launchButton)launchButton.onclick=launch;
  // Mouse/PC preview and accessibility; TV remains arrow/OK-first.
  var cards=$('nsp-atlas-cards');
  if(cards)for(var i=0;i<cards.children.length;i++){(function(j){cards.children[j].onclick=function(){setScene(j);atlasToggle(false);};}(i));}
