@@ -1,7 +1,7 @@
 {
   "name": "nyminds-tv",
-  "version": "4.0.0",
-  "description": "Nymind OS 4.0 Living Home: adaptive weather and season scenes (real snowfall/rain, Christmas lights, weekends Vice), manual yellow-key theme picker, brand-new scene/dashboard and app rail. Preserves original module launch paths.",
+  "version": "4.0.1",
+  "description": "Nymind OS 4.0.1: fix incomplete TV render by inlining theme CSS/JS, restore yellow theme switching, add RED Home / GREEN last app / YELLOW theme / BLUE modules, improve global remote integration.",
   "packageType": "app",
   "appName": "Nymind OS • Living Home",
   "appPath": "app/index.html",
