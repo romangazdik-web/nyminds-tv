@@ -1,9 +1,9 @@
 {
   "name": "nyminds-tv",
-  "version": "3.2.0",
-  "description": "Nymind TV Vice Edition 3.2: redesigned neon sunset cinematic home, pink/orange/purple theme; preserves live modules, weather, time wallpapers and native Tizen 3 behavior.",
+  "version": "4.0.0",
+  "description": "Nymind OS 4.0 Living Home: adaptive weather and season scenes (real snowfall/rain, Christmas lights, weekends Vice), manual yellow-key theme picker, brand-new scene/dashboard and app rail. Preserves original module launch paths.",
   "packageType": "app",
-  "appName": "Nymind TV",
+  "appName": "Nymind OS • Living Home",
   "appPath": "app/index.html",
   "keys": [
     "ColorF0Red",
