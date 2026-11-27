@@ -1,9 +1,9 @@
 {
   "name": "nyminds-tv",
-  "version": "4.1.0",
-  "description": "Nymind OS 4.1 Horizon: completely new left-side app library and large contextual showcase, weather and seasonal scenes, RED home/GREEN app switching/YELLOW themes/BLUE modules.",
+  "version": "4.1.1",
+  "description": "Nymind OS Horizon 4.1.1: retained 4.1's new UI and app switching; restored original module identity for seamless in-place updates. CDN cache refresh.",
   "packageType": "app",
-  "appName": "Nymind OS Horizon",
+  "appName": "Nymind OS • Living Home",
   "appPath": "app/index.html",
   "keys": [
     "ColorF0Red",
