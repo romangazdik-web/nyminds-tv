@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <meta name="theme-color" content="#080d1c">
-<title>Nymind CINEMATIC 1.1.1 · TV Edition</title>
+<title>Nymind CINEMATIC 1.1.2 · TV Edition</title>
 
 
 <style id="cinematic-inline-core">
@@ -156,6 +156,10 @@ button{appearance:none;-webkit-appearance:none}
 
 
 #hero-art .cinematic-vector-fallback{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+/* Conceal artifacts from the low-bandwidth embedded photographic thumbnail. */
+#hero-art{background-size:cover,1650px 655px!important;background-position:center center,right top!important;background-repeat:no-repeat!important}
+#scene-shade:after{content:"";position:absolute;left:0;right:0;top:338px;height:335px;background:linear-gradient(0deg,#090d20 5%,rgba(9,13,32,.99) 29%,rgba(9,13,32,.94) 60%,transparent 100%);pointer-events:none}
 </style>
 </head>
 <body>
