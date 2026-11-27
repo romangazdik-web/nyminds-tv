@@ -1,10 +1,10 @@
 {
-  "name": "nyminds-tv",
-  "version": "5.0.0",
-  "description": "Nymind OS 5.0 SPACES: total full-screen redesign into five immersive worlds, horizontal remote navigation, Atlas view, contextual scenes, unchanged TizenBrew app actions and weather/holiday logic.",
+  "name": "nymind-cinematic-preview",
+  "version": "1.0.0",
+  "description": "Nymind CINEMATIC test module: totally new Apple TV-inspired cinematic hero, 6 custom app cards, recommendations, remote navigation, live weather, theme switching and existing TizenBrew module integration. Existing Nymind OS main unchanged.",
   "packageType": "app",
-  "appName": "Nymind OS • Living Home",
-  "appPath": "app/index.html",
+  "appName": "Nymind CINEMATIC (TEST)",
+  "appPath": "cinematic/index.html",
   "keys": [
     "ColorF0Red",
     "ColorF1Green",
@@ -12,6 +12,6 @@
     "ColorF3Blue"
   ],
   "files": [
-    "app/"
+    "cinematic/"
   ]
 }
