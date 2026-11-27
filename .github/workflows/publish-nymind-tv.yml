@@ -31,6 +31,11 @@ jobs:
           assert '<style id="nymind-os-v401-core">' in h
           assert '<script id="nymind-os-v401-ambient">' in h
           assert '<main id="os5-root">' in h
+          assert '<section id="nsp-spaces"' in h
+          assert '<style id="nsp-spaces-styles">' in h
+          assert '<script id="nsp-spaces-controller">' in h
+          assert 'function atlasToggle(on)' in h
+          assert 'function setScene(idx)' in h
           assert '<style id="os5-horizon-css">' in h
           assert '<script id="nymind-global-switcher">' in h
           assert 'window.NYMIND_FEATURE_UPDATE' in h
@@ -60,7 +65,7 @@ jobs:
             git push origin "refs/tags/${TAG}"
           fi
           if ! gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 4.1 Horizon: fully rebuilt vertical app library + cinematic feature stage, contextual app previews, changing weather/season atmosphere and shared remote shortcuts. RED Home, GREEN App Switcher, YELLOW Themes, BLUE Modules. Compatible Tizen 3, legacy apps preserved."
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 5.0 SPACES: five immersive fullscreen worlds for Cinema, Live TV, YouTube, Radio and PS5. Horizontal world navigation and a full-screen Atlas; preserves existing TizenBrew launch logic, shared app switching and seasonal weather themes. ES5 compatible."
           fi
       - name: Purge jsDelivr launcher files
         shell: bash
