@@ -44,7 +44,7 @@
     if(weatherCode!==null&&snow(weatherCode))return 'winter';
     if(weatherCode!==null&&rain(weatherCode))return 'rain';
     if((month===11||month<=1)&&hour>=17)return 'winter';
-    if((d.getDay()===5||d.getDay()===6)&&hour>=18)return 'vice';
+    // Keep the premium Signature look by default. Vice Sunset is an optional manual theme.
     return 'signature';
   }
   function applyTheme(){
@@ -68,7 +68,7 @@
           var d=JSON.parse(x.responseText).current;
           if(!d||typeof d.temperature_2m!=='number')return;
           weatherTemp=Math.round(d.temperature_2m);weatherCode=d.weather_code;
-          var label=snow(weatherCode)?'Sněžení':rain(weatherCode)?'Déšť':weatherCode===0?'Jasno':weatherCode>=45&&weatherCode<=48?'Mlha':'Aktuální počasí';
+          var label=snow(weatherCode)?'Sněžení':rain(weatherCode)?'Déšť':weatherCode===0?'Jasno':weatherCode===1||weatherCode===2?'Polojasno':weatherCode===3?'Zataženo':weatherCode>=45&&weatherCode<=48?'Mlha':'Aktuální počasí';
           text('weather',weatherTemp+' °C · '+label);applyTheme();
         }catch(ignore){}
       };
