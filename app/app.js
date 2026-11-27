@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var KEY = {LEFT:37,UP:38,RIGHT:39,DOWN:40,ENTER:13,BACK:10009,ESC:27,RED:403};
+  var KEY = {LEFT:37,UP:38,RIGHT:39,DOWN:40,ENTER:13,BACK:10009,ESC:27,RED:403,YELLOW:405};
   var modules = [], selected = 0, moduleSelected = 0, openList = false, loaded = false, fetching = false, pendingAction = null;
   var tiles = document.querySelectorAll('.tile');
   var days = ['neděle','pondělí','úterý','středa','čtvrtek','pátek','sobota'];
@@ -272,6 +272,7 @@
       if(k===KEY.RIGHT||k===KEY.DOWN){select(selected+1);e.preventDefault();return;}
       if(k===KEY.ENTER){launchSelected();e.preventDefault();return;}
       if(k===KEY.RED){showList();e.preventDefault();return;}
+      if(k===KEY.YELLOW){if(window.NYMIND_AMBIENT&&window.NYMIND_AMBIENT.cycle)window.NYMIND_AMBIENT.cycle();e.preventDefault();return;}
       if(k===KEY.BACK||k===KEY.ESC){e.preventDefault();return;}}
   });
   for(var i=0;i<tiles.length;i++){(function(j){tiles[j].onclick=function(){select(j);launchSelected();};})(i);}
