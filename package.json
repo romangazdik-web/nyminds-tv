@@ -1,7 +1,7 @@
 {
   "name": "nymind-nova-preview",
-  "version": "0.1.0",
-  "description": "Independent Nymind NOVA preview, a brand-new cinematic television launcher for Samsung Tizen 3; installed alongside original Nymind OS.",
+  "version": "0.1.1",
+  "description": "Nymind NOVA 0.1.1 preview: entirely new cinematic 5-card wall, neutral Signature design, automatic weather and holiday atmosphere, quick app switcher, TizenBrew RPC launching and internet radio. Safe parallel install.",
   "packageType": "app",
   "appName": "Nymind NOVA (TEST)",
   "appPath": "nova/index.html",
