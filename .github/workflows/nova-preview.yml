@@ -1,0 +1,48 @@
+name: Validate and publish NOVA preview
+on:
+  push:
+    branches:
+      - nova-preview
+    paths:
+      - package.json
+      - nova/**
+      - .github/workflows/nova-preview.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate standalone module and JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check nova/app.js
+          node -e "const p=require('./package.json'); if(p.version!=='0.1.0'||p.appPath!=='nova/index.html'||p.appName!=='Nymind NOVA (TEST)'||p.packageType!=='app')process.exit(1)"
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path('nova/index.html').read_text()
+          css=Path('nova/style.css').read_text()
+          js=Path('nova/app.js').read_text()
+          for name in ['screen','cards','panel','options','radio-player','clock','weather','precipitation']:
+              assert f'id="{name}"' in html, name
+          assert '<script src="app.js?v=01"></script>' in html
+          assert '<link rel="stylesheet" href="style.css?v=01">' in html
+          assert html.count('<script')==html.count('</script>')==1
+          assert 'function runModule(mod)' in js
+          assert 'ColorF0Red' in js and 'ColorF1Green' in js
+          assert '#screen' in css and '.appcard.selected' in css
+          assert Path('nova/style.css').stat().st_size > 8000
+          print('NOVA module and UI validated.')
+          PY
+      - name: Refresh NOVA preview CDN
+        shell: bash
+        run: |
+          for FILE in package.json nova/index.html nova/style.css nova/app.js; do
+            curl --max-time 15 -fsSL "https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv@nova-preview/${FILE}" || true
+          done
