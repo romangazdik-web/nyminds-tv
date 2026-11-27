@@ -1,7 +1,7 @@
 {
   "name": "nymind-cinematic-preview",
-  "version": "1.1.1",
-  "description": "Nymind CINEMATIC TV 1.1.1: all-in-one HTML with embedded CSS, JS and user-approved JPEG hero, real movie cards, six apps, responsive Tizen 3 remote controls. Separate preview; original launcher unchanged.",
+  "version": "1.1.2",
+  "description": "Nymind CINEMATIC TV 1.1.2: self-contained HTML/CSS/JS and user-approved film photo, corrected TV layout and fade, movie recommendations, TizenBrew switching, remote key controls. Test branch; original Nymind OS untouched.",
   "packageType": "app",
   "appName": "Nymind CINEMATIC TV (TEST)",
   "appPath": "cinematic/index.html",
