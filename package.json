@@ -1,9 +1,9 @@
 {
   "name": "nymind-cinematic-preview",
-  "version": "1.0.1",
-  "description": "Nymind CINEMATIC 1.0.1: visually faithful cinematic TV test home, hero art and live movie thumbnails, six original app cards, remote navigation, switcher, weather themes, scrolling all modules and radio. Existing main untouched.",
+  "version": "1.1.0",
+  "description": "Independent TV-first faithful remake: inline CSS+JS, local approved hero photograph in repository, inline SVG first-frame fallback, cinematic app cards and remote controls. Samsung Tizen 3 compatibility. Does not modify existing Nymind OS.",
   "packageType": "app",
-  "appName": "Nymind CINEMATIC (TEST)",
+  "appName": "Nymind CINEMATIC TV (TEST)",
   "appPath": "cinematic/index.html",
   "keys": [
     "ColorF0Red",
