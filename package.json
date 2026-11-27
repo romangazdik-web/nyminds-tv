@@ -1,7 +1,7 @@
 {
   "name": "nyminds-tv",
-  "version": "4.1.1",
-  "description": "Nymind OS Horizon 4.1.1: retained 4.1's new UI and app switching; restored original module identity for seamless in-place updates. CDN cache refresh.",
+  "version": "4.1.2",
+  "description": "Nymind OS Horizon 4.1.2: stable TizenBrew module identity restored, fully updated Horizon screen and rolling app links. Delivered via existing module manifest with jsDelivr purge.",
   "packageType": "app",
   "appName": "Nymind OS • Living Home",
   "appPath": "app/index.html",
