@@ -52,7 +52,7 @@ jobs:
           from pathlib import Path
           import json,re,subprocess
           p=json.loads(Path('package.json').read_text())
-          assert p['version']=='1.1.1' and p['packageType']=='app'
+          assert p['version']=='1.1.2' and p['packageType']=='app'
           assert p['appName']=='Nymind CINEMATIC TV (TEST)'
           assert p['appPath']=='cinematic/index.html'
           h=Path('cinematic/index.html').read_text()
@@ -79,12 +79,12 @@ jobs:
           set -euo pipefail
           CHROME="$(command -v google-chrome || command -v chromium || true)"
           test -n "$CHROME"
-          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/cinematic-tv-1.1.1.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-tv-chrome.log 2>&1 || { tail -n 60 /tmp/cinematic-tv-chrome.log; exit 1; }
-          test -s cinematic-tv-1.1.1.png
+          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/cinematic-tv-1.1.2.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-tv-chrome.log 2>&1 || { tail -n 60 /tmp/cinematic-tv-chrome.log; exit 1; }
+          test -s cinematic-tv-1.1.2.png
       - uses: actions/upload-artifact@v4
         with:
-          name: cinematic-tv-1.1.1-screenshot
-          path: cinematic-tv-1.1.1.png
+          name: cinematic-tv-1.1.2-screenshot
+          path: cinematic-tv-1.1.2.png
           if-no-files-found: error
       - name: Purge only the isolated TV test branch
         shell: bash
