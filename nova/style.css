@@ -122,3 +122,6 @@ body.theme-winter .flake,body.theme-christmas .flake{display:block}
 #screen.theme-winter .story-kicker,#screen.theme-winter .story-meta{color:#bce1f2}
 #screen.theme-christmas .story-kicker,#screen.theme-christmas .story-meta{color:#f3d59c}
 #screen.theme-rain .story-kicker,#screen.theme-rain .story-meta{color:#afcfdf}
+
+/* NOVA preview polish: avoid artwork label overlapping the quick-launch arrow. */
+.card-play .game-caption{display:none}
