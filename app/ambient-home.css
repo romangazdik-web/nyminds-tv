@@ -21,7 +21,7 @@ html,body{background:#0a111a!important;font-family:"Segoe UI",Arial,sans-serif}
 @keyframes ambSnow{from{transform:translate3d(0,-25px,0)}to{transform:translate3d(65px,1160px,0)}}
 @-webkit-keyframes ambRain{from{-webkit-transform:translate3d(0,-180px,0)}to{-webkit-transform:translate3d(-170px,1080px,0)}}
 @keyframes ambRain{from{transform:translate3d(0,-180px,0)}to{transform:translate3d(-170px,1080px,0)}}
-.amb-snowing .amb-flake,.amb-winter .amb-flake,.amb-christmas .amb-flake{display:block}
+.amb-snowing .amb-flake{display:block}
 .amb-raining .amb-drop,.amb-rain .amb-drop{display:block}
 #amb-lights{position:absolute;left:2%;top:0;right:2%;height:55px;display:none;border-top:1px solid rgba(255,239,174,.17)}
 #amb-lights i{position:absolute;display:block;width:9px;height:13px;border-radius:60% 60% 70% 70%;background:#ffdc94;box-shadow:0 0 11px #f8b96d;opacity:.72}
