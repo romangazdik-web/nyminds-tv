@@ -84,7 +84,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: cinematic-tv-1.1.1-screenshot
-          path: cinematic-tv-1.1.png
+          path: cinematic-tv-1.1.1.png
           if-no-files-found: error
       - name: Purge only the isolated TV test branch
         shell: bash
