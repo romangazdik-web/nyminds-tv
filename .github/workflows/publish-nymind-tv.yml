@@ -30,6 +30,10 @@ jobs:
           h=pathlib.Path('app/index.html').read_text()
           assert '<style id="nymind-os-v401-core">' in h
           assert '<script id="nymind-os-v401-ambient">' in h
+          assert '<main id="os5-root">' in h
+          assert '<style id="os5-horizon-css">' in h
+          assert '<script id="nymind-global-switcher">' in h
+          assert 'window.NYMIND_FEATURE_UPDATE' in h
           assert "parseFromString('<body>'+match[1]+'</body>'" in h
           assert '<script src="ambient-home.js?v=4.0.0">' not in h
           scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>',h,re.S|re.I)
@@ -56,7 +60,7 @@ jobs:
             git push origin "refs/tags/${TAG}"
           fi
           if ! gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 4.0 Living Home: adaptive weather and holiday atmosphere, Christmas lights, actual snow/rain animations, redesigned cinematic home and manual yellow-button theme cycling. Existing apps and launching preserved."
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 4.1 Horizon: fully rebuilt vertical app library + cinematic feature stage, contextual app previews, changing weather/season atmosphere and shared remote shortcuts. RED Home, GREEN App Switcher, YELLOW Themes, BLUE Modules. Compatible Tizen 3, legacy apps preserved."
           fi
       - name: Purge jsDelivr launcher files
         shell: bash
@@ -64,7 +68,7 @@ jobs:
           set -euo pipefail
           VERSION="$(node -p "require('./package.json').version")"
           for REV in "" "@main" "@latest" "@v${VERSION}"; do
-            for FILE in package.json app/index.html app/app.js app/ambient-home.css app/ambient-home.js; do
+            for FILE in package.json app/index.html app/app.js app/ambient-home.css app/ambient-home.js app/switcher.js; do
               URL="https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv${REV}/${FILE}"
               echo "${URL}"
               curl --max-time 15 -fsSL "${URL}" || echo "CDN purge may be rate-limited: ${URL}"
