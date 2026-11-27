@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind OS 4.1.2 · Horizon</title>
+<title>Nymind OS 5.0 · Spaces</title>
 <!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
 /* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
@@ -415,6 +415,96 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
 @media(max-height:800px){#os5-root{top:15%!important;bottom:5%!important}#os5-sidebar{padding-top:21px}.os5-rail-header{margin:12px 0 9px;padding-bottom:12px}#os5-sidebar .tile{height:70px!important;margin-bottom:5px!important}#os5-sidebar .tile-face{height:52px!important;width:52px!important;top:8px!important;left:9px!important}#os5-sidebar .tile-copy{left:70px!important;top:14px!important}#os5-showcase .intro-area{top:74px!important}#os5-feature-title{font-size:54px}#os5-feature-desc{font-size:18px;margin:9px 0 15px}.os5-ambiance-copy{margin-top:20px}.os5-bottom-area{height:165px;bottom:16px}.os5-info-card{padding:16px}#os5-main-atmosphere{margin-top:8px;font-size:19px}.os5-muted{font-size:13px}.os5-controls{font-size:12px;margin-top:9px}#os5-showcase .amb-widget{padding:15px!important}#os5-showcase #amb-mode-name{font-size:22px;margin-top:8px}}
 
 </style>
+<style id="nsp-spaces-styles">
+
+/* NYMIND OS SPACES v5 — genuinely new full-screen scene architecture.
+   Old Samsung Chromium 47 / Tizen 3: no CSS grid, CSS vars, backdrop-filter or ES6.
+   Original tiles, modules, IPTV, audio and PS5 logic remain in the DOM. */
+#os5-root,.topbar,.background-label,.nymind-remote-hint{display:none!important}
+#nsp-spaces{position:absolute;left:0;top:0;width:100%;height:100%;z-index:100;overflow:hidden;color:#fbfbfc;background:#0b1523;font-family:Arial,"Helvetica Neue",sans-serif;box-sizing:border-box}
+#nsp-spaces *{box-sizing:border-box}
+#nsp-spaces .nsp-scenery{position:absolute;inset:0;left:0;top:0;right:0;bottom:0;background-position:center;background-size:cover;opacity:.73;-webkit-filter:saturate(.66) contrast(1.11);filter:saturate(.66) contrast(1.11);-webkit-transition:opacity .45s ease;transition:opacity .45s ease}
+#nsp-spaces .nsp-shade{position:absolute;inset:0;left:0;top:0;right:0;bottom:0;background:linear-gradient(90deg,#07111eea 0%,#07111ed6 28%,#07111e70 60%,#07111e36 100%),linear-gradient(0deg,#07101cf5 0%,transparent 20%,transparent 80%,#0812208a 100%)}
+#nsp-spaces .nsp-glow{position:absolute;right:2%;top:5%;height:820px;width:850px;border-radius:50%;background:radial-gradient(circle,rgba(170,202,207,.14),transparent 63%)}
+#nsp-spaces .nsp-lines{position:absolute;right:-320px;top:-250px;width:1070px;height:1070px;border:1px solid rgba(255,255,255,.075);border-radius:50%;box-shadow:0 0 0 160px rgba(255,255,255,.019),0 0 0 310px rgba(255,255,255,.013)}
+#nsp-spaces .nsp-halo{position:absolute;right:7.2%;top:20%;height:560px;width:560px;text-align:center}
+#nsp-spaces .nsp-halo-circle{position:absolute;inset:0;left:0;top:0;right:0;bottom:0;border:1px solid rgba(243,246,246,.25);border-radius:50%;box-shadow:inset 0 0 95px rgba(194,215,224,.09),0 0 0 27px rgba(255,255,255,.016)}
+#nsp-spaces .nsp-halo-circle:before{content:"";position:absolute;left:50%;top:50%;width:365px;height:365px;margin-left:-183px;margin-top:-183px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:radial-gradient(circle,rgba(201,221,216,.14),rgba(11,28,40,.23) 70%)}
+#nsp-spaces .nsp-halo-glyph{position:relative;display:block;margin-top:168px;font-size:168px;line-height:175px;color:rgba(250,252,249,.9);font-family:Arial;text-shadow:0 12px 55px rgba(0,0,0,.32)}
+#nsp-spaces .nsp-halo-label{position:relative;display:block;font-size:13px;font-weight:800;letter-spacing:8px;margin-top:16px;color:rgba(255,255,255,.67)}
+#nsp-spaces .nsp-topbar{position:absolute;top:58px;left:69px;right:82px;z-index:5;display:block;height:75px;border-bottom:1px solid rgba(237,242,236,.15)}
+#nsp-spaces .nsp-logo{display:inline-block;vertical-align:middle}
+#nsp-spaces .nsp-monogram{display:inline-block;vertical-align:middle;height:43px;width:43px;border:2px solid rgba(255,255,255,.77);border-radius:11px;line-height:39px;text-align:center;font-size:24px;font-weight:800;margin-right:14px}
+#nsp-spaces .nsp-brand{display:inline-block;vertical-align:middle;font-size:23px;letter-spacing:1px;font-weight:900}
+#nsp-spaces .nsp-brand-os{font-weight:400;opacity:.7;margin-left:8px}
+#nsp-spaces .nsp-brand-edition{display:inline-block;vertical-align:middle;font-size:11px;letter-spacing:4px;color:#b5c4ca;margin-left:24px}
+#nsp-spaces .nsp-top-right{position:absolute;right:0;top:3px;vertical-align:middle}
+#nsp-spaces .nsp-top-weather{display:inline-block;vertical-align:middle;font-size:13px;color:#d2dce2;letter-spacing:2px;margin-right:40px}
+#nsp-spaces .nsp-top-time{display:inline-block;vertical-align:middle;font-size:34px;font-weight:700;letter-spacing:-1.4px}
+#nsp-spaces .nsp-vertical-mark{position:absolute;right:-117px;top:505px;width:450px;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,.4);-webkit-transform:rotate(-90deg);transform:rotate(-90deg);white-space:nowrap}
+#nsp-spaces .nsp-vertical-mark span{margin:0 15px}
+#nsp-spaces .nsp-side-index{position:absolute;top:264px;left:72px;width:166px;z-index:4}
+#nsp-spaces .nsp-side-title{font-size:12px;letter-spacing:3px;color:#8aa6af;font-weight:bold;display:block;margin-bottom:22px}
+#nsp-spaces .nsp-index-item{display:block;font-size:23px;color:rgba(241,243,240,.34);font-weight:bold;height:70px;line-height:70px;-webkit-transition:color .15s;transition:color .15s}
+#nsp-spaces .nsp-index-item span{font-size:10px;letter-spacing:1.5px;font-weight:700;display:inline-block;margin-left:17px;vertical-align:middle;opacity:0}
+#nsp-spaces .nsp-index-item.nsp-current{color:#fff}
+#nsp-spaces .nsp-index-item.nsp-current:before{content:"";position:absolute;left:-16px;width:3px;height:47px;margin-top:12px;background:#f1d9b6;border-radius:4px}
+#nsp-spaces .nsp-index-item.nsp-current span{opacity:.75}
+#nsp-spaces .nsp-editorial{position:absolute;left:268px;top:290px;width:840px;z-index:4}
+#nsp-spaces .nsp-eyebrow{font-size:15px;font-weight:800;letter-spacing:3.2px;color:#e2c9a9}
+#nsp-spaces .nsp-eyebrow-rule{display:inline-block;height:1px;width:32px;background:rgba(255,255,255,.6);margin:0 19px;vertical-align:middle}
+#nsp-spaces .nsp-title-wrap{position:relative;margin:23px 0 18px}
+#nsp-spaces .nsp-title-shadow{position:absolute;left:0;top:-22px;font-size:172px;line-height:1.12;font-weight:900;letter-spacing:-9px;color:rgba(255,255,255,.034);white-space:nowrap;pointer-events:none}
+#nsp-spaces #nsp-title{position:relative;font-size:140px;line-height:1.02;font-weight:900;letter-spacing:-7px;color:#fff;margin:0;text-shadow:0 15px 50px rgba(0,0,0,.32)}
+#nsp-spaces .nsp-stop{color:#e6cfad}
+#nsp-spaces .nsp-subtitle{font-size:31px;font-weight:600;letter-spacing:-.7px;max-width:780px;line-height:1.18;margin-bottom:35px}
+#nsp-spaces .nsp-line{height:1px;width:83px;background:rgba(255,255,255,.6);margin-bottom:26px}
+#nsp-spaces .nsp-about{font-size:20px;color:#ccd6dd;max-width:550px;line-height:1.45}
+#nsp-spaces .nsp-open-row{display:inline-block;margin-top:40px;font-size:15px;letter-spacing:2px;font-weight:800;padding:13px 25px 13px 13px;background:rgba(239,237,226,.1);border:1px solid rgba(248,244,231,.43);border-radius:11px;box-shadow:0 13px 40px rgba(0,0,0,.2)}
+#nsp-spaces .nsp-ok-pill{display:inline-block;background:#f4f1e8;color:#162331;border-radius:6px;margin-right:15px;font-weight:900;letter-spacing:0;padding:7px 11px}
+#nsp-spaces .nsp-open-arrow{display:inline-block;margin-left:25px;font-size:19px}
+#nsp-spaces .nsp-bottom-bar{position:absolute;left:72px;right:72px;bottom:53px;height:70px;z-index:4;border-top:1px solid rgba(255,255,255,.26);padding-top:25px;white-space:nowrap}
+#nsp-spaces .nsp-bottom-counter{font-size:26px;letter-spacing:2px;font-weight:800;margin-right:65px}
+#nsp-spaces .nsp-bottom-counter i{font-style:normal;font-size:17px;color:#8ca5b2;margin:0 10px}
+#nsp-spaces .nsp-bottom-help{font-size:12px;letter-spacing:1.4px;color:#becdd3;font-weight:bold}
+#nsp-spaces .nsp-bottom-divider{height:13px;width:1px;display:inline-block;vertical-align:middle;margin:0 32px;background:rgba(255,255,255,.23)}
+#nsp-spaces .nsp-bottom-mode{float:right;font-size:12px;letter-spacing:3px;color:#e5caa6;padding-top:5px;font-weight:bold}
+#nsp-spaces.nsp-world-1 .nsp-glow{background:radial-gradient(circle,rgba(103,176,177,.3),transparent 60%)}
+#nsp-spaces.nsp-world-1 .nsp-stop,#nsp-spaces.nsp-world-1 .nsp-eyebrow{color:#a7e6db}
+#nsp-spaces.nsp-world-2 .nsp-glow{background:radial-gradient(circle,rgba(215,113,100,.3),transparent 59%)}
+#nsp-spaces.nsp-world-2 .nsp-stop,#nsp-spaces.nsp-world-2 .nsp-eyebrow{color:#efae9f}
+#nsp-spaces.nsp-world-3 .nsp-glow{background:radial-gradient(circle,rgba(157,131,191,.32),transparent 61%)}
+#nsp-spaces.nsp-world-3 .nsp-stop,#nsp-spaces.nsp-world-3 .nsp-eyebrow{color:#d5b9ed}
+#nsp-spaces.nsp-world-4 .nsp-glow{background:radial-gradient(circle,rgba(170,180,216,.29),transparent 60%)}
+#nsp-spaces.nsp-world-4 .nsp-stop,#nsp-spaces.nsp-world-4 .nsp-eyebrow{color:#c6cffa}
+#nsp-spaces.nsp-changing .nsp-scenery{opacity:.3}
+#nsp-spaces .nsp-atlas{position:absolute;inset:0;left:0;right:0;top:0;bottom:0;z-index:200;background:rgba(5,12,24,.97);padding:170px 95px 110px}
+#nsp-spaces .nsp-atlas-hidden{display:none}
+#nsp-spaces .nsp-atlas-header>span{display:block;color:#b6a184;font-size:14px;letter-spacing:4px;font-weight:800}
+#nsp-spaces .nsp-atlas-header strong{display:block;margin-top:13px;font-size:65px;letter-spacing:-2px}
+#nsp-spaces .nsp-atlas-header small{display:block;color:#a9bcc8;font-size:20px;margin:14px 0 48px}
+#nsp-spaces .nsp-atlas-cards{white-space:nowrap}
+#nsp-spaces .nsp-atlas-card{display:inline-block;position:relative;vertical-align:top;width:18%;height:450px;margin-right:2%;padding:26px 17px;background:linear-gradient(150deg,rgba(98,122,132,.3),rgba(21,44,59,.83));border:2px solid rgba(255,255,255,.12);border-radius:15px;color:white}
+#nsp-spaces .nsp-atlas-card:nth-child(2){background:linear-gradient(150deg,#2b777d89,#142b40)}
+#nsp-spaces .nsp-atlas-card:nth-child(3){background:linear-gradient(150deg,#b95a6589,#282345)}
+#nsp-spaces .nsp-atlas-card:nth-child(4){background:linear-gradient(150deg,#735d9e99,#27233e)}
+#nsp-spaces .nsp-atlas-card:nth-child(5){background:linear-gradient(150deg,#6172a389,#18223e)}
+#nsp-spaces .nsp-atlas-card.nsp-atlas-active{border-color:#fff6de;box-shadow:0 0 0 5px rgba(255,239,206,.20);-webkit-transform:translateY(-12px);transform:translateY(-12px)}
+#nsp-spaces .nsp-atlas-card>span{display:block;font-size:20px;color:#ccd5d6;letter-spacing:2px}
+#nsp-spaces .nsp-atlas-card>b{position:absolute;left:17px;bottom:66px;font-size:31px;letter-spacing:-1px}
+#nsp-spaces .nsp-atlas-card>small{position:absolute;left:17px;bottom:35px;font-size:12px;letter-spacing:1.4px}
+#nsp-spaces .nsp-scene-btn{display:none}
+.amb-vice #nsp-spaces .nsp-shade{background:linear-gradient(90deg,#21112ce8 0%,#301638b3 43%,#39214943 100%),linear-gradient(0deg,#150d28ec,transparent 35%)}
+.amb-vice #nsp-spaces .nsp-halo-circle:before{background:radial-gradient(circle,rgba(255,158,118,.22),rgba(50,17,55,.24) 70%)}
+.amb-winter #nsp-spaces .nsp-shade{background:linear-gradient(90deg,#071f30ec 0%,#153447c2 43%,#12354e54 100%),linear-gradient(0deg,#071e2de8,transparent 35%)}
+.amb-christmas #nsp-spaces .nsp-shade{background:linear-gradient(90deg,#081e1bea 0%,#113c2dc5 43%,#1e3d2f63 100%),linear-gradient(0deg,#071c19e8,transparent 35%)}
+.amb-rain #nsp-spaces .nsp-shade{background:linear-gradient(90deg,#071b2af0 0%,#123044dc 43%,#20384c65 100%),linear-gradient(0deg,#0a1828e6,transparent 35%)}
+.amb-christmas #nsp-spaces .nsp-topbar{border-bottom-color:rgba(249,216,168,.40)}
+.amb-snowing #nsp-spaces:after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;z-index:2;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.77) 1px,transparent 2px),radial-gradient(circle,rgba(255,255,255,.38) 1px,transparent 2px);background-size:133px 155px,181px 227px;-webkit-animation:nspSnow 16s linear infinite;animation:nspSnow 16s linear infinite}
+@-webkit-keyframes nspSnow{from{background-position:0 -200px,21px -200px}to{background-position:20px 920px,21px 950px}}
+@keyframes nspSnow{from{background-position:0 -200px,21px -200px}to{background-position:20px 920px,21px 950px}}
+
+</style>
 </head>
 <body>
 <script>window.NYMIND_IS_LAUNCHER=true;</script>
@@ -580,6 +670,61 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
 </script>
 <div id="boot-cover" class="boot-cover" aria-hidden="true"></div>
 <div id="stage">
+
+<section id="nsp-spaces" class="nsp-world-0" aria-label="Nymind OS Spaces">
+  <div class="nsp-scenery" id="nsp-scenery"></div>
+  <div class="nsp-shade"></div>
+  <div class="nsp-glow"></div>
+  <div class="nsp-lines"></div>
+  <div class="nsp-halo">
+    <div class="nsp-halo-circle"></div>
+    <span class="nsp-halo-glyph" id="nsp-halo-glyph">▶</span>
+    <span class="nsp-halo-label" id="nsp-halo-label">CINEMA</span>
+  </div>
+  <div class="nsp-topbar">
+    <div class="nsp-logo"><span class="nsp-monogram">N</span><span class="nsp-brand">NYMIND<span class="nsp-brand-os">OS</span></span><span class="nsp-brand-edition">/ SPACES</span></div>
+    <div class="nsp-top-right"><span class="nsp-top-weather" id="nsp-local-weather">UHERSKÝ BROD</span><span class="nsp-top-time" id="nsp-clock">--:--</span></div>
+  </div>
+  <div class="nsp-vertical-mark">NYMIND ORIGINAL EXPERIENCE <span>•</span> DESIGNED FOR YOUR LIVING ROOM</div>
+  <nav class="nsp-side-index" aria-label="Výběr prostoru">
+    <span class="nsp-side-title">PROSTORY</span>
+    <div class="nsp-index-list" id="nsp-index-list">
+      <div class="nsp-index-item nsp-current">01<span>KINO</span></div>
+      <div class="nsp-index-item">02<span>TELEVIZE</span></div>
+      <div class="nsp-index-item">03<span>VIDEO</span></div>
+      <div class="nsp-index-item">04<span>HUDBA</span></div>
+      <div class="nsp-index-item">05<span>HRANÍ</span></div>
+    </div>
+  </nav>
+  <div class="nsp-editorial">
+    <div class="nsp-eyebrow"><span id="nsp-group">01 / FILMOVÝ SVĚT</span><span class="nsp-eyebrow-rule"></span><span id="nsp-theme-tag">SIGNATURE</span></div>
+    <div class="nsp-title-wrap"><div class="nsp-title-shadow" id="nsp-shadow-title">CINEMA</div><h1 id="nsp-title">CINEMA<span class="nsp-stop">.</span></h1></div>
+    <div class="nsp-subtitle" id="nsp-subtitle">Filmy, seriály a večery, na které se těšíš.</div>
+    <div class="nsp-line"></div>
+    <div class="nsp-about" id="nsp-about">Všechno, co chceš sledovat. Stačí jeden stisk.</div>
+    <div class="nsp-open-row"><span class="nsp-ok-pill">OK</span><span id="nsp-launch">VSTOUPIT DO CINEMA</span><span class="nsp-open-arrow">↗</span></div>
+  </div>
+  <div class="nsp-bottom-bar">
+    <span class="nsp-bottom-counter" id="nsp-count">01 <i>/</i> 05</span>
+    <span class="nsp-bottom-help">← → PROCHÁZET SVĚTY</span>
+    <span class="nsp-bottom-divider"></span>
+    <span class="nsp-bottom-help">↓ PŘEHLED</span>
+    <span class="nsp-bottom-divider"></span>
+    <span class="nsp-bottom-help">ŽLUTÁ ZMĚNIT ATMOSFÉRU</span>
+    <span class="nsp-bottom-mode" id="nsp-mode">CINEMATIC</span>
+  </div>
+  <div class="nsp-atlas nsp-atlas-hidden" id="nsp-atlas" aria-label="Přehled všech prostorů">
+    <div class="nsp-atlas-header"><span>NYMIND / ALL SPACES</span><strong>Kam tě to dnes táhne?</strong><small>← → vybrat · OK spustit · Zpět zavřít</small></div>
+    <div class="nsp-atlas-cards" id="nsp-atlas-cards">
+      <div class="nsp-atlas-card nsp-atlas-active"><span>01</span><b>CINEMA</b><small>FILMY / SERIÁLY</small></div>
+      <div class="nsp-atlas-card"><span>02</span><b>LIVE</b><small>TELEVIZE</small></div>
+      <div class="nsp-atlas-card"><span>03</span><b>TUBE</b><small>YOUTUBE</small></div>
+      <div class="nsp-atlas-card"><span>04</span><b>AUDIO</b><small>RÁDIA</small></div>
+      <div class="nsp-atlas-card"><span>05</span><b>PLAY</b><small>PLAYSTATION 5</small></div>
+    </div>
+  </div>
+</section>
+
   <div id="wallpaper" class="wallpaper"></div>
   <div id="wallpaper-next" class="wallpaper wallpaper-next"></div>
   <div id="weather-tint" class="weather-tint"></div>
@@ -680,7 +825,7 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
   <div id="amb-toast" class="amb-toast" role="status" aria-live="polite"></div>
   <span id="amb-mode-pill" aria-hidden="true"></span>
   <div class="nymind-remote-hint"><span style="color:#ff6969">●</span> <b>Červená</b> Domů &nbsp; <span style="color:#67d09b">●</span> <b>Zelená</b> Poslední aplikace &nbsp; <span style="color:#ffdc69">●</span> <b>Žlutá</b> Motivy &nbsp; <span style="color:#68adff">●</span> <b>Modrá</b> Všechny moduly</div>
-  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind OS · 4.1.2</span></div>
+  <div class="background-label"><strong>UHERSKÝ BROD &nbsp; • &nbsp; LIVE WEATHER</strong><span id="wallpapername">Nymind OS · 5.0.0</span></div>
 </div>
 <div id="overlay" class="overlay hidden"><div class="modal"><div class="modal-top"><div><span class="modal-overline">SPRÁVA APLIKACÍ</span><h2>Všechny moduly</h2></div><div class="close">Zpět = zavřít</div></div><div id="module-list" class="module-list"></div><p class="modal-note">Servisní nabídka TizenBrew</p></div></div>
 
@@ -1515,6 +1660,106 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
   setInterval(refresh,60000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh();},false);
 }());
+</script>
+<script id="nsp-spaces-controller">
+
+/* NYMIND SPACES: self-contained spatial navigation, ES5 for Samsung 2017.
+ * Each space calls the SAME original installed module tile when OK is pressed.
+ * Preserves TizenBrew RPC, IPTV, radio and PS5 handling. */
+(function(){
+ 'use strict';
+ var root=document.getElementById('nsp-spaces');
+ if(!root)return;
+ var worlds=[
+  {title:'CINEMA',group:'01 / FILMOVÝ SVĚT',subtitle:'Tvoje soukromé kino.',about:'Filmy, seriály a příběhy, na které se těšíš.',launch:'OTEVŘÍT NYMIND CINEMA',icon:'▶',bg:'20',label:'FILMY'},
+  {title:'LIVE',group:'02 / ŽIVÉ VYSÍLÁNÍ',subtitle:'Svět se právě děje.',about:'České i slovenské kanály, sport a televizní program.',launch:'SPUSTIT ŽIVOU TV',icon:'▤',bg:'18',label:'ŽIVÁ TV'},
+  {title:'TUBE',group:'03 / VIDEO A HUDBA',subtitle:'Všechno, co tě baví.',about:'YouTube bez reklam, tvoje videa a oblíbení tvůrci.',launch:'OTEVŘÍT TIZENTUBE',icon:'▷',bg:'16',label:'VIDEO'},
+  {title:'AUDIO',group:'04 / RÁDIO A HUDBA',subtitle:'Pusť si vlastní tempo.',about:'Signál rádio, Rock Radio a hudba pro každý večer.',launch:'OTEVŘÍT RÁDIA',icon:'♫',bg:'12',label:'HUDBA'},
+  {title:'PLAY',group:'05 / HERNÍ SVĚT',subtitle:'Teď jsi na řadě ty.',about:'PlayStation 5, hry a ovládání konzole přes HDMI.',launch:'OTEVŘÍT PLAYSTATION 5',icon:'✧',bg:'22',label:'HRANÍ'}
+ ];
+ var n=0,atlas=false,changing=false,changeTimer=0,lastKeyAt=0,sceneCache={};
+ function $(id){return document.getElementById(id);}
+ function put(id,t){var x=$(id);if(x)x.textContent=t;}
+ function pad(i){return i<10?'0'+i:''+i;}
+ function setScene(idx){
+   n=(idx+worlds.length)%worlds.length;var w=worlds[n];
+   root.className=root.className.replace(/\bnsp-world-\d\b/g,'').replace(/\bnsp-changing\b/g,'').replace(/^\s+|\s+$/g,'')+' nsp-world-'+n+' nsp-changing';
+   put('nsp-group',w.group);put('nsp-title',w.title+'.');put('nsp-shadow-title',w.title);
+   put('nsp-subtitle',w.subtitle);put('nsp-about',w.about);put('nsp-launch',w.launch);
+   put('nsp-halo-glyph',w.icon);put('nsp-halo-label',w.label);
+   put('nsp-count',pad(n+1)+' / 05');
+   var a=$('nsp-index-list');if(a){var all=a.children;for(var i=0;i<all.length;i++)all[i].className='nsp-index-item'+(i===n?' nsp-current':'');}
+   var b=$('nsp-atlas-cards');if(b){var cards=b.children;for(var j=0;j<cards.length;j++)cards[j].className='nsp-atlas-card'+(j===n?' nsp-atlas-active':'');}
+   // Each space has its own cinematic JPG; the existing time/weather scene remains in the base layer.
+   var url='wallpapers/wallpaper-'+w.bg+'.jpg';
+   if(!sceneCache[url]){var img=new Image();sceneCache[url]=img;img.src=url;}
+   var bg=$('nsp-scenery');if(bg)bg.style.backgroundImage='url("'+url+'")';
+   if(changeTimer)clearTimeout(changeTimer);
+   changeTimer=setTimeout(function(){root.className=root.className.replace(/\s*nsp-changing/g,'');},380);
+ }
+ function isNativeOverlay(){
+   var sw=$('nym-switcher');
+   if(sw&&sw.className.indexOf('nym-open')>=0)return true;
+   var o=$('overlay');if(o&&o.className.indexOf('hidden')<0)return true;
+   var ps=$('ps5Overlay');if(ps&&ps.className.indexOf('hidden')<0)return true;
+   var rd=$('nymind-radio-overlay');if(rd&&rd.className.indexOf('nymind-radio-hidden')<0)return true;
+   return false;
+ }
+ function atlasToggle(on){
+   atlas=on;
+   var x=$('nsp-atlas');if(x)x.className=on?'nsp-atlas':'nsp-atlas nsp-atlas-hidden';
+ }
+ function launch(){
+   // Map SPACES view order to the installed real launcher tiles:
+   // Cinema -> 0, Live -> 2, Tube -> 1, Audio -> 3, PS5 -> 4.
+   var map=[0,2,1,3,4],tileIndex=map[n];
+   var real=document.querySelectorAll('#tiles .tile');
+   if(real&&real[tileIndex])real[tileIndex].click();
+ }
+ function onKey(e){
+   if(isNativeOverlay())return;
+   var k=e.keyCode||e.which||0;
+   // Leave TizenBrew's global RED/GREEN and launcher YELLOW/BLUE shortcuts intact.
+   if(k===403||k===404||k===405||k===406)return;
+   var act='';
+   if(k===37)act='prev';
+   if(k===39)act='next';
+   if(k===38)act=atlas?'close':'prev';
+   if(k===40)act='atlas';
+   if(k===13)act='launch';
+   if(k===10009||k===27)act=atlas?'close':'none';
+   if(!act)return;
+   try{e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}catch(ignore){}
+   if(e.type!=='keydown'||e.repeat)return;
+   var now=(new Date()).getTime();if(now-lastKeyAt<130)return;lastKeyAt=now;
+   if(act==='prev')setScene(n-1);
+   if(act==='next')setScene(n+1);
+   if(act==='atlas')atlasToggle(true);
+   if(act==='close')atlasToggle(false);
+   if(act==='launch'){atlasToggle(false);launch();}
+ }
+ function updateTime(){
+   var d=new Date(), hh=d.getHours(),mm=d.getMinutes();
+   put('nsp-clock',pad(hh)+':'+pad(mm));
+   var met=window.NYMIND_CURRENT_WEATHER;
+   var temp=met&&typeof met.temperature_2m==='number'?' · '+Math.round(met.temperature_2m)+' °C':'';
+   put('nsp-local-weather','UHERSKÝ BROD'+temp);
+   var cls=document.body.className,theme=cls.indexOf('amb-christmas')>=0?'CHRISTMAS':cls.indexOf('amb-winter')>=0?'WINTER':cls.indexOf('amb-vice')>=0?'VICE':cls.indexOf('amb-rain')>=0?'RAINY':'CINEMATIC';
+   put('nsp-theme-tag',theme);put('nsp-mode',theme);
+ }
+ var reset=window.NYMIND_LAUNCHER_RESET;
+ window.NYMIND_LAUNCHER_RESET=function(){atlasToggle(false);setScene(0);if(typeof reset==='function')reset();};
+ window.addEventListener('keydown',onKey,true);
+ window.addEventListener('keypress',onKey,true);
+ window.addEventListener('keyup',onKey,true);
+ setScene(0);updateTime();setInterval(updateTime,10000);
+ // Mouse/PC preview and accessibility; TV remains arrow/OK-first.
+ var cards=$('nsp-atlas-cards');
+ if(cards)for(var i=0;i<cards.children.length;i++){(function(j){cards.children[j].onclick=function(){setScene(j);atlasToggle(false);};}(i));}
+ var indices=$('nsp-index-list');
+ if(indices)for(var q=0;q<indices.children.length;q++){(function(j){indices.children[j].onclick=function(){setScene(j);};}(q));}
+}());
+
 </script>
 </body>
 </html>
