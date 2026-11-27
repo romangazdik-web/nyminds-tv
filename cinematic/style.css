@@ -112,7 +112,7 @@ button{font-family:inherit;cursor:pointer}
 .dialog-top span:last-child{float:right;color:#b2b8d1}
 .dialog h2{font-size:57px;letter-spacing:-2.2px;margin:20px 0 10px}
 #dialog-subtitle{color:#bac5dc;font-size:18px;margin:0 0 25px}
-.dialog-items{height:460px;overflow:hidden;position:relative}
+.dialog-items{height:460px;overflow-y:auto;overflow-x:hidden;position:relative}
 .dialog-item{position:relative;display:block;width:100%;height:70px;margin:0 0 8px;padding:10px 22px;color:#fff;background:rgba(127,141,170,.11);border:1px solid rgba(210,208,238,.19);border-radius:12px;text-align:left;font-size:21px}
 .dialog-item.selected{border:3px solid #ece6ff;background:rgba(146,136,194,.35);padding:8px 20px}
 .dialog-item small{display:block;font-size:13px;color:#b3c0dd;margin-top:4px}
@@ -122,3 +122,7 @@ button{font-family:inherit;cursor:pointer}
 .dialog-bottom span{float:right}
 .toast{position:absolute;left:50%;bottom:83px;width:600px;margin-left:-300px;z-index:120;background:rgba(25,30,55,.95);border:1px solid rgba(181,171,241,.37);border-radius:14px;padding:17px 20px;text-align:center;color:#fff;font-size:17px;box-shadow:0 15px 50px #0006}
 .toast.hidden{display:none}
+
+.dialog-items::-webkit-scrollbar{width:6px}
+.dialog-items::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+.dialog-items::-webkit-scrollbar-thumb{background:rgba(187,174,239,.35);border-radius:9px}
