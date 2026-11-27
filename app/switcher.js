@@ -11,7 +11,7 @@
     {id:'tube',title:'TizenTube',detail:'YouTube bez reklam',repo:'TizenTube-MojeTV',glyph:'▷'},
     {id:'live',title:'Nymind LIVE',detail:'Živé kanály a EPG',repo:'tvpin',glyph:'▤'}
   ];
-  var HOME='https://cdn.jsdelivr.net/gh/romangazdik-web/nyminds-tv@v4.1.0/app/index.html';
+  var HOME='https://cdn.jsdelivr.net/gh/romangazdik-web/nyminds-tv@main/app/index.html';
   var panel=null, list=null, note=null, selected=0, opened=false, busy=false;
   function get(id){return document.getElementById(id);}
   function register(){
