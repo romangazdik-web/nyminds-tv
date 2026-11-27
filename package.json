@@ -1,7 +1,7 @@
 {
   "name": "nyminds-tv",
-  "version": "4.1.2",
-  "description": "Nymind OS Horizon 4.1.2: stable TizenBrew module identity restored, fully updated Horizon screen and rolling app links. Delivered via existing module manifest with jsDelivr purge.",
+  "version": "5.0.0",
+  "description": "Nymind OS 5.0 SPACES: total full-screen redesign into five immersive worlds, horizontal remote navigation, Atlas view, contextual scenes, unchanged TizenBrew app actions and weather/holiday logic.",
   "packageType": "app",
   "appName": "Nymind OS • Living Home",
   "appPath": "app/index.html",
