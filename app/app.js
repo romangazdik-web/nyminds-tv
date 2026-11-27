@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var KEY = {LEFT:37,UP:38,RIGHT:39,DOWN:40,ENTER:13,BACK:10009,ESC:27,RED:403,YELLOW:405};
+  var KEY = {LEFT:37,UP:38,RIGHT:39,DOWN:40,ENTER:13,BACK:10009,ESC:27,RED:403,GREEN:404,YELLOW:405,BLUE:406};
   var modules = [], selected = 0, moduleSelected = 0, openList = false, loaded = false, fetching = false, pendingAction = null;
   var tiles = document.querySelectorAll('.tile');
   var days = ['neděle','pondělí','úterý','středa','čtvrtek','pátek','sobota'];
@@ -239,7 +239,46 @@
     else ps5ClosePanel();
   }
   function launchPS5(){ps5ShowPanel();}
-  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');if(t.id==='iptvTile')launchIptv();else if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
+  var lastAppIndex=0;
+  try{lastAppIndex=parseInt(localStorage.getItem('nymind.lastapp'),10)||0;}catch(e){}
+  function redHome(){
+    openList=false;
+    var overlay=$('overlay');if(overlay)overlay.className='overlay hidden';
+    if(ps5PanelOpen){ps5PanelOpen=false;var ps=$('ps5Overlay');if(ps)ps.className='overlay hidden';}
+    var radio=$('nymind-radio-overlay');
+    if(radio&&radio.className.indexOf('nymind-radio-hidden')<0){
+      radio.className='nymind-radio-hidden';radio.setAttribute('aria-hidden','true');
+      var audio=$('nr-audio');if(audio){try{audio.pause();audio.removeAttribute('src');audio.load();}catch(e){}}
+    }
+    select(0);status('Domovská stránka · Nymind OS');
+  }
+  function greenRecent(){
+    var i=lastAppIndex;if(i<0||i>=tiles.length)i=0;
+    select(i);launchSelected();
+  }
+  function onColorKey(e){
+    var code=e.keyCode||e.which||0, k=e.key||'';
+    var red=code===403||k==='ColorF0Red';
+    var green=code===404||k==='ColorF1Green';
+    var yellow=code===405||k==='ColorF2Yellow';
+    var blue=code===406||k==='ColorF3Blue';
+    if(!red&&!green&&!yellow&&!blue)return;
+    if(e.type!=='keydown')return;
+    // Colored remote keys are handled before radio / TizenBrew handlers.
+    try{e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}catch(ignore){}
+    if(red){redHome();return;}
+    if(ps5PanelOpen)return;
+    if(blue){showList();return;}
+    if(openList)return;
+    if(yellow){if(window.NYMIND_AMBIENT&&window.NYMIND_AMBIENT.cycle)window.NYMIND_AMBIENT.cycle();return;}
+    if(green)greenRecent();
+  }
+  window.addEventListener('keydown',onColorKey,true);
+  try{if(window.tizen&&tizen.tvinputdevice){
+    var colorKeys=['ColorF0Red','ColorF1Green','ColorF2Yellow','ColorF3Blue'];
+    for(var ci=0;ci<colorKeys.length;ci++)try{tizen.tvinputdevice.registerKey(colorKeys[ci]);}catch(ignored){}
+  }}catch(e){}
+  function launchSelected(){var t=tiles[selected],kind=t.getAttribute('data-kind');lastAppIndex=selected;try{localStorage.setItem('nymind.lastapp',''+selected);}catch(e){}if(t.id==='iptvTile')launchIptv();else if(kind==='list')showList();else if(kind==='radio'){/* Vestaveny prehravac radii prevezme kliknuti. */t.click();}else if(kind==='ps5')launchPS5();else launchMatch(t.getAttribute('data-match'),false);}
   function showList(){openList=true;$('overlay').className='overlay';renderList();if(!loaded)refresh();}
   function hideList(){openList=false;$('overlay').className='overlay hidden';select(selected);}
   function renderList(){var box=$('module-list');box.innerHTML='';if(!modules.length){box.innerHTML='<div class="module">'+(loaded?'Žádné moduly nejsou dostupné.':'Načítám seznam modulů…')+'</div>';return;}
@@ -271,7 +310,9 @@
     else{if(k===KEY.LEFT||k===KEY.UP){select(selected-1);e.preventDefault();return;}
       if(k===KEY.RIGHT||k===KEY.DOWN){select(selected+1);e.preventDefault();return;}
       if(k===KEY.ENTER){launchSelected();e.preventDefault();return;}
-      if(k===KEY.RED){showList();e.preventDefault();return;}
+      if(k===KEY.RED){redHome();e.preventDefault();return;}
+      if(k===KEY.GREEN){greenRecent();e.preventDefault();return;}
+      if(k===KEY.BLUE){showList();e.preventDefault();return;}
       if(k===KEY.YELLOW){if(window.NYMIND_AMBIENT&&window.NYMIND_AMBIENT.cycle)window.NYMIND_AMBIENT.cycle();e.preventDefault();return;}
       if(k===KEY.BACK||k===KEY.ESC){e.preventDefault();return;}}
   });
