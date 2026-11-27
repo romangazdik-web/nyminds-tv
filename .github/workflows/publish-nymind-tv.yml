@@ -19,6 +19,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Validate Living Home javascript and asset references
+        shell: bash
+        run: |
+          node --check app/ambient-home.js
+          node --check app/app.js
+          grep -q 'ambient-home.css?v=4.0.0' app/index.html
+          grep -q 'ambient-home.js?v=4.0.0' app/index.html
       - name: Publish tag and GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -35,7 +42,7 @@ jobs:
             git push origin "refs/tags/${TAG}"
           fi
           if ! gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind TV: restore Nymind LIVE IPTV launching through its installed TizenBrew module, with a verified release fallback; remove Prima+ and Sports Center tiles."
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 4.0 Living Home: adaptive weather and holiday atmosphere, Christmas lights, actual snow/rain animations, redesigned cinematic home and manual yellow-button theme cycling. Existing apps and launching preserved."
           fi
       - name: Purge jsDelivr launcher files
         shell: bash
@@ -43,7 +50,7 @@ jobs:
           set -euo pipefail
           VERSION="$(node -p "require('./package.json').version")"
           for REV in "" "@main" "@latest" "@v${VERSION}"; do
-            for FILE in package.json app/index.html app/app.js; do
+            for FILE in package.json app/index.html app/app.js app/ambient-home.css app/ambient-home.js; do
               URL="https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv${REV}/${FILE}"
               echo "${URL}"
               curl --max-time 15 -fsSL "${URL}" || echo "CDN purge may be rate-limited: ${URL}"
