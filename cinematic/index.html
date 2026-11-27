@@ -306,8 +306,9 @@ function showHero(i){heroIndex=(i+movieData.length)%movieData.length;var d=movie
  text('hero-title',d.title);text('hero-meta',d.short);text('hero-desc',d.desc);
  for(var j=0;j<4;j++)modClass(document.querySelectorAll('.pager-dot')[j],'active',j===heroIndex);
  $('hero-img').style.opacity='0';imgTicket++;
- artwork('hero-img',imageCandidate(d.imdb,'large'),'hero',imgTicket);
- // Keep the fallback original art in place until external media loads.
+ // Keep the user-approved hero photography as the default instead of a network movie backdrop.
+ // Additional slides may use live movie backdrops, but never gate basic UI on their availability.
+ if(heroIndex!==0)artwork('hero-img',imageCandidate(d.imdb,'large'),'hero',imgTicket);
 }
 function loadThumbnails(){for(var i=0;i<movieData.length;i++){var d=movieData[i];artwork('thumb-'+d.id,imageCandidate(d.imdb,'medium'),'thumb',0);}}
 function storeRecent(app){try{localStorage.setItem('nymind.cinematic.lastApp',app);}catch(ignore){}}
