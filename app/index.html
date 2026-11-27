@@ -939,6 +939,7 @@ h1{margin:0;font-size:83px;line-height:1.13;font-weight:600;letter-spacing:-3px;
           var state=weatherLabel(cur.weather_code,cur.is_day!==0);
           var temp=Math.round(cur.temperature_2m);
           applyWeatherTint(cur.weather_code,cur.is_day!==0);
+          window.NYMIND_CURRENT_WEATHER=cur;
           if(window.NYMIND_AMBIENT)window.NYMIND_AMBIENT.weather(cur);
           document.getElementById('weather-icon').textContent=state[0];
           document.getElementById('weather-value').textContent=temp+' °C';
