@@ -22,7 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check cinematic/app.js
-          node -e "const p=require('./package.json'); if(p.packageType!=='app'||p.version!=='1.0.0'||p.appName!=='Nymind CINEMATIC (TEST)'||p.appPath!=='cinematic/index.html')process.exit(1)"
+          node -e "const p=require('./package.json'); if(p.packageType!=='app'||p.version!=='1.0.1'||p.appName!=='Nymind CINEMATIC (TEST)'||p.appPath!=='cinematic/index.html')process.exit(1)"
           python3 - <<'PY'
           from pathlib import Path
           h=Path('cinematic/index.html').read_text()
@@ -35,8 +35,8 @@ jobs:
           for nav in ['home','search','grid','game','settings']:
               assert f'data-nav="{nav}"' in h, nav
           assert h.count('<script')==h.count('</script>')==1
-          assert '<link rel="stylesheet" href="style.css?v=1.0.0">' in h
-          assert '<script src="app.js?v=1.0.0"></script>' in h
+          assert '<link rel="stylesheet" href="style.css?v=1.0.1">' in h
+          assert '<script src="app.js?v=1.0.1"></script>' in h
           assert 'function launchInstalled(mod)' in js
           assert 'ws://127.0.0.1:8081' in js
           assert "if(red)" in js and "if(green)" in js and "if(yellow)" in js
