@@ -1,0 +1,136 @@
+/* NYMIND OS 4.0 / LIVING HOME — a real layout, not just recolored tiles.
+   ES5-era CSS only; compatible with Tizen 3 / Chromium 47. */
+html,body{background:#0a111a!important;font-family:"Segoe UI",Arial,sans-serif}
+#stage{background:#0b1824!important;overflow:hidden}
+.wallpaper,.wallpaper-next{opacity:.25;-webkit-filter:saturate(.72) contrast(1.05);filter:saturate(.72) contrast(1.05)}
+.scrim{background:linear-gradient(90deg,rgba(4,13,22,.82),rgba(5,16,25,.39) 59%,rgba(6,15,22,.22)),linear-gradient(0deg,rgba(4,12,20,.94),transparent 80%)}
+.weather-tint{display:none!important}
+#amb-atmosphere{position:absolute;left:0;right:0;top:0;bottom:0;z-index:1;pointer-events:none;overflow:hidden}
+#amb-sky{position:absolute;left:0;top:0;right:0;bottom:0;background:linear-gradient(132deg,rgba(21,50,70,.75),rgba(7,15,29,.12) 70%)}
+#amb-glow{position:absolute;right:6%;top:6%;height:630px;width:770px;border-radius:50%;background:radial-gradient(ellipse,rgba(244,191,120,.13),transparent 68%)}
+#amb-land{position:absolute;right:-1%;bottom:13%;width:68%;height:56%;opacity:.74}
+#amb-land .amb-city{fill:#071322}
+#amb-land .amb-windows{fill:#d4a876;opacity:.37}
+#amb-land .amb-palms,#amb-land .amb-pines{display:none;fill:#071c25}
+#amb-ornament{position:absolute;right:10%;top:13%;width:540px;height:540px;border-radius:50%;border:1px solid rgba(235,233,221,.08);box-shadow:0 0 0 52px rgba(255,255,255,.012),0 0 0 114px rgba(255,255,255,.01)}
+#amb-particles{position:absolute;inset:0;left:0;top:0;right:0;bottom:0}
+.amb-flake,.amb-drop{position:absolute;display:none;pointer-events:none}
+.amb-flake{background:#f4fbff;border-radius:50%;box-shadow:0 0 6px rgba(255,255,255,.58);-webkit-animation:ambSnow linear infinite;animation:ambSnow linear infinite}
+.amb-drop{width:2px;height:54px;background:linear-gradient(transparent,rgba(205,229,240,.38));-webkit-animation:ambRain 1.5s linear infinite;animation:ambRain 1.5s linear infinite}
+@-webkit-keyframes ambSnow{from{-webkit-transform:translate3d(0,-25px,0)}to{-webkit-transform:translate3d(65px,1160px,0)}}
+@keyframes ambSnow{from{transform:translate3d(0,-25px,0)}to{transform:translate3d(65px,1160px,0)}}
+@-webkit-keyframes ambRain{from{-webkit-transform:translate3d(0,-180px,0)}to{-webkit-transform:translate3d(-170px,1080px,0)}}
+@keyframes ambRain{from{transform:translate3d(0,-180px,0)}to{transform:translate3d(-170px,1080px,0)}}
+.amb-snowing .amb-flake,.amb-winter .amb-flake,.amb-christmas .amb-flake{display:block}
+.amb-raining .amb-drop,.amb-rain .amb-drop{display:block}
+#amb-lights{position:absolute;left:2%;top:0;right:2%;height:55px;display:none;border-top:1px solid rgba(255,239,174,.17)}
+#amb-lights i{position:absolute;display:block;width:9px;height:13px;border-radius:60% 60% 70% 70%;background:#ffdc94;box-shadow:0 0 11px #f8b96d;opacity:.72}
+#amb-lights i:nth-child(3n){background:#d8f7de;box-shadow:0 0 10px #a6d6af}
+#amb-lights i:nth-child(4n){background:#eaa6a1;box-shadow:0 0 12px #d76f72}
+/* Header remains familiar; a new two-column hero and compact integrated app rail. */
+.topbar{left:4.7%;top:5%;right:4.7%;height:100px;z-index:5}
+.brand-symbol,.brand-emblem{width:57px;height:57px}
+.brand-symbol{margin-right:12px}
+.brand-name{font-size:34px;line-height:60px;letter-spacing:-1.5px;font-weight:800;color:#f6f7f5}
+.brand-name .brand-tv{color:#f2c485;font-size:26px;font-weight:800}
+.now{top:0}
+.datetime strong{font-size:65px;line-height:1;font-weight:400;letter-spacing:-2px}
+.datetime #date{font-size:21px;color:#dee5e6;margin-top:8px}
+.weather{margin-top:11px}
+.weather-icon{font-size:28px}
+.weather-current strong{font-size:25px}
+.weather-place{font-size:14px}
+main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
+.intro-area{position:relative;width:100%;height:430px;margin:0!important;padding:12px 0;max-width:none}
+.amb-overline{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#f6c889;font-weight:800;margin-bottom:20px}
+.amb-overline .amb-line{display:inline-block;width:37px;height:2px;background:currentColor;vertical-align:middle;margin-right:15px}
+.eyebrow{font-size:14px;letter-spacing:3px;color:#f5ca91;margin:0 0 18px}
+.eyebrow-line{height:1px;width:28px;background:#f5ca91}
+.intro-area h1{margin:0;max-width:990px;font-size:82px;font-weight:800;line-height:1.08;letter-spacing:-3.4px;color:#fffdf9;text-shadow:0 6px 28px rgba(0,0,0,.34)}
+.intro-area .subtitle{max-width:910px;font-size:25px;line-height:1.34;color:#dbe5e9;margin:18px 0 0}
+#amb-headline{display:block;max-width:900px;margin:25px 0 0;color:#afc7ce;font-size:18px;line-height:1.5}
+.amb-widget{position:absolute;right:0;top:14px;width:405px;height:310px;border:1px solid rgba(222,233,225,.24);border-radius:24px;padding:28px 30px;background:linear-gradient(140deg,rgba(25,43,53,.92),rgba(9,21,35,.91));box-shadow:0 24px 66px rgba(0,0,0,.25);color:white;box-sizing:border-box}
+.amb-widget:before{content:"";position:absolute;right:26px;top:26px;width:72px;height:72px;border-radius:50%;border:1px solid rgba(255,255,255,.14)}
+.amb-widget-kicker{font-size:12px;letter-spacing:2.7px;color:#a7bfbd;font-weight:800}
+#amb-mode-name{display:block;margin-top:21px;font-size:33px;font-weight:800;letter-spacing:-1px;color:#fff9f1}
+#amb-mode-status{font-size:16px;color:#f4c68e;margin-top:6px}
+.amb-divider{width:100%;height:1px;background:rgba(229,234,229,.17);margin:22px 0 16px}
+#amb-weather-line{font-size:17px;color:#e7eced;font-weight:700}
+#amb-season-line{font-size:15px;color:#b8c9cd;margin-top:9px}
+#amb-scene-code{display:inline-block;font-size:13px;letter-spacing:2px;font-weight:800;color:#f1c996;background:rgba(24,42,52,.65);border:1px solid rgba(234,231,210,.25);border-radius:22px;padding:10px 17px;margin-top:23px}
+.dock-area{position:absolute;left:0;right:0;bottom:0;top:auto;padding:0;margin:0;border:0;background:none}
+.dock-label{color:#e9c18e;font-size:14px;letter-spacing:3.1px;font-weight:800;margin-bottom:17px}
+.tiles{display:block;white-space:nowrap}
+.tile{display:inline-block;position:relative;vertical-align:top;width:16.2%;height:188px;margin-right:1.25%;text-align:left;color:#fff}
+.tile:first-child{width:28.9%;margin-right:1.25%}
+.tile:last-child{margin-right:0}
+.tile-face{width:100%;height:187px;border-radius:17px;border:1px solid rgba(218,238,237,.27);background:linear-gradient(130deg,rgba(32,60,74,.95),rgba(11,23,39,.95));box-shadow:0 12px 30px rgba(0,0,0,.28);overflow:hidden}
+.tile-face:after{content:"";position:absolute;right:-40px;top:-42px;width:190px;height:190px;border:1px solid rgba(255,255,255,.10);border-radius:50%;pointer-events:none}
+.tile:nth-child(1) .tile-face{background:linear-gradient(124deg,rgba(61,83,92,.94),rgba(25,34,51,.96))}
+.tile:nth-child(2) .tile-face{background:linear-gradient(128deg,rgba(62,68,75,.94),rgba(25,32,42,.97))}
+.tile:nth-child(3) .tile-face{background:linear-gradient(127deg,rgba(27,76,73,.9),rgba(20,38,50,.96))}
+.tile:nth-child(4) .tile-face{background:linear-gradient(120deg,rgba(72,67,84,.9),rgba(29,33,49,.98))}
+.tile:nth-child(5) .tile-face{background:linear-gradient(126deg,rgba(49,57,79,.92),rgba(24,31,49,.98))}
+.tile:focus{outline:0}
+.tile.active .tile-face,.tile:focus .tile-face,.tile.nymind-radio-tile.active .tile-face,.tile.nymind-radio-tile:focus .tile-face{border:3px solid #faf1da!important;background:linear-gradient(120deg,rgba(72,99,111,.95),rgba(27,48,63,.98))!important;box-shadow:0 0 0 5px rgba(239,209,155,.26),0 24px 48px rgba(0,0,0,.48)!important}
+.tile.nymind-radio-tile .tile-face{background:linear-gradient(120deg,rgba(72,67,84,.9),rgba(29,33,49,.98))!important;border:1px solid rgba(218,238,237,.27)!important;border-radius:17px!important;box-shadow:0 12px 30px rgba(0,0,0,.28)!important}
+.app-icon{position:absolute;left:24px;top:25px;width:60px;height:60px;margin:0;color:#f4f3e9}
+.tile:first-child .app-icon{left:30px;top:30px;width:81px;height:81px;margin:0}
+.tile-copy{position:absolute;left:24px;bottom:23px;right:10px;display:block;white-space:normal;z-index:3;padding:0}
+.tile-copy strong,.tile:first-child .tile-copy strong{display:block;margin:0;color:#f8f9fa;font-size:22px;line-height:1.13;font-weight:800}
+.tile:first-child .tile-copy strong{font-size:30px}
+.tile-copy small{display:block;margin-top:7px;color:#d3e0dd;font-size:14px}
+#ps5Tile .tile-face .ps5-official-logo{left:18px;top:27px;width:120px;height:62px;object-fit:contain}
+#ps5Tile .tile-face .ps5-fallback{top:32px;font-size:35px}
+.background-label{right:4.7%;bottom:2%;color:#bdc9ca}
+.background-label strong{color:#e6bc89}
+.nymind-remote-hint{left:4.7%;bottom:2%;color:#bec9cb;font-size:14px}
+.nymind-remote-hint b{color:#fbe6c7}
+.amb-toast{display:none;position:absolute;z-index:200;left:50%;bottom:10%;margin-left:-180px;width:360px;padding:18px 20px;text-align:center;background:#182e39;color:#fff;border:1px solid #e8bc91;border-radius:12px;font-size:21px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.amb-toast.visible{display:block}
+.modal{background:#172531;border:1px solid rgba(231,199,150,.5);border-radius:20px}
+.module{background:#273b46;border-radius:10px}
+.module.active{background:#3f5961;border-color:#f3d3a6}
+#amb-mode-pill{position:absolute;left:0;bottom:0;display:none}
+/* Cinematic / default */
+.amb-cinema #amb-sky{background:linear-gradient(123deg,rgba(10,27,41,.85),rgba(21,45,57,.44) 55%,rgba(131,90,65,.29))}
+.amb-cinema .amb-widget{border-color:rgba(217,191,149,.30)}
+/* Vice City-inspired, not a clone: muted golden sun, ocean ink, coral skyline. */
+.amb-vice #stage{background:#251a34!important}
+.amb-vice #amb-sky{background:linear-gradient(180deg,rgba(63,35,83,.45),rgba(222,105,104,.49) 56%,rgba(247,156,91,.37) 73%,rgba(24,28,63,.63))}
+.amb-vice #amb-glow{background:radial-gradient(circle,rgba(255,204,124,.55) 0%,rgba(249,146,111,.30) 25%,transparent 59%);right:6%;top:16%;width:710px;height:710px}
+.amb-vice #amb-land .amb-palms{display:block;fill:#161b32}
+.amb-vice #amb-land .amb-city{fill:#20203c}
+.amb-vice .amb-overline,.amb-vice .dock-label{color:#ffd29d}
+.amb-vice .amb-widget{background:linear-gradient(130deg,rgba(79,40,80,.90),rgba(36,25,56,.95));border-color:rgba(255,187,143,.39)}
+.amb-vice .tile:first-child .tile-face{background:linear-gradient(130deg,#aa5a64,#523767)!important}
+.amb-vice .tile.active .tile-face,.amb-vice .tile:focus .tile-face{border-color:#ffdfad!important;box-shadow:0 0 0 5px rgba(255,155,104,.26),0 20px 48px #13081e!important}
+/* Snow and frost */
+.amb-winter #stage{background:#152532!important}
+.amb-winter #amb-sky{background:linear-gradient(140deg,rgba(124,171,187,.26),rgba(38,85,109,.49) 48%,rgba(10,31,57,.64))}
+.amb-winter .wallpaper,.amb-christmas .wallpaper{opacity:.11}
+.amb-winter #amb-glow{background:radial-gradient(circle,rgba(193,221,233,.31),transparent 63%)}
+.amb-winter #amb-land .amb-pines{display:block;fill:#183c4c}
+.amb-winter #amb-land .amb-city{fill:#163246}
+.amb-winter .amb-overline,.amb-winter .dock-label{color:#c3ebf5}
+.amb-winter .amb-widget{background:linear-gradient(130deg,rgba(31,75,93,.88),rgba(12,39,58,.96));border-color:rgba(209,243,251,.36)}
+.amb-winter .tile:first-child .tile-face{background:linear-gradient(130deg,#4d8592,#264c6b)!important}
+/* Advent and Christmas, with realistic snow only when current weather reports snow */
+.amb-christmas #stage{background:#102c27!important}
+.amb-christmas #amb-sky{background:linear-gradient(120deg,rgba(16,53,42,.80),rgba(18,60,51,.48),rgba(72,46,40,.45))}
+.amb-christmas #amb-glow{background:radial-gradient(circle,rgba(251,218,144,.32),transparent 62%)}
+.amb-christmas #amb-lights{display:block}
+.amb-christmas #amb-land .amb-pines{display:block;fill:#102f30}
+.amb-christmas #amb-land .amb-city{fill:#122d2d}
+.amb-christmas .amb-overline,.amb-christmas .dock-label{color:#f6d8a0}
+.amb-christmas .amb-widget{background:linear-gradient(130deg,rgba(22,61,49,.94),rgba(13,37,35,.97));border-color:rgba(230,198,125,.44)}
+.amb-christmas .tile:first-child .tile-face{background:linear-gradient(130deg,#31705c,#294c4a)!important}
+/* Rainy city */
+.amb-rain #stage{background:#0d212f!important}
+.amb-rain #amb-sky{background:linear-gradient(125deg,rgba(12,35,52,.86),rgba(25,65,73,.59),rgba(8,21,43,.68))}
+.amb-rain #amb-land .amb-city{fill:#061e30}
+.amb-rain .amb-overline,.amb-rain .dock-label{color:#a1d9dc}
+.amb-rain .amb-widget{background:linear-gradient(125deg,rgba(26,57,69,.94),rgba(13,36,54,.97));border-color:rgba(139,202,214,.32)}
+.amb-rain .tile:first-child .tile-face{background:linear-gradient(130deg,#315c6d,#243952)!important}
+@media(max-height:850px){main{top:19%}.intro-area{height:350px}.intro-area h1{font-size:58px}.intro-area .subtitle{font-size:19px}#amb-headline{font-size:15px;margin-top:14px}.amb-widget{height:245px;width:360px;padding:20px}.amb-divider{margin:12px 0}.dock-area{bottom:0}.tile,.tile-face{height:151px}.tile-copy{bottom:13px}.tile-copy strong{font-size:18px}.tile:first-child .tile-copy strong{font-size:24px}}
+@media(max-width:1400px){.intro-area h1{font-size:61px;max-width:660px}.intro-area .subtitle{font-size:20px;max-width:650px}.amb-widget{width:310px;height:265px;padding:21px}#amb-mode-name{font-size:27px}.tile-copy strong{font-size:16px}.tile:first-child .tile-copy strong{font-size:23px}.tile-copy small{font-size:12px}.tile-face{height:160px}.tile{height:160px}}
