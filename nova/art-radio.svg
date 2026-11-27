@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 310">
+<defs><radialGradient id="r"><stop stop-color="#9f7951"/><stop offset=".32" stop-color="#463d36"/><stop offset=".5" stop-color="#191b19"/><stop offset=".7" stop-color="#2b2d28"/><stop offset="1" stop-color="#0d1516"/></radialGradient></defs>
+<rect width="570" height="310" fill="#d4b59c"/>
+<path d="M0 0H570V310H0Z" fill="#ba9578" opacity=".4"/>
+<circle cx="419" cy="150" r="181" fill="url(#r)" stroke="#eee1cf" stroke-width="3"/>
+<circle cx="419" cy="150" r="150" fill="none" stroke="#f6e5ce" stroke-opacity=".35" stroke-width="2"/>
+<circle cx="419" cy="150" r="118" fill="none" stroke="#f6e5ce" stroke-opacity=".23" stroke-width="3"/>
+<circle cx="419" cy="150" r="87" fill="none" stroke="#f6e5ce" stroke-opacity=".18" stroke-width="2"/>
+<circle cx="419" cy="150" r="53" fill="#d5a482"/>
+<circle cx="419" cy="150" r="33" fill="#e8cbaa"/><circle cx="419" cy="150" r="10" fill="#302b26"/>
+<text x="36" y="71" font-family="Georgia" font-size="67" font-style="italic" fill="#302a28">On the</text>
+<text x="36" y="128" font-family="Georgia" font-size="67" font-style="italic" fill="#302a28">record.</text>
+<g fill="#513d32" font-family="Arial" font-size="13" font-weight="bold" letter-spacing="4"><text x="43" y="206">THE SOUND OF</text><text x="43" y="225">YOUR DAY</text></g>
+<path d="M40 252H201M40 262H164" stroke="#5c4638" stroke-width="2" opacity=".52"/>
+</svg>
