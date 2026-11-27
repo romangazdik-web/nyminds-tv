@@ -80,7 +80,7 @@ jobs:
           CHROME="$(command -v google-chrome || command -v chromium || true)"
           test -n "$CHROME"
           "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/cinematic-tv-1.1.1.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-tv-chrome.log 2>&1 || { tail -n 60 /tmp/cinematic-tv-chrome.log; exit 1; }
-          test -s cinematic-tv-1.1.png
+          test -s cinematic-tv-1.1.1.png
       - uses: actions/upload-artifact@v4
         with:
           name: cinematic-tv-1.1.1-screenshot
