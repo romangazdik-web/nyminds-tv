@@ -65,13 +65,13 @@ jobs:
           assert 'cinematic-vector-fallback' in h
           assert 'function launchInstalled(mod)' in h
           assert '1920px;height:1080px' in h
-          scripts=re.findall(r'<script(?:\\s[^>]*)?>(.*?)</script\\s*>',h,re.I|re.S)
+          scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>',h,re.I|re.S)
           assert len(scripts)==2, f'Expected exactly 2 inline scripts, found {len(scripts)}'
           for i,s in enumerate(scripts):
               tmp=Path(f'/tmp/cinematic-script-{i}.js')
               tmp.write_text(s)
               subprocess.run(['node','--check',str(tmp)],check=True)
-          assert len(re.findall(r'<style\\b',h,re.I))==1
+          assert len(re.findall(r'<style\b',h,re.I))==1
           print('Inline CSS, JS, user-approved image and Tizen structure verified')
           PY
       - name: Render full HD offline-like preview
