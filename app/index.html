@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Nymind OS 4.0.1 · Living Home</title>
+<title>Nymind OS 4.1 · Horizon</title>
 <!-- NYMIND TV MONOCHROME 1.3.6: first wallpaper preloaded, blank boot shield, instant reveal; self-contained, ES5/Tizen3 -->
 <script type="text/javascript">
 /* VISUAL EDITION 1.3.6: early wallpaper selection and blank cover until current photo is ready (Tizen 3 / ES5). */
@@ -378,23 +378,11 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
       </div>
     </div>
   </header>
-  <main>
-    <div class="intro-area">
-      <div class="amb-overline"><span class="amb-line"></span><span id="part">NYMIND / ŽIVÁ DOMOVSKÁ STRÁNKA</span></div>
-      <h1 id="greeting">Tvůj večer. Tvoje TV.</h1>
-      <p class="subtitle" id="subtext">Zábava, která se mění s tvým dnem.</p>
-      <span id="amb-headline">Filmy, seriály, YouTube i živé vysílání. Všechno na jednom místě.</span>
-      <span id="amb-scene-code">CINEMA / NIGHT</span>
-      <aside class="amb-widget" aria-label="Aktuální motiv obrazovky">
-        <div class="amb-widget-kicker">NYMIND / ATMOSPHERE</div>
-        <strong id="amb-mode-name">Cinematic</strong>
-        <div id="amb-mode-status">AUTO · podle počasí a času</div>
-        <div class="amb-divider"></div>
-        <div id="amb-weather-line">Uherský Brod · počasí se načítá</div>
-        <div id="amb-season-line">Filmový svět</div>
-      </aside>
-    </div>
-    <div class="dock-area"><div class="dock-label">TVOJE APLIKACE</div><section class="tiles" id="tiles" aria-label="Aplikace">
+  <main id="os5-root">
+  <aside id="os5-sidebar">
+    <div class="os5-rail-brand"><span class="os5-brand-dot"></span> NYMIND / APP LIBRARY</div>
+    <div class="os5-rail-header"><strong>Moje aplikace</strong><small>Vyber šipkami a stiskni OK</small></div>
+    <div class="dock-area"><div class="dock-label">PŘIPRAVENO KE SPUŠTĚNÍ</div><section class="tiles" id="tiles" aria-label="Aplikace">
       <div class="tile active" data-kind="module" data-match="gh/romangazdik-web/StremioK" tabindex="0">
         <span class="tile-face"><svg class="app-icon" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg"><path d="M22 17L49 9L68 26L61 55L36 70L15 51Z" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".7"/><path d="M32 25L56 41L32 57Z" fill="currentColor"/></svg></span>
         <span class="tile-copy"><strong>Nymind Cinema</strong><small>Filmy a seriály</small></span>
@@ -419,8 +407,39 @@ main{position:absolute;left:4.7%;right:4.7%;top:21%;bottom:8%;z-index:4}
         <span class="tile-copy"><strong>PlayStation 5</strong><small>HDMI 2 · Herní konzole</small></span>
       </div>
 </section></div>
-    <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
-  </main>
+    <div class="os5-side-bottom"><span>●</span> <b>Červená</b> domů <span>●</span> <b>Zelená</b> přepnout</div>
+  </aside>
+  <section id="os5-showcase" aria-label="Vybraná aplikace">
+    <div class="os5-hero-glow" aria-hidden="true"></div>
+    <div class="os5-scene-top"><span id="part">NYMIND / ŽIVÁ DOMOVSKÁ STRÁNKA</span><span class="os5-count" id="os5-feature-index">01 / 05</span></div>
+    <div class="intro-area os5-intro">
+      <div class="os5-hero-kicker">TEĎ JE TVŮJ ČAS</div>
+      <h1 id="os5-feature-title">Nymind Cinema</h1>
+      <p id="os5-feature-desc">Filmy, seriály a všechno, co máš rád.</p>
+      <div class="os5-hero-action"><span class="os5-play-symbol">▶</span> <span id="os5-feature-action">OK · Otevřít Cinema</span></div>
+      <div class="os5-ambiance-copy"><span id="greeting">Dobrý večer.</span><span id="subtext">Příjemný čas u televize.</span></div>
+      <div id="amb-headline">Filmový svět na dosah ovladače.</div>
+      <span id="amb-scene-code">CINEMA / NIGHT</span>
+    </div>
+    <div class="os5-bottom-area">
+      <div class="os5-info-card">
+        <div class="os5-kicker">NYMIND / ATMOSPHERE</div>
+        <strong id="os5-main-atmosphere">TV, která se přizpůsobí.</strong>
+        <div class="os5-muted">Motivy se mění podle počasí, času a ročního období.</div>
+        <div class="os5-controls"><b>● Žlutá</b> změna motivu <b>● Zelená</b> výběr aplikace</div>
+      </div>
+      <aside class="amb-widget" aria-label="Aktuální motiv obrazovky">
+        <div class="amb-widget-kicker">AKTUÁLNÍ SCÉNA</div>
+        <strong id="amb-mode-name">Cinematic</strong>
+        <div id="amb-mode-status">AUTO · podle počasí a času</div>
+        <div class="amb-divider"></div>
+        <div id="amb-weather-line">Uherský Brod · načítám počasí</div>
+        <div id="amb-season-line">Filmový svět</div>
+      </aside>
+    </div>
+  </section>
+  <span id="status" class="screenreader-only" aria-live="polite">Načítám moduly…</span>
+</main>
   <div id="amb-toast" class="amb-toast" role="status" aria-live="polite"></div>
   <span id="amb-mode-pill" aria-hidden="true"></span>
   <div class="nymind-remote-hint"><span style="color:#ff6969">●</span> <b>Červená</b> Domů &nbsp; <span style="color:#67d09b">●</span> <b>Zelená</b> Poslední aplikace &nbsp; <span style="color:#ffdc69">●</span> <b>Žlutá</b> Motivy &nbsp; <span style="color:#68adff">●</span> <b>Modrá</b> Všechny moduly</div>
