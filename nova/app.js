@@ -1,10 +1,10 @@
-/* NYMIND NOVA 0.1.0 — independent launcher, ES5, Samsung Tizen 3 / Chromium 47.
+/* NYMIND EDITION 0.2.0 — completely rebuilt editorial gallery, ES5 / Tizen 3.
  * Preserves existing installed modules; original Nymind OS branch is not touched.
  */
 (function(){
   'use strict';
   var $=function(id){return document.getElementById(id);};
-  var screen=$('screen'), cards=document.querySelectorAll('#cards .appcard');
+  var screen=$('screen'), cards=document.querySelectorAll('#gallery .poster');
   var names=['Filmy a seriály','Živá televize','YouTube','Rádia','PlayStation 5'];
   var descriptions=['Nymind Cinema','Nymind LIVE','TizenTube','Signál · Rock Radio','HDMI 2'];
   var repoIds=['StremioK','tvpin','TizenTube-MojeTV','',''];
@@ -15,15 +15,16 @@
   ],audio=$('radio-player'), sourceIdx=0;
   var weatherCode=null,weatherTemp=null,theme='auto',effective='';
   var themeChoices=[
-    {id:'auto',name:'Automatický',detail:'Počasí, svátky a denní doba'},
-    {id:'signature',name:'Signature',detail:'Kinematografický výchozí vzhled'},
-    {id:'winter',name:'Snowfall',detail:'Modrý zimní režim a vločky'},
-    {id:'christmas',name:'Christmas',detail:'Zelené odstíny a sváteční záře'},
-    {id:'vice',name:'Vice Sunset',detail:'Oranžový západ slunce'},
-    {id:'rain',name:'Rain City',detail:'Temný deštivý večer'},
-    {id:'minimal',name:'Monochrome',detail:'Čistý temný design bez barev'}
+    {id:'auto',name:'Automatický',detail:'Vzhled podle počasí a svátků'},
+    {id:'editorial',name:'Editorial',detail:'Světlý filmový magazín a asymetrická galerie'},
+    {id:'noir',name:'Darkroom',detail:'Tmavé rozhraní a úplně jiné rozložení plakátů'},
+    {id:'winter',name:'Winter Paper',detail:'Ledově modrá barevnost se sněžením'},
+    {id:'christmas',name:'Festive',detail:'Vánoční teplé barvy a vločky'},
+    {id:'vice',name:'Vice Edition',detail:'Teplé korálové tóny'},
+    {id:'rain',name:'Rainy Edition',detail:'Ocelově modré deštivé odstíny'}
   ];
-  try{theme=localStorage.getItem('nova.theme')||'auto';}catch(e){}
+  try{theme=localStorage.getItem('nymind.edition.theme')||'auto';}catch(e){}
+  if(theme==='signature')theme='editorial';if(theme==='minimal')theme='noir';
   function text(id,value){var el=$(id);if(el)el.textContent=value;}
   function fit(){
     var w=window.innerWidth||1920,h=window.innerHeight||1080;
@@ -34,7 +35,8 @@
   function pad(n){return n<10?'0'+n:''+n;}
   function clock(){
     var d=new Date();text('clock',pad(d.getHours())+':'+pad(d.getMinutes()));
-    text('dayline',d.getDay()===5?'PÁTEČNÍ VEČER':d.getDay()===6?'VÍKENDOVÝ REŽIM':'VYBER SI SVŮJ PROGRAM');
+    var dayNames=['NEDĚLE','PONDĚLÍ','ÚTERÝ','STŘEDA','ČTVRTEK','PÁTEK','SOBOTA'];
+    text('caption',dayNames[d.getDay()]+' · '+d.getDate()+'. '+(d.getMonth()+1)+'. · TVŮJ FILMOVÝ VÝBĚR');
   }
   function snow(c){return(c>=71&&c<=77)||c===85||c===86;}
   function rain(c){return(c>=51&&c<=67)||(c>=80&&c<=82)||(c>=95&&c<=99);}
@@ -44,17 +46,18 @@
     if(weatherCode!==null&&snow(weatherCode))return 'winter';
     if(weatherCode!==null&&rain(weatherCode))return 'rain';
     if((month===11||month<=1)&&hour>=17)return 'winter';
-    // Keep the premium Signature look by default. Vice Sunset is an optional manual theme.
-    return 'signature';
+    // Editorial stays the calm premium default; manual Darkroom is a different layout.
+    return 'editorial';
   }
   function applyTheme(){
     effective=theme==='auto'?autoTheme():theme;
     screen.className='theme-'+effective;
-    var label='SIGNATURE';for(var i=0;i<themeChoices.length;i++)if(themeChoices[i].id===effective)label=themeChoices[i].name.toUpperCase();
-    text('mode-mark','NOVA / '+label);if(theme==='auto')text('mode-mark','NOVA / AUTO · '+label);
+    var label='EDITORIAL';for(var i=0;i<themeChoices.length;i++)if(themeChoices[i].id===effective)label=themeChoices[i].name.toUpperCase();
+    text('selected-hint',(select+1<10?'0':'')+(select+1)+'. '+names[select].toUpperCase()+' / OK OTEVŘÍT');
+    var small=document.querySelector('.edition-no');if(small)small.textContent='NO. 02 — '+label.toUpperCase()+' EDITION';
   }
   function setTheme(id){
-    theme=id;try{localStorage.setItem('nova.theme',id);}catch(e){}
+    theme=id;try{localStorage.setItem('nymind.edition.theme',id);}catch(e){}
     applyTheme();closePanel();
   }
   function weather(){
@@ -76,33 +79,31 @@
     }catch(ignore){}
   }
   function snowflakes(){
-    var area=$('precipitation');if(!area)return;
-    for(var i=0;i<22;i++){
-      var fl=document.createElement('div');fl.className='flake';
-      var size=2+(i%4);fl.style.left=((i*43+8)%100)+'%';
-      fl.style.height=size+'px';fl.style.width=size+'px';
-      fl.style.webkitAnimationDuration=(10+i%10)+'s';
-      fl.style.animationDuration=(10+i%10)+'s';
-      fl.style.webkitAnimationDelay='-'+(i*7%18)+'s';
-      fl.style.animationDelay='-'+(i*7%18)+'s';area.appendChild(fl);
+    for(var i=0;i<16;i++){
+      var fl=document.createElement('div');fl.className='snowflake';
+      var size=2+(i%3);fl.style.left=((i*37+11)%100)+'%';
+      fl.style.width=size+'px';fl.style.height=size+'px';
+      fl.style.webkitAnimationDuration=(12+i%8)+'s';fl.style.animationDuration=(12+i%8)+'s';
+      fl.style.webkitAnimationDelay='-'+(i*5%17)+'s';fl.style.animationDelay='-'+(i*5%17)+'s';
+      screen.appendChild(fl);
     }
   }
   function selectCard(i){
     select=(i+cards.length)%cards.length;
     for(var j=0;j<cards.length;j++)cards[j].className=cards[j].className.replace(/ selected/g,'')+(j===select?' selected':'');
-    text('dayline',names[select].toUpperCase()+' / '+descriptions[select].toUpperCase());
+    text('selected-hint',(select+1<10?'0':'')+(select+1)+'. '+names[select].toUpperCase()+' / OK OTEVŘÍT');
     try{cards[select].focus();}catch(ignore){}
   }
-  function showStatus(msg){text('panel-status',msg);}
+  function showStatus(msg){text('overlay-status',msg);if(!panel&&msg){var note=$('edition-toast');if(!note){note=document.createElement('div');note.id='edition-toast';note.style.cssText='position:absolute;z-index:80;bottom:95px;left:70px;max-width:840px;padding:17px 25px;background:#1a2428;color:#fff;font:18px Arial;box-shadow:0 13px 30px #0004';screen.appendChild(note);}note.textContent=msg;note.style.display='block';setTimeout(function(){note.style.display='none';},4500);}}
   function makeOption(label,detail,click){
     return {name:label,detail:detail||'',run:click};
   }
   function showPanel(kind,title,help,items){
     panel=kind;options=items||[];optionIndex=0;
-    $('panel').className='panel';$('panel').setAttribute('aria-hidden','false');
-    text('panel-kicker','NYMIND NOVA / '+kind.toUpperCase());
-    text('panel-title',title);
-    text('panel-help',help||'↑ ↓ vyber, OK potvrď, Zpět zavři.');
+    $('overlay').className='overlay';$('overlay').setAttribute('aria-hidden','false');
+    text('overlay-kicker','NYMIND EDITION / '+kind.toUpperCase());
+    text('overlay-title',title);
+    text('overlay-help',help||'↑ ↓ vyber, OK potvrď, Zpět zavři.');
     showStatus('');drawOptions();
   }
   function drawOptions(){
@@ -118,7 +119,7 @@
     }
   }
   function closePanel(){
-    panel='';$('panel').className='panel hidden';$('panel').setAttribute('aria-hidden','true');
+    panel='';$('overlay').className='overlay hidden';$('overlay').setAttribute('aria-hidden','true');
     busy=false;selectCard(select);
   }
   function runOption(){if(options[optionIndex]&&options[optionIndex].run)options[optionIndex].run();}
@@ -127,7 +128,7 @@
     for(var i=0;i<themeChoices.length;i++){
       (function(o){items.push(makeOption(o.name+(theme===o.id?' ✓':''),o.detail,function(){setTheme(o.id);}));}(themeChoices[i]));
     }
-    showPanel('motivy','Vzhled podle nálady.','Změna se okamžitě projeví a uloží.',items);
+    showPanel('motivy','Další podoba.','Úplně jiné vizuální prostředí. Změna se uloží.',items);
   }
   function keyName(m){return ((m.fullName||'')+' '+(m.appName||'')+' '+(m.name||'')).toLowerCase();}
   function repoMatch(m,repo){
@@ -198,7 +199,7 @@
     if(i===3){openRadio();return;}
     if(i===4){showPanel('playstation','PlayStation 5','Nyní dostupné jako HDMI 2. Spuštění PS5 z TV zatím vyžaduje původní Nymind PS5 Bridge.',[
       makeOption('Přepnout na původní Nymind OS','Tam máš konfiguraci a probouzení konzole.',function(){launchRepo('nyminds-tv');}),
-      makeOption('Zavřít','Vrátit se na NOVA',closePanel)]);return;}
+      makeOption('Zavřít','Vrátit se na Nymind EDITION',closePanel)]);return;}
     launchRepo(repoIds[i]);
   }
   function launchRepo(repo){
@@ -212,7 +213,7 @@
     });
   }
   function openQuick(){
-    showPanel('přepínání','Kam dál?','Rychlé spuštění bez návratu do správce modulů.',[
+    showPanel('přepínání','Tvůj výběr.','Všechny aplikace a rychlý návrat na původní OS.',[
       makeOption('Nymind Cinema','Filmy a seriály',function(){openApp(0);}),
       makeOption('Nymind LIVE','Kanály a EPG',function(){openApp(1);}),
       makeOption('TizenTube','YouTube bez reklam',function(){openApp(2);}),
@@ -222,7 +223,7 @@
     ]);
   }
   function openAll(){
-    showPanel('moduly','Všechny moduly','Kompletní seznam nainstalovaných aplikací TizenBrew.',[]);
+    showPanel('moduly','Knihovna.','Všechny nainstalované moduly TizenBrew.',[]);
     showStatus('Načítám moduly TizenBrew…');
     listModules(function(ok){
       if(panel!=='moduly')return;
@@ -242,7 +243,7 @@
       makeOption('Pozastavit / pokračovat','Ovládání právě hrajícího rádia',toggleRadio),
       makeOption('Zastavit rádio','Ukončit přehrávání',stopRadio)
     ];
-    showPanel('rádia','Tvoje rádio.','Vyber stanici a potvrď OK. Přehrávání pokračuje i po zavření menu.',items);
+    showPanel('rádia','Naladit.','Vyber stanici a potvrď OK. Přehrávání pokračuje i po zavření menu.',items);
     showStatus(lastRadio>=0?'Poslední stanice: '+radioUrls[lastRadio].name:'Vyber stanici.');
   }
   function playRadio(i){
