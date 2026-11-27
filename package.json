@@ -1,7 +1,7 @@
 {
   "name": "nyminds-tv",
-  "version": "3.0.0",
-  "description": "Nymind TV 3.0: new cinematic launcher dashboard with responsive app cards, preserved live IPTV/Cinema/Radio/PS5 launch paths and Tizen 3 compatibility.",
+  "version": "3.1.0",
+  "description": "Nymind TV 3.1 Atelier: redesigned warm editorial home, asymmetrical film-first app dock, preserved module launch behavior and time wallpapers.",
   "packageType": "app",
   "appName": "Nymind TV",
   "appPath": "app/index.html",
