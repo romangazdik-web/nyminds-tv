@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 630">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#27384b"/><stop offset=".48" stop-color="#9e8f87"/><stop offset="1" stop-color="#e4c6a2"/></linearGradient>
+ <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#374f5c"/><stop offset="1" stop-color="#101b27"/></linearGradient>
+ <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#93b4b3" stop-opacity=".62"/><stop offset="1" stop-color="#1f3748" stop-opacity=".94"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#f6dfba" stop-opacity=".98"/><stop offset=".42" stop-color="#f3c8a1" stop-opacity=".54"/><stop offset="1" stop-color="#e7b1a0" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="630" fill="url(#sky)"/>
+<ellipse cx="626" cy="184" rx="245" ry="240" fill="url(#sun)"/><circle cx="624" cy="171" r="68" fill="#f4e3c7" opacity=".75"/>
+<path d="M0 355C80 340 145 276 232 305S374 358 455 300S595 261 670 306S827 314 900 276V630H0Z" fill="#516477" opacity=".46"/>
+<path d="M0 379C131 329 181 345 254 377S409 411 504 345S716 313 900 386V630H0Z" fill="#263c4c" opacity=".62"/>
+<path d="M0 453C156 410 236 449 334 447S531 407 613 421S793 413 900 449V630H0Z" fill="url(#sea)"/>
+<path d="M0 475C160 465 298 494 408 471S630 478 900 459" stroke="#e2ceac" stroke-opacity=".4" stroke-width="4" fill="none"/>
+<path d="M0 512L75 495L129 500L177 466L236 477L293 464L336 488L390 476L440 510L502 505L562 524L645 511L702 541L769 518L900 548V630H0Z" fill="url(#hill)"/>
+<path d="M0 565L92 554L186 570L287 545L368 556L460 543L543 570L650 557L740 576L900 555V630H0Z" fill="#111e2b"/>
+<path d="M380 545l43-104 31-22 36 16 37 112Z" fill="#0b1924"/>
+<path d="M419 444h77v-33h-77Z" fill="#101d27"/>
+<path d="M428 444v-26l28-17 29 17v26Z" fill="#101d27"/>
+<path d="M451 422h13v24h-13Z" fill="#d6b58f"/><path d="M469 427h11v13h-11Z" fill="#dfc4a0"/>
+<path d="M443 420l13-13 15 13" stroke="#30404a" stroke-width="4" fill="none"/>
+<g fill="#f7e2c1" opacity=".47"><circle cx="120" cy="80" r="2"/><circle cx="238" cy="114" r="1.5"/><circle cx="329" cy="61" r="1"/><circle cx="802" cy="90" r="2"/><circle cx="750" cy="146" r="1"/></g>
+<path d="M70 70H285M70 87h120" stroke="#eee6d9" opacity=".35" stroke-width="2"/>
+<text x="70" y="125" fill="#f5efeb" font-size="19" font-family="Arial" letter-spacing="6" opacity=".68">NYMIND / ORIGINAL SCREEN</text>
+</svg>
