@@ -46,21 +46,21 @@ jobs:
           assert Path('nova/style.css').stat().st_size > 8000
           print('NOVA module and UI validated.')
           PY
-      - name: Render NOVA 1920x1080 preview
+      - name: Render EDITION 1920x1080 preview
         shell: bash
         run: |
           set -euo pipefail
           CHROME="$(command -v google-chrome || command -v chromium || true)"
           if test -z "$CHROME"; then echo "Chrome unavailable for screenshot, syntax passed"; exit 1; fi
           "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/edition-preview.png" "file://$PWD/nova/index.html"
-          test -s nova-preview.png
+          test -s edition-preview.png
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: edition-preview-1920x1080
-          path: nova-preview.png
+          path: edition-preview.png
           if-no-files-found: ignore
-      - name: Refresh NOVA preview CDN
+      - name: Refresh EDITION preview CDN
         shell: bash
         run: |
           for FILE in package.json nova/index.html nova/style.css nova/app.js nova/art-cinema.svg nova/art-live.svg nova/art-tube.svg nova/art-radio.svg nova/art-play.svg; do
