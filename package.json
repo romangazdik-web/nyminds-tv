@@ -1,9 +1,9 @@
 {
-  "name": "nymind-nova-preview",
-  "version": "0.1.1",
-  "description": "Nymind NOVA 0.1.1 preview: entirely new cinematic 5-card wall, neutral Signature design, automatic weather and holiday atmosphere, quick app switcher, TizenBrew RPC launching and internet radio. Safe parallel install.",
+  "name": "nymind-edition-preview",
+  "version": "0.2.0",
+  "description": "A truly new standalone light editorial smart-TV interface with Cormorant/DM Sans typography, five original illustrated movie-style posters, asymmetric magazine layout, distinct Darkroom composition and weather-aware seasonal editions. Stable Nymind OS main untouched.",
   "packageType": "app",
-  "appName": "Nymind NOVA (TEST)",
+  "appName": "Nymind EDITION (TEST)",
   "appPath": "nova/index.html",
   "keys": [
     "ColorF0Red",
