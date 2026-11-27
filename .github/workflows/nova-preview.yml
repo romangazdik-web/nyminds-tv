@@ -23,7 +23,7 @@ jobs:
         run: |
           set -euo pipefail
           node --check nova/app.js
-          node -e "const p=require('./package.json'); if(p.version!=='0.1.0'||p.appPath!=='nova/index.html'||p.appName!=='Nymind NOVA (TEST)'||p.packageType!=='app')process.exit(1)"
+          node -e "const p=require('./package.json'); if(p.version!=='0.1.1'||p.appPath!=='nova/index.html'||p.appName!=='Nymind NOVA (TEST)'||p.packageType!=='app')process.exit(1)"
           python3 - <<'PY'
           from pathlib import Path
           html=Path('nova/index.html').read_text()
@@ -31,8 +31,8 @@ jobs:
           js=Path('nova/app.js').read_text()
           for name in ['screen','cards','panel','options','radio-player','clock','weather','precipitation']:
               assert f'id="{name}"' in html, name
-          assert '<script src="app.js?v=01"></script>' in html
-          assert '<link rel="stylesheet" href="style.css?v=01">' in html
+          assert '<script src="app.js?v=02"></script>' in html
+          assert '<link rel="stylesheet" href="style.css?v=02">' in html
           assert html.count('<script')==html.count('</script>')==1
           assert 'function runModule(mod)' in js
           assert 'ColorF0Red' in js and 'ColorF1Green' in js
