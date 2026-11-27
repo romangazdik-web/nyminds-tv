@@ -52,21 +52,20 @@ jobs:
           from pathlib import Path
           import json,re,subprocess
           p=json.loads(Path('package.json').read_text())
-          assert p['version']=='1.1.0' and p['packageType']=='app'
+          assert p['version']=='1.1.1' and p['packageType']=='app'
           assert p['appName']=='Nymind CINEMATIC TV (TEST)'
           assert p['appPath']=='cinematic/index.html'
           h=Path('cinematic/index.html').read_text()
           assert '<style id="cinematic-inline-core">' in h
           assert '<script id="cinematic-inline-controller">' in h
-          assert '<script id="cinematic-photo-loader">' in h
           assert 'data:image/jpeg;base64,' in h
+          assert '<div id="hero-art"></div>' in h
           assert '<link rel="stylesheet"' not in h
           assert '<script src=' not in h
-          assert 'cinematic-vector-fallback' in h
           assert 'function launchInstalled(mod)' in h
           assert '1920px;height:1080px' in h
           scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>',h,re.I|re.S)
-          assert len(scripts)==2, f'Expected exactly 2 inline scripts, found {len(scripts)}'
+          assert len(scripts)==1, f'Expected one standalone inline script, found {len(scripts)}'
           for i,s in enumerate(scripts):
               tmp=Path(f'/tmp/cinematic-script-{i}.js')
               tmp.write_text(s)
@@ -80,11 +79,11 @@ jobs:
           set -euo pipefail
           CHROME="$(command -v google-chrome || command -v chromium || true)"
           test -n "$CHROME"
-          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/cinematic-tv-1.1.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-tv-chrome.log 2>&1 || { tail -n 60 /tmp/cinematic-tv-chrome.log; exit 1; }
+          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-background-networking --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/cinematic-tv-1.1.1.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-tv-chrome.log 2>&1 || { tail -n 60 /tmp/cinematic-tv-chrome.log; exit 1; }
           test -s cinematic-tv-1.1.png
       - uses: actions/upload-artifact@v4
         with:
-          name: cinematic-tv-1.1-screenshot
+          name: cinematic-tv-1.1.1-screenshot
           path: cinematic-tv-1.1.png
           if-no-files-found: error
       - name: Purge only the isolated TV test branch
