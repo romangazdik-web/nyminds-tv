@@ -1,7 +1,7 @@
 {
   "name": "nymind-cinematic-preview",
-  "version": "1.0.0",
-  "description": "Nymind CINEMATIC test module: totally new Apple TV-inspired cinematic hero, 6 custom app cards, recommendations, remote navigation, live weather, theme switching and existing TizenBrew module integration. Existing Nymind OS main unchanged.",
+  "version": "1.0.1",
+  "description": "Nymind CINEMATIC 1.0.1: visually faithful cinematic TV test home, hero art and live movie thumbnails, six original app cards, remote navigation, switcher, weather themes, scrolling all modules and radio. Existing main untouched.",
   "packageType": "app",
   "appName": "Nymind CINEMATIC (TEST)",
   "appPath": "cinematic/index.html",
