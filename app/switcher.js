@@ -136,12 +136,13 @@
       else if(k===40||k===39){action='down';handled=true;}
       else if(k===13){action='select';handled=true;}
       else if(k===10009||k===27||k===8){action='close';handled=true;}
-    } else if(red&&!window.NYMIND_IS_LAUNCHER){action='home';handled=true;}
+    } else if(red){action=window.NYMIND_IS_LAUNCHER?'launcherhome':'home';handled=true;}
     else if(green){action='open';handled=true;}
     if(!handled)return;
     try{e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();}catch(ignore){}
     if(e.type!=='keydown'||e.repeat)return;
     if(action==='home')goHome();
+    if(action==='launcherhome'){close();if(window.NYMIND_LAUNCHER_RESET)window.NYMIND_LAUNCHER_RESET();}
     if(action==='open')open();
     if(action==='close')close();
     if(action==='up'){selected=(selected+APPS.length-1)%APPS.length;paint();}
