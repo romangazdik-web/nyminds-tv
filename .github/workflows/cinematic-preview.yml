@@ -1,0 +1,66 @@
+name: Validate Nymind CINEMATIC preview
+on:
+  push:
+    branches: [cinematic-preview]
+    paths:
+      - package.json
+      - cinematic/**
+      - .github/workflows/cinematic-preview.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cinematic-preview-check
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate package, markup, UI assets and JS
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check cinematic/app.js
+          node -e "const p=require('./package.json'); if(p.packageType!=='app'||p.version!=='1.0.0'||p.appName!=='Nymind CINEMATIC (TEST)'||p.appPath!=='cinematic/index.html')process.exit(1)"
+          python3 - <<'PY'
+          from pathlib import Path
+          h=Path('cinematic/index.html').read_text()
+          css=Path('cinematic/style.css').read_text()
+          js=Path('cinematic/app.js').read_text()
+          for key in ['os','side','main','hero-img','apps','recs','overlay','dialog-items','clock','temperature','radio-player']:
+              assert f'id="{key}"' in h, key
+          for app in ['cinema','live','tube','radio','ps5','modules']:
+              assert f'data-app="{app}"' in h, app
+          for nav in ['home','search','grid','game','settings']:
+              assert f'data-nav="{nav}"' in h, nav
+          assert h.count('<script')==h.count('</script>')==1
+          assert '<link rel="stylesheet" href="style.css?v=1.0.0">' in h
+          assert '<script src="app.js?v=1.0.0"></script>' in h
+          assert 'function launchInstalled(mod)' in js
+          assert 'ws://127.0.0.1:8081' in js
+          assert "if(red)" in js and "if(green)" in js and "if(yellow)" in js
+          assert '.app-tile.selected' in css and '#hero-img' in css
+          art=Path('cinematic/hero-fallback.svg').read_text()
+          assert '<svg' in art and '</svg>' in art
+          print('Validated standalone CINEMATIC structure and ES5 script.')
+          PY
+      - name: Render full-HD cinema UI with Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$CHROME"
+          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=4500 --screenshot="$PWD/cinematic-preview.png" "file://$PWD/cinematic/index.html" >/tmp/cinematic-chrome.log 2>&1 || { tail -n 55 /tmp/cinematic-chrome.log; exit 1; }
+          test -s cinematic-preview.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cinematic-full-hd
+          path: cinematic-preview.png
+          if-no-files-found: error
+      - name: Purge test branch CDN only
+        shell: bash
+        run: |
+          for FILE in package.json cinematic/index.html cinematic/style.css cinematic/app.js cinematic/hero-fallback.svg; do
+            curl --max-time 12 -fsSL "https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv@cinematic-preview/${FILE}" || echo "Purge may be rate-limited: ${FILE}"
+          done
