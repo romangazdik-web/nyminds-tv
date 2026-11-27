@@ -37,10 +37,11 @@
   function clearModes(){body.className=body.className.replace(/\bamb-(?:cinema|vice|winter|christmas|rain|snowing|raining)\b/g,'').replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'');}
   function refresh(){
     var d=new Date(), mode=choose(d), isSnow=weatherKnown&&snow(meteo.weather_code), isRain=weatherKnown&&rain(meteo.weather_code);
-    var sig=mode+'/'+isSnow+'/'+isRain+'/'+d.getHours()+'/'+manual;
+    var visualSnow=isSnow||(manual==='winter'), visualRain=isRain||(manual==='rain');
+    var sig=mode+'/'+visualSnow+'/'+visualRain+'/'+d.getHours()+'/'+manual;
     if(sig!==lastTick){
       clearModes();
-      body.className+=(body.className?' ':'')+'amb-'+mode+(isSnow?' amb-snowing':isRain?' amb-raining':'');
+      body.className+=(body.className?' ':'')+'amb-'+mode+(visualSnow?' amb-snowing':visualRain?' amb-raining':'');
       lastTick=sig;applied=mode;
     }
     var t=texts[mode],hour=d.getHours(),greeting=t[1];
@@ -96,7 +97,8 @@
   }
   flakes();lights();
   window.NYMIND_AMBIENT={refresh:refresh,weather:weather,cycle:cycle};
-  refresh();
+  if(window.NYMIND_CURRENT_WEATHER)weather(window.NYMIND_CURRENT_WEATHER);
+  else refresh();
   setInterval(refresh,60000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh();},false);
 }());
