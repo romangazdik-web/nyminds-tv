@@ -1,4 +1,4 @@
-name: Validate and publish NOVA preview
+name: Validate and publish Nymind EDITION preview
 on:
   push:
     branches:
@@ -23,20 +23,26 @@ jobs:
         run: |
           set -euo pipefail
           node --check nova/app.js
-          node -e "const p=require('./package.json'); if(p.version!=='0.1.1'||p.appPath!=='nova/index.html'||p.appName!=='Nymind NOVA (TEST)'||p.packageType!=='app')process.exit(1)"
+          node -e "const p=require('./package.json'); if(p.version!=='0.2.0'||p.appPath!=='nova/index.html'||p.appName!=='Nymind EDITION (TEST)'||p.packageType!=='app')process.exit(1)"
           python3 - <<'PY'
           from pathlib import Path
           html=Path('nova/index.html').read_text()
           css=Path('nova/style.css').read_text()
           js=Path('nova/app.js').read_text()
-          for name in ['screen','cards','panel','options','radio-player','clock','weather','precipitation']:
+          for name in ['screen','gallery','overlay','options','radio-player','clock','weather','selected-hint']:
               assert f'id="{name}"' in html, name
-          assert '<script src="app.js?v=02"></script>' in html
-          assert '<link rel="stylesheet" href="style.css?v=02">' in html
+          assert '<script src="app.js?v=020"></script>' in html
+          assert '<link rel="stylesheet" href="style.css?v=020">' in html
           assert html.count('<script')==html.count('</script>')==1
           assert 'function runModule(mod)' in js
           assert 'ColorF0Red' in js and 'ColorF1Green' in js
-          assert '#screen' in css and '.appcard.selected' in css
+          assert '#screen' in css and '.poster.selected' in css
+          assert '.theme-noir .poster-cinema' in css
+          assert 'Cormorant' in css
+          assert 'function runModule(mod)' in js
+          for art in ['cinema','live','tube','radio','play']:
+              svg=Path(f'nova/art-{art}.svg')
+              assert svg.is_file() and '<svg' in svg.read_text(), art
           assert Path('nova/style.css').stat().st_size > 8000
           print('NOVA module and UI validated.')
           PY
@@ -45,18 +51,18 @@ jobs:
         run: |
           set -euo pipefail
           CHROME="$(command -v google-chrome || command -v chromium || true)"
-          if test -z "$CHROME"; then echo "Chrome unavailable for screenshot, syntax passed"; exit 0; fi
-          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/nova-preview.png" "file://$PWD/nova/index.html"
+          if test -z "$CHROME"; then echo "Chrome unavailable for screenshot, syntax passed"; exit 1; fi
+          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/edition-preview.png" "file://$PWD/nova/index.html"
           test -s nova-preview.png
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: nova-preview-1920x1080
+          name: edition-preview-1920x1080
           path: nova-preview.png
           if-no-files-found: ignore
       - name: Refresh NOVA preview CDN
         shell: bash
         run: |
-          for FILE in package.json nova/index.html nova/style.css nova/app.js; do
+          for FILE in package.json nova/index.html nova/style.css nova/app.js nova/art-cinema.svg nova/art-live.svg nova/art-tube.svg nova/art-radio.svg nova/art-play.svg; do
             curl --max-time 15 -fsSL "https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv@nova-preview/${FILE}" || true
           done
