@@ -1,10 +1,10 @@
 {
-  "name": "nyminds-tv",
-  "version": "5.0.0",
-  "description": "Nymind OS 5.0 SPACES: total full-screen redesign into five immersive worlds, horizontal remote navigation, Atlas view, contextual scenes, unchanged TizenBrew app actions and weather/holiday logic.",
+  "name": "nymind-nova-preview",
+  "version": "0.1.0",
+  "description": "Independent Nymind NOVA preview, a brand-new cinematic television launcher for Samsung Tizen 3; installed alongside original Nymind OS.",
   "packageType": "app",
-  "appName": "Nymind OS • Living Home",
-  "appPath": "app/index.html",
+  "appName": "Nymind NOVA (TEST)",
+  "appPath": "nova/index.html",
   "keys": [
     "ColorF0Red",
     "ColorF1Green",
@@ -12,6 +12,6 @@
     "ColorF3Blue"
   ],
   "files": [
-    "app/"
+    "nova/"
   ]
 }
