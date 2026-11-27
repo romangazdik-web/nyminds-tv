@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 310">
+<rect width="570" height="310" fill="#c6ded9"/>
+<rect x="25" y="24" width="520" height="260" fill="#abd0ca"/>
+<path d="M-20 286L240 0H336L54 310Z" fill="#86b9ae"/><path d="M110 310L418 0H468L160 310Z" fill="#e1efdf" opacity=".68"/>
+<circle cx="420" cy="140" r="135" stroke="#133c46" stroke-width="2" fill="none" opacity=".6"/>
+<circle cx="420" cy="140" r="97" stroke="#133c46" stroke-width="14" fill="none" opacity=".62"/>
+<circle cx="420" cy="140" r="51" fill="#153d46"/>
+<circle cx="420" cy="140" r="15" fill="#d0e9d6"/>
+<path d="M405 126L420 110L435 126M405 156L420 172L435 156" fill="none" stroke="#d9eee1" stroke-width="3"/>
+<rect x="42" y="39" width="172" height="42" rx="2" fill="#c85343"/>
+<circle cx="64" cy="60" r="7" fill="#fbe9d9"/>
+<text x="87" y="67" fill="#fff0e2" font-size="21" font-family="Arial" font-weight="bold" letter-spacing="5">ON AIR</text>
+<path d="M42 143H212M42 158H135" stroke="#194350" stroke-width="4" opacity=".38"/>
+<text x="40" y="260" fill="#173f48" opacity=".52" font-family="Georgia" font-size="85" font-style="italic">Live.</text>
+</svg>
