@@ -126,7 +126,7 @@
       }
     },function(msg){if(onFailure)return onFailure(msg);status('Spuštění selhalo: '+msg);});
   }
-  function select(i){selected=Math.max(0,Math.min(tiles.length-1,i));for(var j=0;j<tiles.length;j++){var base=tiles[j].className.replace(/\s+active\b/g,'');tiles[j].className=base+(j===selected?' active':'');}tiles[selected].focus();}
+  function select(i){selected=Math.max(0,Math.min(tiles.length-1,i));for(var j=0;j<tiles.length;j++){var base=tiles[j].className.replace(/\s+active\b/g,'');tiles[j].className=base+(j===selected?' active':'');}tiles[selected].focus();if(window.NYMIND_FEATURE_UPDATE)window.NYMIND_FEATURE_UPDATE(selected);}
   var ps5Busy=false,ps5Timer=0;
   function ps5Notice(message){
     status(message);
@@ -252,6 +252,8 @@
     }
     select(0);status('Domovská stránka · Nymind OS');
   }
+  window.NYMIND_LAUNCHER_RESET=redHome;
+  function greenSwitch(){if(window.NymindNavigation&&window.NymindNavigation.open)window.NymindNavigation.open();else greenRecent();}
   function greenRecent(){
     var i=lastAppIndex;if(i<0||i>=tiles.length)i=0;
     select(i);launchSelected();
@@ -271,7 +273,7 @@
     if(blue){showList();return;}
     if(openList)return;
     if(yellow){if(window.NYMIND_AMBIENT&&window.NYMIND_AMBIENT.cycle)window.NYMIND_AMBIENT.cycle();return;}
-    if(green)greenRecent();
+    if(green)greenSwitch();
   }
   window.addEventListener('keydown',onColorKey,true);
   try{if(window.tizen&&tizen.tvinputdevice){
@@ -311,7 +313,7 @@
       if(k===KEY.RIGHT||k===KEY.DOWN){select(selected+1);e.preventDefault();return;}
       if(k===KEY.ENTER){launchSelected();e.preventDefault();return;}
       if(k===KEY.RED){redHome();e.preventDefault();return;}
-      if(k===KEY.GREEN){greenRecent();e.preventDefault();return;}
+      if(k===KEY.GREEN){greenSwitch();e.preventDefault();return;}
       if(k===KEY.BLUE){showList();e.preventDefault();return;}
       if(k===KEY.YELLOW){if(window.NYMIND_AMBIENT&&window.NYMIND_AMBIENT.cycle)window.NYMIND_AMBIENT.cycle();e.preventDefault();return;}
       if(k===KEY.BACK||k===KEY.ESC){e.preventDefault();return;}}
