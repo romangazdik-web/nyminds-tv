@@ -1,9 +1,9 @@
 {
   "name": "nyminds-tv",
-  "version": "4.0.1",
-  "description": "Nymind OS 4.0.1: fix incomplete TV render by inlining theme CSS/JS, restore yellow theme switching, add RED Home / GREEN last app / YELLOW theme / BLUE modules, improve global remote integration.",
+  "version": "4.1.0",
+  "description": "Nymind OS 4.1 Horizon: completely new left-side app library and large contextual showcase, weather and seasonal scenes, RED home/GREEN app switching/YELLOW themes/BLUE modules.",
   "packageType": "app",
-  "appName": "Nymind OS • Living Home",
+  "appName": "Nymind OS Horizon",
   "appPath": "app/index.html",
   "keys": [
     "ColorF0Red",
