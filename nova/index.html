@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Nymind NOVA • Preview</title>
+<link rel="stylesheet" href="style.css?v=01">
+</head>
+<body>
+<div id="screen" class="theme-auto">
+  <div id="ambient" aria-hidden="true">
+    <div class="sky"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+    <div class="beam"></div><div class="horizon"></div><div id="precipitation"></div>
+  </div>
+
+  <header class="header">
+    <div class="identity">
+      <span class="logo">N<span>·</span></span>
+      <span class="logo-type">NYMIND <b>NOVA</b><small>FIRST LOOK / 01</small></span>
+    </div>
+    <div class="header-right">
+      <span class="live-indicator"><i></i> DOMÁCÍ CENTRUM</span>
+      <div class="local-data"><span id="place">UHERSKÝ BROD</span><small id="weather">Počasí se načítá</small></div>
+      <span class="clock" id="clock">--:--</span>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="story">
+      <div class="story-kicker"><span class="tiny-rule"></span>TV, KTERÁ JE TVOJE</div>
+      <h1>Vítej<br><em>doma.</em></h1>
+      <p>Velká obrazovka. Jeden prostor. Vše, na co máš právě náladu.</p>
+      <div class="story-meta"><span id="mode-mark">NOVA / SIGNATURE</span><span class="small-line"></span><span id="dayline">TVŮJ VEČER ZAČÍNÁ TADY</span></div>
+    </section>
+    <div class="artwork" aria-hidden="true">
+      <div class="art-lumen"></div>
+      <div class="art-layer art-layer-1"></div>
+      <div class="art-layer art-layer-2"></div>
+      <div class="art-core"><span>N</span></div>
+      <div class="art-caption">A WORLD OF ENTERTAINMENT</div>
+    </div>
+  </main>
+
+  <section class="collection">
+    <div class="collection-head"><span>TVŮJ VÝBĚR</span><div class="collection-hair"></div><span>01 — 05</span></div>
+    <div class="cards" id="cards">
+      <div class="appcard selected card-cinema" data-index="0" tabindex="0" role="button" aria-label="Nymind Cinema">
+        <div class="tile-art"><div class="cinema-rays"></div><div class="cinema-plate">CINEMA<span class="big-star">✦</span></div><div class="cinema-orbit"></div></div>
+        <div class="tile-info"><small>01 / STREAMING</small><strong>Filmy & seriály</strong><span>Nymind Cinema</span></div><div class="card-arrow">↗</div>
+      </div>
+      <div class="appcard card-live" data-index="1" tabindex="0" role="button" aria-label="Nymind LIVE">
+        <div class="tile-art"><div class="live-antenna"><span></span></div><div class="live-bands"></div><div class="live-mini">ON AIR <i></i></div></div>
+        <div class="tile-info"><small>02 / LIVE</small><strong>Živá televize</strong><span>Kanály & program</span></div><div class="card-arrow">↗</div>
+      </div>
+      <div class="appcard card-tube" data-index="2" tabindex="0" role="button" aria-label="TizenTube">
+        <div class="tile-art"><div class="tube-record"></div><div class="tube-play">▶</div><div class="tube-stripes"></div></div>
+        <div class="tile-info"><small>03 / VIDEO</small><strong>YouTube</strong><span>TizenTube</span></div><div class="card-arrow">↗</div>
+      </div>
+      <div class="appcard card-radio" data-index="3" tabindex="0" role="button" aria-label="Nymind rádio">
+        <div class="tile-art"><div class="vinyl"><div class="vinyl-center"></div></div><div class="radio-light"></div></div>
+        <div class="tile-info"><small>04 / AUDIO</small><strong>Rádia</strong><span>Signál · Rock Radio</span></div><div class="card-arrow">↗</div>
+      </div>
+      <div class="appcard card-play" data-index="4" tabindex="0" role="button" aria-label="PlayStation 5">
+        <div class="tile-art"><div class="game-orbit"></div><div class="game-pad">✕<i>◯</i></div><div class="game-caption">PLAY<br>HARDER</div></div>
+        <div class="tile-info"><small>05 / GAMING</small><strong>PlayStation 5</strong><span>HDMI 2</span></div><div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="controls"><span><b class="dot red"></b>DOMŮ</span><span><b class="dot green"></b>PŘEPÍNÁNÍ</span><span><b class="dot yellow"></b>MOTIVY</span><span><b class="dot blue"></b>VŠECHNY MODULY</span></div>
+    <div class="keyboard-help">← → VÝBĚR &nbsp; / &nbsp; OK SPUSTIT &nbsp; / &nbsp; ↓ RYCHLÉ MENU</div>
+  </footer>
+
+  <div class="panel hidden" id="panel" aria-hidden="true">
+    <div class="panel-shade"></div>
+    <div class="panel-content">
+      <div class="panel-kicker" id="panel-kicker">NYMIND / MENU</div>
+      <h2 id="panel-title">Co si pustíme?</h2>
+      <p class="panel-help" id="panel-help">Šipky pro výběr, OK pro potvrzení, Zpět pro zavření.</p>
+      <div class="options" id="options"></div>
+      <div class="panel-status" id="panel-status"></div>
+    </div>
+    <div class="panel-bottom">NYMIND NOVA — SAMOSTATNÝ TESTOVACÍ MODUL <span>ZPĚT · ZAVŘÍT</span></div>
+  </div>
+  <audio id="radio-player" preload="none"></audio>
+</div>
+<script src="app.js?v=01"></script>
+</body></html>
