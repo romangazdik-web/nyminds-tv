@@ -160,6 +160,9 @@ button{appearance:none;-webkit-appearance:none}
 /* Conceal artifacts from the low-bandwidth embedded photographic thumbnail. */
 #hero-art{background-size:cover,1650px 655px!important;background-position:center center,right top!important;background-repeat:no-repeat!important}
 #scene-shade:after{content:"";position:absolute;left:0;right:0;top:338px;height:335px;background:linear-gradient(0deg,#090d20 5%,rgba(9,13,32,.99) 29%,rgba(9,13,32,.94) 60%,transparent 100%);pointer-events:none}
+
+/* TV: a verified 1920×1080 Dune backdrop instead of upscaling the tiny embedded crop. */
+#hero-img{background-image:url("https://images.metahub.space/background/large/tt15239678/img");opacity:.94}
 </style>
 </head>
 <body>
@@ -307,10 +310,16 @@ function showHero(i){
    indicators.innerHTML='';for(var p=0;p<heroData.length;p++){var dot=document.createElement('span');dot.className='pager-dot';indicators.appendChild(dot);}
  }
  var dots=document.querySelectorAll('.pager-dot');for(var j=0;j<dots.length;j++)modClass(dots[j],'active',j===heroIndex);
- $('hero-img').style.opacity='0';imgTicket++;
- // First-frame approved poster is just a low-bandwidth fallback.
- // Fetch a full-HD background from Cinemeta/MetaHub on top. This fixes the blurry Dune hero online.
- artwork('hero-img',safeBackground(d.background,d.imdb,'large'),'hero',imgTicket);
+ imgTicket++;
+ // Pin the verified 1920x1080 Dune background directly in CSS/DOM. Avoid old Samsung's
+ // intermittent Image.onload race: the embedded low-res image remains below as fallback.
+ if(d.imdb==='tt15239678'){
+   $('hero-img').style.backgroundImage='url("https://images.metahub.space/background/large/tt15239678/img")';
+   $('hero-img').style.opacity='.94';
+ }else{
+   $('hero-img').style.opacity='0';
+   artwork('hero-img',safeBackground(d.background,d.imdb,'large'),'hero',imgTicket);
+ }
 }
 function loadThumbnails(){
  for(var i=0;i<movieData.length;i++){
