@@ -63,6 +63,10 @@ jobs:
           assert '<link rel="stylesheet"' not in h
           assert '<script src=' not in h
           assert 'function launchInstalled(mod)' in h
+          assert 'function refreshRecommendations(force)' in h
+          assert 'function openMovie(m)' in h
+          assert 'nymind_id=' in h
+          assert 'function fetchCatalog(type,done)' in h
           assert '1920px;height:1080px' in h
           scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>',h,re.I|re.S)
           assert len(scripts)==1, f'Expected one standalone inline script, found {len(scripts)}'
@@ -73,6 +77,29 @@ jobs:
           assert len(re.findall(r'<style\b',h,re.I))==1
           print('Inline CSS, JS, user-approved image and Tizen structure verified')
           PY
+      - name: Check live Cinemeta catalogs and HD movie background
+        shell: bash
+        run: |
+          set +e
+          curl -fLsS --max-time 15 "https://v3-cinemeta.strem.io/catalog/movie/top.json" -o /tmp/cinemeta-movies.json
+          if test -s /tmp/cinemeta-movies.json; then
+            python3 - <<'PY'
+          import json
+          try:
+              x=json.load(open('/tmp/cinemeta-movies.json'))
+              metas=x.get('metas',[])
+              print("CINEMETA Movies:",len(metas),"examples:",[(m.get('name'),m.get('id')) for m in metas[:3]])
+          except Exception as e: print("CINEMETA movies parse failed:",e)
+          PY
+          fi
+          curl -fLsS --max-time 18 "https://images.metahub.space/background/large/tt15239678/img" -o /tmp/nymind-dune-hd.jpg
+          if test -s /tmp/nymind-dune-hd.jpg; then
+            ls -lh /tmp/nymind-dune-hd.jpg
+            file /tmp/nymind-dune-hd.jpg
+          else
+            echo "Background server unreachable: launcher will use embedded fallback."
+          fi
+          exit 0
       - name: Render full HD offline-like preview
         shell: bash
         run: |
