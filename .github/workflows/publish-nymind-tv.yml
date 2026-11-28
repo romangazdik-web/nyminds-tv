@@ -19,36 +19,54 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Validate inlined Living Home CSS and all inline JavaScript
+      - name: Validate self-contained CINEMATIC and direct title links
         shell: bash
         run: |
           set -euo pipefail
-          node --check app/ambient-home.js
-          node --check app/app.js
           python3 - <<'PY'
-          import pathlib, re, subprocess
-          h=pathlib.Path('app/index.html').read_text()
-          assert '<style id="nymind-os-v401-core">' in h
-          assert '<script id="nymind-os-v401-ambient">' in h
-          assert '<main id="os5-root">' in h
-          assert '<section id="nsp-spaces"' in h
-          assert '<style id="nsp-spaces-styles">' in h
-          assert '<script id="nsp-spaces-controller">' in h
-          assert 'function atlasToggle(on)' in h
-          assert 'function setScene(idx)' in h
-          assert '<style id="os5-horizon-css">' in h
-          assert '<script id="nymind-global-switcher">' in h
-          assert 'window.NYMIND_FEATURE_UPDATE' in h
-          assert "parseFromString('<body>'+match[1]+'</body>'" in h
-          assert '<script src="ambient-home.js?v=4.0.0">' not in h
+          from pathlib import Path
+          import re, json, subprocess
+          p=json.loads(Path('package.json').read_text())
+          assert p['version']=='6.0.0',p['version']
+          assert p['packageType']=='app'
+          assert p['appPath']=='cinematic/index.html'
+          assert p['name']=='nyminds-tv'
+          assert 'cinematic/' in p['files']
+          h=Path('cinematic/index.html').read_text()
+          assert '<title>Nymind OS 6.0 · CINEMATIC</title>' in h
+          assert '<style id="cinematic-inline-core">' in h
+          assert '<script id="cinematic-inline-controller">' in h
+          assert 'data:image/jpeg;base64,' in h
+          assert '<script src=' not in h
+          assert '<link rel="stylesheet"' not in h
+          assert 'function launchInstalled(mod,target)' in h
+          assert 'function refreshRecommendations(force)' in h
+          assert 'function openMovie(m)' in h
+          assert "nymind_id=" in h and "nymind_type=" in h
+          assert "images.metahub.space/background/large/tt15239678/img" in h
           scripts=re.findall(r'<script(?:\s[^>]*)?>(.*?)</script\s*>',h,re.S|re.I)
-          assert len(scripts)>=4, f'Expected inlined scripts, got {len(scripts)}'
-          for n,source in enumerate(scripts):
-              path=f'/tmp/nymind-inline-{n}.js'
-              pathlib.Path(path).write_text(source)
-              subprocess.run(['node','--check',path],check=True)
-          print('Validated',len(scripts),'inline scripts')
+          assert len(scripts)==1, f'Single inline controller expected, got {len(scripts)}'
+          for n,code in enumerate(scripts):
+              file=Path('/tmp/nymind-6-script-%d.js'%n)
+              file.write_text(code)
+              subprocess.run(['node','--check',str(file)],check=True)
+          legacy=Path('app/index.html').read_text()
+          assert 'cinematic/index.html' in legacy
+          print('Validated Nymind OS 6.0, TV inline assets, catalog rotation and IMDb title handoff.')
           PY
+      - name: Render CINEMATIC 1920x1080 regression screenshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || true)"
+          test -n "$CHROME"
+          "$CHROME" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --window-size=1920,1080 --virtual-time-budget=3000 --screenshot="$PWD/nymind-os-6.0.png" "file://$PWD/cinematic/index.html" >/tmp/nymind6-chrome.log 2>&1 || { tail -n 60 /tmp/nymind6-chrome.log; exit 1; }
+          test -s nymind-os-6.0.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nymind-os-6-full-hd
+          path: nymind-os-6.0.png
+          if-no-files-found: error
       - name: Publish tag and GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -65,30 +83,19 @@ jobs:
             git push origin "refs/tags/${TAG}"
           fi
           if ! gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind TV ${TAG}" --notes "Nymind OS 5.0 SPACES: five immersive fullscreen worlds for Cinema, Live TV, YouTube, Radio and PS5. Horizontal world navigation and a full-screen Atlas; preserves existing TizenBrew launch logic, shared app switching and seasonal weather themes. ES5 compatible."
+            gh release create "${TAG}" --target "${GITHUB_SHA}" --title "Nymind OS ${TAG} • CINEMATIC" --notes "Main launcher switched to CINEMATIC TV: HD Dune fanart, four rotating Cinemeta recommendations, direct IMDb title handoff to Nymind Cinema 2.5.26, and TV-safe inlined CSS/JS. Original v5.0 tag remains available for rollback."
           fi
-      - name: Purge jsDelivr launcher files
+      - name: Purge stable launcher CDN and legacy redirect
         shell: bash
         run: |
           set -euo pipefail
           VERSION="$(node -p "require('./package.json').version")"
-          for REV in "" "@main" "@latest" "@v${VERSION}"; do
-            for FILE in package.json app/index.html app/app.js app/ambient-home.css app/ambient-home.js app/switcher.js; do
-              URL="https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv${REV}/${FILE}"
-              echo "${URL}"
-              curl --max-time 15 -fsSL "${URL}" || echo "CDN purge may be rate-limited: ${URL}"
+          for REV in "" "@main" "@latest" "@v$VERSION"; do
+            for FILE in package.json cinematic/index.html app/index.html; do
+              URL="https://purge.jsdelivr.net/gh/romangazdik-web/nyminds-tv$REV/$FILE"
+              echo "$URL"
+              curl --max-time 15 -fsSL "$URL" || echo "Purge may be rate-limited: $URL"
               echo
             done
           done
-          echo "Nymind TV launcher purge finished."
-          # The live IPTV module is unchanged, but clear its manifest and entrypoint
-          # so neither old @main nor latest CDN metadata masks the installed module.
-          for REV in "" "@main" "@latest" "@v1.3.1"; do
-            for FILE in package.json app/tv09.html; do
-              URL="https://purge.jsdelivr.net/gh/romangazdik-web/tvpin${REV}/${FILE}"
-              echo "${URL}"
-              curl --max-time 15 -fsSL "${URL}" || echo "IPTV CDN purge rate-limited: ${URL}"
-              echo
-            done
-          done
-          echo "Nymind TV and IPTV CDN purge finished."
+          echo "Nymind OS 6.0 stable launcher CDN purge finished."
