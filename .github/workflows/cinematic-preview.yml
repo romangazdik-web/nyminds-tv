@@ -62,7 +62,7 @@ jobs:
           assert '<div id="hero-art"></div>' in h
           assert '<link rel="stylesheet"' not in h
           assert '<script src=' not in h
-          assert 'function launchInstalled(mod)' in h
+          assert 'function launchInstalled(mod,target)' in h
           assert 'function refreshRecommendations(force)' in h
           assert 'function openMovie(m)' in h
           assert 'nymind_id=' in h
