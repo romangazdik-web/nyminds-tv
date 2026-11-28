@@ -1,10 +1,10 @@
 {
   "name": "nyminds-tv",
-  "version": "5.0.0",
-  "description": "Nymind OS 5.0 SPACES: total full-screen redesign into five immersive worlds, horizontal remote navigation, Atlas view, contextual scenes, unchanged TizenBrew app actions and weather/holiday logic.",
+  "version": "6.0.0",
+  "description": "Nymind OS 6.0 CINEMATIC: official main TV home. High-resolution Dune fanart, rotating Cinemeta recommendations every four hours, direct selected-title opening in Nymind Cinema, holiday/weather themes and unified remote. Existing TizenBrew module identity retained.",
   "packageType": "app",
-  "appName": "Nymind OS • Living Home",
-  "appPath": "app/index.html",
+  "appName": "Nymind OS",
+  "appPath": "cinematic/index.html",
   "keys": [
     "ColorF0Red",
     "ColorF1Green",
@@ -12,6 +12,6 @@
     "ColorF3Blue"
   ],
   "files": [
-    "app/"
+    "cinematic/"
   ]
 }
