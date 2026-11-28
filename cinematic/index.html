@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <meta name="theme-color" content="#080d1c">
-<title>Nymind CINEMATIC 1.1.2 · TV Edition</title>
+<title>Nymind OS 6.0 · CINEMATIC</title>
 
 
 <style id="cinematic-inline-core">
@@ -196,7 +196,7 @@ button{appearance:none;-webkit-appearance:none}
 <button type="button" class="app-tile radio" data-app="radio" aria-label="Rádia"><div class="app-icon-bg"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13M9 7l11-2"/><ellipse cx="6" cy="18.5" rx="3" ry="2"/><ellipse cx="17" cy="16.5" rx="3" ry="2"/></g></svg></div><strong>Rádia</strong><span class="app-caption">Signál · Rock Radio</span></button>
 <button type="button" class="app-tile ps5" data-app="ps5" aria-label="PS5"><div class="app-icon-bg"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v18L3 19.6V7.7c0-2 1.7-3.2 5-4.7ZM11 7.5l10 3.5v3.3l-7.3 2.2v1.6L21 16v3l-10 2v-3.6l6.7-2.1-6.7-2.2V7.5Z"/></g></svg></div><strong>PS5</strong><span class="app-caption">Herní konzole</span></button>
 <button type="button" class="app-tile modules" data-app="modules" aria-label="Aplikace"><div class="app-icon-bg"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></g></svg></div><strong>Aplikace</strong><span class="app-caption">Další moduly</span></button></div></section>
-    <section class="recommendations"><div class="recs-head"><h2 id="recs-title">Doporučujeme na večer</h2><span class="recs-hint">VÝBĚR FILMŮ A SERIÁLŮ</span></div><div class="recs" id="recs"><button type="button" class="pick" data-pick="dune" aria-label="Duna: Část druhá"><span class="pick-image" id="thumb-dune"><span class="pick-symbol">✦</span></span><span class="pick-bottom"><strong>Duna: Část druhá</strong><small>2024 · sci-fi</small></span></button>
+    <section class="recommendations"><div class="recs-head"><h2 id="recs-title">Doporučujeme na večer</h2><span class="recs-hint">↻ OBNOVIT VÝBĚR</span></div><div class="recs" id="recs"><button type="button" class="pick" data-pick="dune" aria-label="Duna: Část druhá"><span class="pick-image" id="thumb-dune"><span class="pick-symbol">✦</span></span><span class="pick-bottom"><strong>Duna: Část druhá</strong><small>2024 · sci-fi</small></span></button>
 <button type="button" class="pick" data-pick="last" aria-label="The Last of Us"><span class="pick-image" id="thumb-last"><span class="pick-symbol">✦</span></span><span class="pick-bottom"><strong>The Last of Us</strong><small>2023 · seriál</small></span></button>
 <button type="button" class="pick" data-pick="stranger" aria-label="Stranger Things"><span class="pick-image" id="thumb-stranger"><span class="pick-symbol">✦</span></span><span class="pick-bottom"><strong>Stranger Things</strong><small>2016 · seriál</small></span></button>
 <button type="button" class="pick" data-pick="chernobyl" aria-label="Černobyl"><span class="pick-image" id="thumb-chernobyl"><span class="pick-symbol">✦</span></span><span class="pick-bottom"><strong>Černobyl</strong><small>2019 · minisérie</small></span></button></div></section>
@@ -223,12 +223,25 @@ var modalKind='', modalOptions=[], modalIndex=0, modalVisible=false, switching=f
 var theme='auto', actualTheme='night', weatherCode=null, weatherTemp=null, weatherLoading=false;
 var modules=[], moduleWaiters=[], moduleRequesting=false;
 var heroIndex=0, currentHeroMeta=null, lastKeyAt=0, imgTicket=0, selectedTitle='dune';
-var movieData=[
- {id:'dune',imdb:'tt15239678',type:'movie',title:'Duna: Část druhá',short:'Sci-fi · Dobrodružný · 2024',desc:'Paul Atreides se spojuje s Fremeny a pokračuje v cestě, která rozhodne o osudu Arrakisu.',year:'2024'},
- {id:'last',imdb:'tt3581920',type:'series',title:'The Last of Us',short:'Drama · Postapokalyptický · 2023',desc:'Joel a Ellie procházejí nebezpečným světem, v němž se naděje hledá jen těžko.',year:'2023'},
- {id:'stranger',imdb:'tt4574334',type:'series',title:'Stranger Things',short:'Mysteriózní · Sci-fi · 2016',desc:'Záhadné události v městečku Hawkins otevírají bránu do světa, o kterém nikdo neměl vědět.',year:'2016'},
- {id:'chernobyl',imdb:'tt7366338',type:'series',title:'Černobyl',short:'Drama · Historický · 2019',desc:'Dramatické vyprávění o havárii jaderné elektrárny a lidech, kteří čelili jejím následkům.',year:'2019'}
+var featuredMovie={id:'dune',imdb:'tt15239678',type:'movie',title:'Duna: Část druhá',short:'Sci-fi · Dobrodružný · 2024',desc:'Paul Atreides se spojuje s Fremeny a pokračuje v cestě, která rozhodne o osudu Arrakisu.',year:'2024'};
+var fallbackPool=[
+ {imdb:'tt15239678',type:'movie',title:'Duna: Část druhá',year:'2024'},
+ {imdb:'tt0816692',type:'movie',title:'Interstellar',year:'2014'},
+ {imdb:'tt15398776',type:'movie',title:'Oppenheimer',year:'2023'},
+ {imdb:'tt1877830',type:'movie',title:'The Batman',year:'2022'},
+ {imdb:'tt1375666',type:'movie',title:'Počátek',year:'2010'},
+ {imdb:'tt0133093',type:'movie',title:'Matrix',year:'1999'},
+ {imdb:'tt1853728',type:'movie',title:'Nespoutaný Django',year:'2012'},
+ {imdb:'tt3581920',type:'series',title:'The Last of Us',year:'2023'},
+ {imdb:'tt4574334',type:'series',title:'Stranger Things',year:'2016'},
+ {imdb:'tt7366338',type:'series',title:'Černobyl',year:'2019'},
+ {imdb:'tt11280740',type:'series',title:'Odloučení',year:'2022'},
+ {imdb:'tt14452776',type:'series',title:'Medvěd',year:'2022'},
+ {imdb:'tt5753856',type:'series',title:'Dark',year:'2017'},
+ {imdb:'tt12637874',type:'series',title:'Fallout',year:'2024'},
+ {imdb:'tt11198330',type:'series',title:'Rod draka',year:'2022'}
 ];
+var movieData=[], heroData=[], recPool=[], recSalt=0, lastCatalogRefresh=0;
 var appDefinitions=[
  {id:'cinema',name:'Nymind Cinema',repo:'StremioK'},
  {id:'live',name:'Nymind LIVE',repo:'tvpin'},
@@ -269,20 +282,137 @@ function loadWeather(){if(weatherLoading)return;weatherLoading=true;try{
  x.onerror=function(){weatherLoading=false;};x.ontimeout=function(){weatherLoading=false;};x.send(null);
  }catch(ignore){weatherLoading=false;}}
 function imageCandidate(imdb,size){return 'https://images.metahub.space/background/'+size+'/'+imdb+'/img';}
+function safeBackground(value,imdb,size){
+ if(typeof value==='string'&&/^https:\/\//.test(value))return value;
+ return imageCandidate(imdb,size);
+}
 function artwork(id,url,kind,ticket){
  var image=new Image();
- image.onload=function(){if(kind==='hero'){if(ticket!==imgTicket)return;var node=$('hero-img');node.style.backgroundImage='url("'+url+'")';node.style.opacity='.9';}else{var e=$(id);if(e)e.style.backgroundImage='url("'+url+'")';}};
- image.onerror=function(){};image.src=url;
+ image.onload=function(){
+   if(kind==='hero'){if(ticket!==imgTicket)return;var node=$('hero-img');node.style.backgroundImage='url("'+url+'")';node.style.opacity='.94';}
+   else{var e=$(id);if(e)e.style.backgroundImage='url("'+url+'")';}
+ };
+ image.onerror=function(){
+   // The baseline film hero is already embedded locally; do not erase it if HD fails.
+   if(kind!=='hero' && id){var el=$(id);if(el)el.style.backgroundImage='linear-gradient(125deg,#5b5263,#19283b)';}
+ };
+ image.src=url;
 }
-function showHero(i){heroIndex=(i+movieData.length)%movieData.length;var d=movieData[heroIndex];currentHeroMeta=d;selectedTitle=d.id;
+function showHero(i){
+ heroIndex=(i+heroData.length)%heroData.length;
+ var d=heroData[heroIndex]||featuredMovie;currentHeroMeta=d;selectedTitle=d.id;
  text('hero-title',d.title);text('hero-meta',d.short);text('hero-desc',d.desc);
- for(var j=0;j<4;j++)modClass(document.querySelectorAll('.pager-dot')[j],'active',j===heroIndex);
+ var indicators=document.querySelector('.hero-pager');
+ if(indicators&&indicators.children.length!==heroData.length){
+   indicators.innerHTML='';for(var p=0;p<heroData.length;p++){var dot=document.createElement('span');dot.className='pager-dot';indicators.appendChild(dot);}
+ }
+ var dots=document.querySelectorAll('.pager-dot');for(var j=0;j<dots.length;j++)modClass(dots[j],'active',j===heroIndex);
  $('hero-img').style.opacity='0';imgTicket++;
- // Keep the user-approved hero photography as the default instead of a network movie backdrop.
- // Additional slides may use live movie backdrops, but never gate basic UI on their availability.
- if(heroIndex!==0)artwork('hero-img',imageCandidate(d.imdb,'large'),'hero',imgTicket);
+ // First-frame approved poster is just a low-bandwidth fallback.
+ // Fetch a full-HD background from Cinemeta/MetaHub on top. This fixes the blurry Dune hero online.
+ artwork('hero-img',safeBackground(d.background,d.imdb,'large'),'hero',imgTicket);
 }
-function loadThumbnails(){for(var i=0;i<movieData.length;i++){var d=movieData[i];artwork('thumb-'+d.id,imageCandidate(d.imdb,'medium'),'thumb',0);}}
+function loadThumbnails(){
+ for(var i=0;i<movieData.length;i++){
+   var d=movieData[i];
+   artwork('thumb-'+i,safeBackground(d.background,d.imdb,'medium'),'thumb',0);
+ }
+}
+function normalizeCatalog(m,type){
+ if(!m||!/^tt[0-9]{6,10}$/.test(m.id||'')||!m.name)return null;
+ var t=m.type==='series'?'series':m.type==='movie'?'movie':type;
+ var year=String(m.releaseInfo||m.year||'').match(/(19|20)[0-9]{2}/);
+ year=year?year[0]:'';
+ var genres=Object.prototype.toString.call(m.genres)==='[object Array]'?m.genres.slice(0,2):[];
+ return {id:m.id,imdb:m.id,type:t,title:String(m.name).slice(0,105),
+   year:year,background:m.background||'',
+   short:(genres.length?genres.join(' · '):t==='movie'?'Film':'Seriál')+(year?' · '+year:''),
+   desc:(m.description||'Otevři informace a podrobnosti o tomto titulu v Nymind Cinema.').slice(0,250)};
+}
+function fallbackCatalog(){
+ var a=[];for(var i=0;i<fallbackPool.length;i++){
+   var x=fallbackPool[i];a.push({id:x.imdb,imdb:x.imdb,type:x.type,title:x.title,
+   short:(x.type==='series'?'Seriál':'Film')+' · '+x.year,desc:'Více informací a přehrávání najdeš v Nymind Cinema.',
+   year:x.year,background:''});
+ }return a;
+}
+function seedFor(id,bucket){
+ var seed=(bucket*98317)>>>0;
+ for(var i=0;i<id.length;i++)seed=((seed*33)^(id.charCodeAt(i)))>>>0;
+ return seed;
+}
+function chooseRecommendations(pool){
+ var bucket=Math.floor((new Date()).getTime()/14400000)+recSalt; // changes every 4 hours
+ var poolCopy=[],seen={};
+ for(var i=0;i<pool.length;i++){
+   var d=pool[i];if(!d||!/^tt[0-9]{6,10}$/.test(d.imdb||'')||d.imdb===featuredMovie.imdb||seen[d.imdb])continue;
+   seen[d.imdb]=true;poolCopy.push(d);
+ }
+ poolCopy.sort(function(a,b){return seedFor(a.imdb,bucket)-seedFor(b.imdb,bucket);});
+ var films=[],series=[],selected=[],picked={};
+ for(var j=0;j<poolCopy.length;j++){var el=poolCopy[j];(el.type==='series'?series:films).push(el);}
+ function add(x){if(x&&!picked[x.imdb]&&selected.length<4){picked[x.imdb]=true;selected.push(x);}}
+ add(films[0]);add(series[0]);add(films[1]);add(series[1]);
+ for(var k=0;k<poolCopy.length;k++)add(poolCopy[k]);
+ return selected.slice(0,4);
+}
+function paintRecommendations(pool){
+ var picks=chooseRecommendations(pool);if(picks.length<4)return;
+ movieData=picks;heroData=[featuredMovie].concat(movieData);
+ for(var i=0;i<4;i++){
+   var b=pickNodes[i],d=movieData[i];if(!b)continue;
+   b.setAttribute('data-pick',d.id);
+   b.setAttribute('aria-label',d.title);
+   var label=b.querySelector('.pick-bottom strong');if(label)label.textContent=d.title;
+   var meta=b.querySelector('.pick-bottom small');if(meta)meta.textContent=d.short;
+   var img=b.querySelector('.pick-image');if(img){img.id='thumb-'+i;img.style.backgroundImage='';}
+ }
+ text('recs-title','Nový výběr pro tebe');
+ var hint=document.querySelector('.recs-hint');if(hint)hint.textContent='↻ OBNOVIT VÝBĚR';
+ loadThumbnails();
+ // Don't disturb the user's currently chosen film while refreshing the lower row.
+ if(heroIndex===0)showHero(0);
+}
+function parseCatalogCache(){
+ try{var parsed=JSON.parse(localStorage.getItem('nymind.cinematic.catalog.v1')||'null');
+ if(parsed&&parsed.at>0&&Object.prototype.toString.call(parsed.pool)==='[object Array]'&&parsed.pool.length>=8)return parsed;}catch(ignore){}
+ return null;
+}
+function fetchCatalog(type,done){
+ var xhr=new XMLHttpRequest();
+ var url='https://v3-cinemeta.strem.io/catalog/'+type+'/top.json';
+ var settled=false;
+ function finish(pool){if(settled)return;settled=true;done(pool);}
+ try{
+   xhr.open('GET',url,true);xhr.timeout=9500;
+   xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;var arr=[];
+     if(xhr.status===200){try{var parsed=JSON.parse(xhr.responseText),metas=parsed.metas||[];
+       for(var i=0;i<metas.length&&i<70;i++){var d=normalizeCatalog(metas[i],type);if(d)arr.push(d);}
+     }catch(ignore){}}
+     finish(arr);
+   };
+   xhr.onerror=function(){finish([]);};xhr.ontimeout=function(){finish([]);};xhr.send(null);
+ }catch(e){finish([]);}
+}
+function refreshRecommendations(force){
+ var now=(new Date()).getTime(),cache=parseCatalogCache();
+ if(cache&&cache.pool.length>=8){
+   recPool=cache.pool;paintRecommendations(recPool);
+   if(!force&&now-cache.at<8*3600000)return;
+ }
+ if(force){recSalt++;if(recPool.length)paintRecommendations(recPool);}
+ if(lastCatalogRefresh&&now-lastCatalogRefresh<120000)return;
+ lastCatalogRefresh=now;
+ var chunks=[],left=2;
+ function finished(arr){
+   chunks=chunks.concat(arr||[]);if(--left)return;
+   if(chunks.length>=8){recPool=chunks;
+     try{localStorage.setItem('nymind.cinematic.catalog.v1',JSON.stringify({at:(new Date()).getTime(),pool:recPool.slice(0,90)}));}catch(ignore){}
+   }else if(!recPool.length){recPool=fallbackCatalog();}
+   paintRecommendations(recPool);
+ }
+ fetchCatalog('movie',finished);fetchCatalog('series',finished);
+}
 function storeRecent(app){try{localStorage.setItem('nymind.cinematic.lastApp',app);}catch(ignore){}}
 function getRecent(){try{return localStorage.getItem('nymind.cinematic.lastApp')||'cinema';}catch(ignore){return 'cinema';}}
 function setFocus(zone,i){
@@ -330,7 +460,7 @@ function loadModules(done){if(moduleRequesting){moduleWaiters.push(done);return;
  if(Object.prototype.toString.call(d.payload)!=='[object Array]')return finish(false);modules=d.payload;finish(true);
  };}catch(ignore){finish(false);}
 }
-function launchInstalled(mod){if(!mod){status('Modul nebyl nalezen v TizenBrew.');return;}if(running)return;running=true;status('Spouštím '+(mod.appName||mod.name||'aplikaci')+'…');
+function launchInstalled(mod,target){if(!mod){status('Modul nebyl nalezen v TizenBrew.');return;}if(running)return;running=true;status('Spouštím '+(mod.appName||mod.name||'aplikaci')+'…');
  var ws=null,failed=false,timer=setTimeout(function(){fail('TizenBrew neodpovídá.');},9000);
  function fail(message){if(failed)return;failed=true;running=false;clearTimeout(timer);try{if(ws)ws.close();}catch(ignore){}status(message);}
  try{
@@ -342,6 +472,14 @@ function launchInstalled(mod){if(!mod){status('Modul nebyl nalezen v TizenBrew.'
  var m=null;for(var j=0;j<data.payload.length;j++)if(data.payload[j].fullName===mod.fullName){m=data.payload[j];break;}
  if(!m)return fail('Modul se mezitím změnil.');
  var url=m.appPath||m.websiteURL;if(!url)return fail('Modul nemá spouštěcí URL.');
+ // Append a one-shot title hint for StremioK's deep-link bridge, preserving any hash fragment.
+ if(target&&/^tt[0-9]{6,10}$/.test(target.imdb||'')&&matchesModule(m,'StremioK')){
+   var fragment='',hashAt=url.indexOf('#');
+   if(hashAt>=0){fragment=url.slice(hashAt);url=url.slice(0,hashAt);}
+   var separator=url.indexOf('?')>=0?'&':'?';
+   url+=separator+'nymind_id='+encodeURIComponent(target.imdb)+'&nymind_type='+encodeURIComponent(target.type==='series'?'series':'movie')+'&nymind_title='+encodeURIComponent(target.title||'');
+   url+=fragment;
+ }
  try{if(window.tizen&&tizen.tvinputdevice&&m.keys)for(var k=0;k<m.keys.length;k++)try{tizen.tvinputdevice.registerKey(m.keys[k]);}catch(ignore){}}catch(ignore){}
  try{ws.send(JSON.stringify({type:5,payload:m}));}catch(e){return fail('Nepodařilo se přepnout modul.');}
  failed=true;clearTimeout(timer);running=false;
@@ -350,7 +488,7 @@ function launchInstalled(mod){if(!mod){status('Modul nebyl nalezen v TizenBrew.'
  };
  }catch(ignore){fail('Nelze otevřít TizenBrew WebSocket.');}
 }
-function launchRepo(repo){status('Hledám nainstalovanou aplikaci…');loadModules(function(ok){if(!ok){status('Nedaří se spojit s TizenBrew.');return;}var m=chooseStableModule(repo);if(!m)return status('Aplikace '+repo+' není nainstalovaná.');launchInstalled(m);});}
+function launchRepo(repo,target){status('Hledám nainstalovanou aplikaci…');loadModules(function(ok){if(!ok){status('Nedaří se spojit s TizenBrew.');return;}var m=chooseStableModule(repo);if(!m)return status('Aplikace '+repo+' není nainstalovaná.');launchInstalled(m,target);});}
 function openAllModules(){modal('Moduly','Tvoje aplikace','Všechny nainstalované moduly TizenBrew.',[]);status('Načítám seznam…');loadModules(function(ok){if(!modalVisible||modalKind!=='Moduly')return;if(!ok){status('TizenBrew neodpovídá.');return;}var opts=[];for(var j=0;j<modules.length;j++){(function(m){opts.push(option(m.appName||m.name||m.fullName||'Aplikace',m.fullName||'',function(){launchInstalled(m);}));}(modules[j]));}modalOptions=opts;modalIndex=0;drawModal();status(opts.length?'':'Nejsou dostupné žádné moduly.');});}
 function openQuick(){modal('Přepínání','Kam dál?','Spusť aplikaci rovnou z nabídky, bez návratu do TizenBrew.',[
  option('Nymind Cinema','Filmy a seriály',function(){launchRepo('StremioK');}),
@@ -358,7 +496,8 @@ function openQuick(){modal('Přepínání','Kam dál?','Spusť aplikaci rovnou z
  option('TizenTube','YouTube bez reklam',function(){launchRepo('TizenTube-MojeTV');}),
  option('Rádia','Signál / Rock Radio',openRadio),
  option('PlayStation 5','Původní PS5 Bridge',openPs5),
- option('Původní Nymind OS','Návrat k současné domovské obrazovce',function(){launchRepo('nyminds-tv');})
+ option('Nový výběr filmů','Obnovit doporučené tituly',function(){closeModal();refreshRecommendations(true);showToast('Načítám nový výběr…');}),
+ option('Nymind OS','Domovská obrazovka',function(){launchRepo('nyminds-tv');})
  ]);}
 function openRadio(){modal('Rádia','Co si pustíme?','Přehrávač rádií uvnitř Nymind CINEMATIC.',[
  option('Signál Rádio','Přehrát živý stream',function(){playRadio(0);}),
@@ -377,12 +516,8 @@ function openPs5(){modal('PlayStation','Herní režim','PS5 je připojená na HD
  option('Vrátit se','Zavřít nabídku',closeModal)
  ]);}
 function openApp(id){storeRecent(id);if(id==='cinema')return launchRepo('StremioK');if(id==='live')return launchRepo('tvpin');if(id==='tube')return launchRepo('TizenTube-MojeTV');if(id==='radio')return openRadio();if(id==='ps5')return openPs5();if(id==='modules')return openAllModules();}
-function openInfo(){var m=currentHeroMeta;modal('Film','Co právě vidíš?','Doporučený titul · '+m.short,[
- option(m.title,m.desc,function(){launchRepo('StremioK');}),
- option('Otevřít Nymind Cinema','Vyhledat titul přímo v Cinema',function(){launchRepo('StremioK');}),
- option('Další doporučení','Zobrazit jiný titul na hlavní obrazovce',function(){closeModal();showHero(heroIndex+1);}),
- option('Zavřít','Zpět na domovskou obrazovku',closeModal)
- ]);}
+function openMovie(m){if(m&&/^tt[0-9]{6,10}$/.test(m.imdb||''))return launchRepo('StremioK',m);launchRepo('StremioK');}
+function openInfo(){openMovie(currentHeroMeta);}
 function doNav(id){if(id==='home'){closeModal();setFocus('apps',0);return;}if(id==='search')return modal('Hledat','Co hledáš?','Vyhledávání filmů a seriálů je dostupné v Nymind Cinema.',[option('Hledat v Nymind Cinema','Otevřít aplikaci Cinema',function(){launchRepo('StremioK');}),option('Zavřít','Vrátit se domů',closeModal)]);if(id==='grid')return openQuick();if(id==='game')return openPs5();if(id==='settings')return openThemes();}
 function handleClick(node,fn){if(node)node.onclick=fn;}
 function handleRemote(e){
@@ -403,8 +538,8 @@ function handleRemote(e){
  if(code===13){
   if(selected.zone==='apps')return openApp(appDefinitions[selected.app].id);
   if(selected.zone==='nav')return doNav(navNodes[selected.nav].getAttribute('data-nav'));
-  if(selected.zone==='recs'){showHero(selected.pick);return setFocus('hero',0);}
-  if(selected.zone==='hero'){if(selected.action===0)return launchRepo('StremioK');return openInfo();}
+  if(selected.zone==='recs'){return openMovie(movieData[selected.pick]);}
+  if(selected.zone==='hero'){return openMovie(currentHeroMeta);}
  }
  if(selected.zone==='nav'){
   if(code===40)return setFocus('nav',selected.nav+1);
@@ -432,15 +567,16 @@ function handleRemote(e){
 function registerKeys(){try{if(window.tizen&&tizen.tvinputdevice){var keys=['ColorF0Red','ColorF1Green','ColorF2Yellow','ColorF3Blue'];for(var i=0;i<keys.length;i++)try{tizen.tvinputdevice.registerKey(keys[i]);}catch(ignore){}}}catch(ignore){}}
 for(var n=0;n<appNodes.length;n++){(function(i){handleClick(appNodes[i],function(){setFocus('apps',i);openApp(appDefinitions[i].id);});}(n));}
 for(var j=0;j<navNodes.length;j++){(function(i){handleClick(navNodes[i],function(){setFocus('nav',i);doNav(navNodes[i].getAttribute('data-nav'));});}(j));}
-for(var k=0;k<pickNodes.length;k++){(function(i){handleClick(pickNodes[i],function(){setFocus('recs',i);showHero(i);setFocus('hero',0);});}(k));}
-for(var l=0;l<heroNodes.length;l++){(function(i){handleClick(heroNodes[i],function(){setFocus('hero',i);if(i===0)launchRepo('StremioK');else openInfo();});}(l));}
+for(var k=0;k<pickNodes.length;k++){(function(i){handleClick(pickNodes[i],function(){setFocus('recs',i);openMovie(movieData[i]);});}(k));}
+for(var l=0;l<heroNodes.length;l++){(function(i){handleClick(heroNodes[i],function(){setFocus('hero',i);openMovie(currentHeroMeta);});}(l));}
+var refreshHint=document.querySelector('.recs-hint');if(refreshHint){refreshHint.onclick=function(){refreshRecommendations(true);};refreshHint.style.cursor='pointer';}
 try{theme=localStorage.getItem('nymind.cinematic.theme')||'auto';}catch(ignore){}
 if(['auto','night','vice','snow','holiday','rain','minimal'].indexOf(theme)<0)theme='auto';
 window.addEventListener('keydown',handleRemote,true);window.addEventListener('keypress',handleRemote,true);window.addEventListener('keyup',handleRemote,true);
 window.addEventListener('resize',fit,false);
-registerKeys();fit();updateClock();applyTheme();showHero(0);loadThumbnails();setFocus('apps',0);
-loadWeather();setInterval(updateClock,30000);setInterval(loadWeather,30*60*1000);
-document.addEventListener('visibilitychange',function(){if(!document.hidden){fit();updateClock();loadWeather();}},false);
+registerKeys();fit();updateClock();applyTheme();recPool=fallbackCatalog();paintRecommendations(recPool);showHero(0);setFocus('apps',0);refreshRecommendations(false);
+loadWeather();setInterval(updateClock,30000);setInterval(loadWeather,30*60*1000);setInterval(function(){refreshRecommendations(false);},30*60*1000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden){fit();updateClock();loadWeather();refreshRecommendations(false);}},false);
 }());
 </script>
 
