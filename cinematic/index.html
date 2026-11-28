@@ -498,7 +498,7 @@ function launchInstalled(mod,target){if(!mod){status('Modul nebyl nalezen v Tize
  }catch(ignore){fail('Nelze otevřít TizenBrew WebSocket.');}
 }
 function launchRepo(repo,target){status('Hledám nainstalovanou aplikaci…');loadModules(function(ok){if(!ok){status('Nedaří se spojit s TizenBrew.');return;}var m=chooseStableModule(repo);if(!m)return status('Aplikace '+repo+' není nainstalovaná.');launchInstalled(m,target);});}
-function openAllModules(){modal('Moduly','Tvoje aplikace','Všechny nainstalované moduly TizenBrew.',[]);status('Načítám seznam…');loadModules(function(ok){if(!modalVisible||modalKind!=='Moduly')return;if(!ok){status('TizenBrew neodpovídá.');return;}var opts=[];for(var j=0;j<modules.length;j++){(function(m){opts.push(option(m.appName||m.name||m.fullName||'Aplikace',m.fullName||'',function(){launchInstalled(m);}));}(modules[j]));}modalOptions=opts;modalIndex=0;drawModal();status(opts.length?'':'Nejsou dostupné žádné moduly.');});}
+function openAllModules(){modal('Moduly','Tvoje aplikace','Všechny nainstalované moduly TizenBrew.',[]);status('Načítám seznam…');loadModules(function(ok){if(!modalVisible||modalKind!=='Moduly')return;if(!ok){status('TizenBrew neodpovídá.');return;}var opts=[];for(var j=0;j<modules.length;j++){(function(m){var full=String(m.fullName||'').toLowerCase();if(/@(cinematic-preview|cinematic-faithful|nova-preview)/.test(full))return;opts.push(option(m.appName||m.name||m.fullName||'Aplikace',m.fullName||'',function(){launchInstalled(m);}));}(modules[j]));}modalOptions=opts;modalIndex=0;drawModal();status(opts.length?'':'Nejsou dostupné žádné moduly.');});}
 function openQuick(){modal('Přepínání','Kam dál?','Spusť aplikaci rovnou z nabídky, bez návratu do TizenBrew.',[
  option('Nymind Cinema','Filmy a seriály',function(){launchRepo('StremioK');}),
  option('Nymind LIVE','Živé kanály a EPG',function(){launchRepo('tvpin');}),
@@ -506,7 +506,7 @@ function openQuick(){modal('Přepínání','Kam dál?','Spusť aplikaci rovnou z
  option('Rádia','Signál / Rock Radio',openRadio),
  option('PlayStation 5','Původní PS5 Bridge',openPs5),
  option('Nový výběr filmů','Obnovit doporučené tituly',function(){closeModal();refreshRecommendations(true);showToast('Načítám nový výběr…');}),
- option('Nymind OS','Domovská obrazovka',function(){launchRepo('nyminds-tv');})
+ option('Domů','Zavřít nabídku a vrátit se na plochu',function(){closeModal();setFocus('apps',0);})
  ]);}
 function openRadio(){modal('Rádia','Co si pustíme?','Přehrávač rádií uvnitř Nymind CINEMATIC.',[
  option('Signál Rádio','Přehrát živý stream',function(){playRadio(0);}),
@@ -520,9 +520,9 @@ function playRadio(i){var station=radioStations[i];if(!station)return;radioPlayi
 function toggleRadio(){try{if(radioPlaying<0)return status('Nejdřív vyber stanici.');if(audio.paused){audio.play();status('Rádio hraje.');}else{audio.pause();status('Rádio pozastaveno.');}}catch(ignore){status('Nelze přepnout rádio.');}}
 function stopRadio(){try{audio.pause();audio.removeAttribute('src');audio.load();}catch(ignore){}radioPlaying=-1;status('Rádio zastaveno.');}
 audio.onerror=function(){if(radioPlaying<0)return;var list=radioStations[radioPlaying].urls;if(radioFallback<list.length-1){radioFallback++;audio.src=list[radioFallback];try{audio.play();}catch(ignore){status('Stream nelze přehrát.');}}else status('Stream není dostupný.');};
-function openPs5(){modal('PlayStation','Herní režim','PS5 je připojená na HDMI 2. Přepínání vstupu zatím řeší původní Nymind OS.',[
- option('Otevřít původní Nymind OS','V něm je funkce PS5 Bridge a HDMI 2',function(){launchRepo('nyminds-tv');}),
- option('Vrátit se','Zavřít nabídku',closeModal)
+function openPs5(){modal('PlayStation','Herní režim','PS5 je připojená na HDMI 2. Na Samsung Tizen 3 přepni vstup přes tlačítko Zdroj na ovladači.',[
+ option('HDMI 2 · PlayStation 5','Na ovladači zvol Zdroj → HDMI 2',function(){status('Zvol Zdroj → HDMI 2 na ovladači Samsungu.');}),
+ option('Zpět na Nymind OS','Zavřít nabídku a vrátit se domů',closeModal)
  ]);}
 function openApp(id){storeRecent(id);if(id==='cinema')return launchRepo('StremioK');if(id==='live')return launchRepo('tvpin');if(id==='tube')return launchRepo('TizenTube-MojeTV');if(id==='radio')return openRadio();if(id==='ps5')return openPs5();if(id==='modules')return openAllModules();}
 function openMovie(m){if(m&&/^tt[0-9]{6,10}$/.test(m.imdb||''))return launchRepo('StremioK',m);launchRepo('StremioK');}
